@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enquire — Rena Farm</title>
+  <meta name="description" content="Send an enquiry to Rena Farm about livestock, fodder, dairy, or poultry." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+  <style>
+    .enquire-wrap { display:grid; grid-template-columns:1fr 1.4fr; gap:3rem; align-items:start; }
+    .product-card { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); overflow:hidden; position:sticky; top:100px; }
+    .product-card-img { height:240px; background:var(--f50); overflow:hidden; }
+    .product-card-img img { width:100%; height:100%; object-fit:cover; }
+    .product-card-img .no-img { width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--f200);font-size:5rem; }
+    .product-card-body { padding:1.5rem; }
+    .product-card-name { font-size:1.4rem; font-weight:800; color:var(--f950); margin-bottom:0.2rem; }
+    .product-card-tag  { font-size:0.8rem; color:var(--gray-400); font-family:monospace; margin-bottom:0.8rem; }
+    .product-detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; background:var(--f50); border-radius:var(--radius-lg); padding:1rem; margin-bottom:1rem; }
+    .pd-label { font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--f400); margin-bottom:0.15rem; }
+    .pd-value { font-size:0.88rem; font-weight:600; color:var(--f950); }
+    .status-pill { display:inline-block; font-size:0.7rem; font-weight:700; padding:0.25rem 0.7rem; border-radius:50px; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:0.8rem; }
+    .pill-on_sale { background:#d1fae5; color:#065f46; }
+    .pill-booked  { background:#fef3c7; color:#92400e; }
+    .pill-sold    { background:#f3f4f6; color:#6b7280; }
+    .price-display { font-size:1.6rem; font-weight:800; color:var(--f900); margin-bottom:0.2rem; }
+    .price-note    { font-size:0.75rem; color:var(--gray-400); }
+    .enquire-form { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); padding:2rem; }
+    .enquire-form h2 { font-size:1.4rem; font-weight:800; color:var(--f950); margin-bottom:0.4rem; }
+    .enquire-form .subtitle { font-size:0.9rem; color:var(--gray-500); margin-bottom:2rem; }
+    .form-group { margin-bottom:1.2rem; }
+    .form-label { display:block; font-size:0.8rem; font-weight:700; color:var(--f700); margin-bottom:0.4rem; }
+    .form-input { width:100%; padding:0.8rem 1rem; border:2px solid var(--f100); border-radius:var(--radius-lg); font-size:0.9rem; font-family:'Inter',sans-serif; color:var(--f950); background:var(--white); transition:border-color 0.2s; box-sizing:border-box; }
+    .form-input:focus { outline:none; border-color:var(--f500); }
+    .form-input.error { border-color:#ef4444; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .form-textarea { resize:vertical; min-height:120px; }
+    .form-hint { font-size:0.75rem; color:var(--gray-400); margin-top:0.3rem; }
+    .form-subject-tag { display:inline-flex; align-items:center; gap:0.4rem; background:var(--f50); border:1px solid var(--f200); border-radius:50px; padding:0.35rem 0.9rem; font-size:0.8rem; font-weight:600; color:var(--f700); margin-bottom:1.2rem; }
+    .form-subject-tag i { color:var(--f500); }
+    .submit-btn { width:100%; padding:1rem; font-size:1rem; font-weight:700; }
+    .success-state { text-align:center; padding:3rem 2rem; }
+    .success-icon { width:72px; height:72px; border-radius:50%; background:var(--f50); display:flex; align-items:center; justify-content:center; margin:0 auto 1.5rem; }
+    .success-icon i { font-size:2.5rem; color:var(--f600); }
+    .success-state h3 { font-size:1.5rem; color:var(--f950); margin-bottom:0.5rem; }
+    .success-state p  { color:var(--gray-500); max-width:320px; margin:0 auto 2rem; }
+    .error-msg { font-size:0.82rem; color:#ef4444; margin-top:0.4rem; display:none; }
+    .error-msg.show { display:block; }
+    @media (max-width:768px) {
+      .enquire-wrap { grid-template-columns:1fr; }
+      .product-card { position:static; }
+      .form-row { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="rf-header"></div>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a> <span class="sep">/</span> <a href="products.html">Products</a> <span class="sep">/</span> <span>Enquire</span></div>
+    <h1>Send an Enquiry</h1>
+    <p>Fill in your details below and our team will get back to you within 24 hours.</p>
+  </div>
+</section>
+
+<section class="section-white">
+  <div class="container">
+    <div class="enquire-wrap" id="enquireWrap">
+
+      <!-- LEFT — Product card (filled by JS) -->
+      <div>
+        <div class="product-card" id="productCard">
+          <div class="product-card-img"><div class="no-img"><i class="ph ph-cow"></i></div></div>
+          <div class="product-card-body">
+            <div class="product-card-name" id="pcName">Rena Farm</div>
+            <div class="product-card-tag"  id="pcTag"></div>
+            <div id="pcStatus"></div>
+            <div id="pcPrice"></div>
+            <div class="product-detail-grid" id="pcDetails"></div>
+            <p id="pcDesc" style="font-size:0.88rem;color:var(--gray-600);line-height:1.7;"></p>
+          </div>
+        </div>
+        <!-- General links -->
+        <div style="margin-top:1.2rem;display:flex;flex-direction:column;gap:0.6rem;">
+          <a href="https://wa.me/254724980372" target="_blank" rel="noopener" class="btn btn-outline-green" style="justify-content:center;"><i class="ph ph-whatsapp-logo"></i> WhatsApp Instead</a>
+          <a href="products.html#listings" class="btn btn-outline" style="justify-content:center;">Browse All Listings</a>
+        </div>
+      </div>
+
+      <!-- RIGHT — Form -->
+      <div class="enquire-form" id="enquireFormWrap">
+        <h2>Your Enquiry</h2>
+        <p class="subtitle">We respond within 24 hours. All fields marked <span style="color:#ef4444;">*</span> are required.</p>
+
+        <div class="form-subject-tag" id="formSubjectTag">
+          <i class="ph ph-tag"></i>
+          <span id="subjectLabel">General Enquiry</span>
+        </div>
+
+        <form id="enquireForm" novalidate>
+          <input type="hidden" id="hiddenAnimalId"  name="animal_id"  value="" />
+          <input type="hidden" id="hiddenProductRef" name="interest"   value="" />
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="firstName">First Name <span style="color:#ef4444;">*</span></label>
+              <input class="form-input" type="text" id="firstName" name="first_name" placeholder="John" autocomplete="given-name" />
+              <div class="error-msg" id="errFirstName">Please enter your first name.</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lastName">Last Name <span style="color:#ef4444;">*</span></label>
+              <input class="form-input" type="text" id="lastName" name="last_name" placeholder="Kamau" autocomplete="family-name" />
+              <div class="error-msg" id="errLastName">Please enter your last name.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="phone">Phone Number <span style="color:#ef4444;">*</span></label>
+            <input class="form-input" type="tel" id="phone" name="phone" placeholder="+254 7XX XXX XXX" autocomplete="tel" />
+            <div class="error-msg" id="errPhone">Please enter a valid phone number.</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="john@example.com" autocomplete="email" />
+            <div class="form-hint">Optional, but helpful for follow-up.</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="quantity">Quantity / What You Need</label>
+            <input class="form-input" type="text" id="quantity" name="quantity" placeholder="e.g. 1 ram, 5 bales, 50 kg…" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="message">Your Message <span style="color:#ef4444;">*</span></label>
+            <textarea class="form-input form-textarea" id="message" name="message" placeholder="Tell us what you need, any specific requirements, preferred delivery, or questions about this product…"></textarea>
+            <div class="error-msg" id="errMessage">Please enter a message.</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="location">Your Location / County</label>
+            <input class="form-input" type="text" id="location" name="delivery_location" placeholder="e.g. Nairobi, Kajiado, Nakuru…" />
+          </div>
+
+          <div id="submitError" style="background:#fef2f2;border:1px solid #fecaca;border-radius:var(--radius-lg);padding:0.8rem 1rem;font-size:0.85rem;color:#dc2626;margin-bottom:1rem;display:none;"></div>
+
+          <button type="submit" class="btn btn-primary submit-btn" id="submitBtn">
+            <i class="ph ph-paper-plane-tilt"></i> Send Enquiry
+          </button>
+        </form>
+
+        <!-- Success state -->
+        <div class="success-state" id="successState" style="display:none;">
+          <div class="success-icon"><i class="ph ph-check-circle"></i></div>
+          <h3>Enquiry Sent!</h3>
+          <p>Thank you. Our team will contact you within 24 hours. You can also reach us directly on WhatsApp.</p>
+          <a href="https://wa.me/254724980372" target="_blank" rel="noopener" class="btn btn-primary" style="margin-bottom:0.8rem;width:100%;justify-content:center;">
+            <i class="ph ph-whatsapp-logo"></i> Chat on WhatsApp
+          </a>
+          <a href="products.html#listings" class="btn btn-outline" style="width:100%;justify-content:center;">Browse More Listings</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div id="rf-footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/layout.js"></script>
+<script>
+const SPECIES_LBL = { dorper_sheep:'Dorper Sheep', gala_goat:'Gala Goat', dairy_cow:'Dairy Cow', beef_cattle:'Beef Cattle', sahiwal:'Sahiwal', kienyeji_chicken:'Kienyeji Chicken', other:'Other' }
+const STATUS_LBL  = { on_sale:'On Sale', booked:'Booked', sold:'Sold' }
+const STATUS_PILL = { on_sale:'pill-on_sale', booked:'pill-booked', sold:'pill-sold' }
+
+async function initEnquirePage() {
+  const params = new URLSearchParams(window.location.search)
+  const animalId = params.get('animal')
+  const name     = params.get('name')
+  const type     = params.get('type') ?? 'general'
+
+  document.getElementById('hiddenProductRef').value = name ?? type
+
+  if (animalId) {
+    document.getElementById('hiddenAnimalId').value = animalId
+    // Pre-fill subject tag
+    document.getElementById('subjectLabel').textContent = name ? `Enquiry about: ${name}` : 'Animal Enquiry'
+
+    // Load animal details
+    const animal = await loadAnimalById(animalId)
+    if (animal) {
+      // Update product card
+      const imgEl = document.querySelector('.product-card-img')
+      imgEl.innerHTML = animal.cover_image_url
+        ? `<img src="${animal.cover_image_url}" alt="${escH(animal.name??animal.tag_number)}" />`
+        : `<div class="no-img"><i class="ph ph-cow"></i></div>`
+
+      document.getElementById('pcName').textContent = animal.name ?? '(Unnamed)'
+      document.getElementById('pcTag').textContent  = animal.tag_number ? `Tag: #${animal.tag_number}` : ''
+
+      if (animal.listing_status && animal.listing_status !== 'not_listed') {
+        document.getElementById('pcStatus').innerHTML = `<span class="status-pill ${STATUS_PILL[animal.listing_status]}">${STATUS_LBL[animal.listing_status]}</span>`
+      }
+
+      if (animal.asking_price) {
+        document.getElementById('pcPrice').innerHTML = `<div class="price-display">KSh ${Number(animal.asking_price).toLocaleString()}</div><div class="price-note">Asking price</div>`
+      }
+
+      const details = [
+        { label:'Species',  value: animal.species ? SPECIES_LBL[animal.species] : null },
+        { label:'Breed',    value: animal.breed },
+        { label:'Gender',   value: animal.gender ? cap(animal.gender) : null },
+        { label:'Age',      value: calcAge(animal.date_of_birth) },
+        { label:'Weight',   value: animal.current_weight ? `${animal.current_weight} kg` : null },
+        { label:'Color',    value: animal.color },
+      ].filter(d => d.value)
+
+      document.getElementById('pcDetails').innerHTML = details.map(d =>
+        `<div><div class="pd-label">${d.label}</div><div class="pd-value">${escH(String(d.value))}</div></div>`
+      ).join('')
+
+      if (animal.description) {
+        document.getElementById('pcDesc').textContent = animal.description
+      }
+
+      // Pre-fill message
+      document.getElementById('message').value =
+        `Hi, I'm interested in ${animal.name ?? 'this animal'} (Tag: #${animal.tag_number}). Please let me know about availability and next steps.`
+    }
+  } else {
+    // Generic enquiry — update subject label
+    const labelMap = { livestock:'Livestock Enquiry', fodder:'Fodder & Feeds Enquiry', dairy:'Dairy / Milk Enquiry', poultry:'Poultry Enquiry', general:'General Enquiry' }
+    document.getElementById('subjectLabel').textContent = labelMap[type] ?? 'General Enquiry'
+    document.getElementById('pcName').textContent = 'Rena Farm'
+    document.getElementById('pcTag').textContent  = 'Kajiado Central, Kenya'
+  }
+}
+
+// Form submission
+document.getElementById('enquireForm').addEventListener('submit', async function(e) {
+  e.preventDefault()
+  let valid = true
+
+  function validate(id, errId, condition) {
+    const el = document.getElementById(id)
+    const err = document.getElementById(errId)
+    if (!condition) { el.classList.add('error'); err.classList.add('show'); valid = false }
+    else            { el.classList.remove('error'); err.classList.remove('show') }
+  }
+
+  validate('firstName', 'errFirstName', document.getElementById('firstName').value.trim())
+  validate('lastName',  'errLastName',  document.getElementById('lastName').value.trim())
+  validate('phone',     'errPhone',     document.getElementById('phone').value.trim().length >= 9)
+  validate('message',   'errMessage',   document.getElementById('message').value.trim().length >= 10)
+  if (!valid) return
+
+  const btn = document.getElementById('submitBtn')
+  btn.disabled = true
+  btn.innerHTML = '<i class="ph ph-circle-notch" style="animation:spin 0.8s linear infinite;display:inline-block;"></i> Sending…'
+
+  // Check auth — link enquiry to client account if logged in
+  const session = await getClientSession()
+  if (!session) {
+    window.location.href = `login.html?return=${encodeURIComponent(window.location.href)}`
+    return
+  }
+
+  const payload = {
+    first_name:        document.getElementById('firstName').value.trim(),
+    last_name:         document.getElementById('lastName').value.trim(),
+    email:             document.getElementById('email').value.trim() || session.user.email || null,
+    phone:             document.getElementById('phone').value.trim(),
+    interest:          document.getElementById('hiddenProductRef').value || 'General',
+    quantity:          document.getElementById('quantity').value.trim() || null,
+    message:           document.getElementById('message').value.trim(),
+    delivery_location: document.getElementById('location').value.trim() || null,
+    status:            'new',
+    client_id:         session.user.id,
+  }
+
+  const ok = await submitProductEnquiry(payload)
+
+  if (ok) {
+    document.getElementById('enquireForm').style.display = 'none'
+    document.getElementById('successState').style.display = 'block'
+  } else {
+    const errEl = document.getElementById('submitError')
+    errEl.textContent = 'Something went wrong. Please try WhatsApp or call us directly.'
+    errEl.style.display = 'block'
+    btn.disabled = false
+    btn.innerHTML = '<i class="ph ph-paper-plane-tilt"></i> Send Enquiry'
+  }
+})
+
+function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function cap(s){return s?s.charAt(0).toUpperCase()+s.slice(1):''}
+
+// Spinner keyframes
+const style = document.createElement('style')
+style.textContent = '@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}'
+document.head.appendChild(style)
+
+// Pre-fill form from logged-in profile
+async function prefillFromProfile() {
+  const profile = await getClientProfile()
+  const session = await getClientSession()
+  if (profile) {
+    const parts = (profile.full_name ?? '').split(' ')
+    if (!document.getElementById('firstName').value) document.getElementById('firstName').value = parts[0] ?? ''
+    if (!document.getElementById('lastName').value)  document.getElementById('lastName').value  = parts.slice(1).join(' ')
+    if (!document.getElementById('phone').value)     document.getElementById('phone').value     = profile.phone ?? ''
+    if (!document.getElementById('location').value)  document.getElementById('location').value  = profile.location ?? ''
+  }
+  if (session?.user?.email && !document.getElementById('email').value) {
+    document.getElementById('email').value = session.user.email
+  }
+}
+
+initEnquirePage()
+prefillFromProfile()
+</script>
+</body>
+</html>

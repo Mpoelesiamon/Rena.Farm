@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Rena Farm</title>
+  <meta name="description" content="Contact Rena Farm — call, WhatsApp, or email us for livestock, fodder, and dairy enquiries." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+  <style>
+    .contact-method { display:flex; align-items:flex-start; gap:1rem; padding:1.4rem; background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); margin-bottom:1rem; transition:all var(--transition); text-decoration:none; color:inherit; }
+    .contact-method:hover { border-color:var(--f300); box-shadow:var(--shadow-sm); transform:translateY(-2px); }
+    .contact-method-icon { width:48px; height:48px; border-radius:12px; background:var(--f50); display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--f700); font-size:1.3rem; }
+    .contact-method h4 { color:var(--f950); font-size:0.9rem; font-weight:700; margin-bottom:0.2rem; }
+    .contact-method p  { font-size:0.85rem; margin:0; color:var(--gray-700); font-weight:500; }
+    .contact-method small { font-size:0.75rem; color:var(--gray-400); }
+    .success-banner { display:none; background:var(--f50); border:1.5px solid var(--f300); border-radius:var(--radius); padding:1rem 1.4rem; color:var(--f950); font-weight:600; font-size:0.9rem; margin-bottom:1.5rem; align-items:center; gap:0.6rem; }
+    .success-banner.show { display:flex; }
+    .social-chips { display:flex; gap:0.6rem; flex-wrap:wrap; }
+    .social-chip { display:flex; align-items:center; gap:0.4rem; padding:0.4rem 0.9rem; border-radius:50px; font-size:0.78rem; font-weight:600; text-decoration:none; color:var(--white); }
+    .cta-section { background:linear-gradient(135deg,var(--f950),var(--f900)); padding:80px 0; text-align:center; }
+    .cta-section h2 { color:var(--white); margin-bottom:1rem; }
+    .cta-section p  { color:var(--f200); max-width:480px; margin:0 auto 2rem; }
+  </style>
+</head>
+<body>
+
+<div id="rf-header"></div>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a> <span class="sep">/</span> <span>Contact</span></div>
+    <h1>Get In Touch</h1>
+    <p>We respond to all enquiries within 24 hours. Call, WhatsApp, or send a message &mdash; we'd love to hear from you.</p>
+  </div>
+</section>
+
+<section class="section-white">
+  <div class="container">
+    <div class="contact-grid">
+
+      <div>
+        <p class="section-label">Direct Contact</p>
+        <h2 class="section-title" style="margin-bottom:1.8rem;">Reach Us Directly</h2>
+
+        <a href="https://wa.me/254724980372" target="_blank" rel="noopener" class="contact-method">
+          <div class="contact-method-icon" style="background:#e8fdf1;color:#25d366;"><i class="ph ph-whatsapp-logo"></i></div>
+          <div><h4>WhatsApp / Call &mdash; Nathan, Farm Owner</h4><p>+254 724 980 372</p><small>Fastest response &middot; Usually replies within minutes</small></div>
+        </a>
+        <a href="https://wa.me/254715438010" target="_blank" rel="noopener" class="contact-method">
+          <div class="contact-method-icon" style="background:#e8fdf1;color:#25d366;"><i class="ph ph-whatsapp-logo"></i></div>
+          <div><h4>WhatsApp / Call &mdash; Farm Manager</h4><p>+254 715 438 010</p><small>Alternative contact</small></div>
+        </a>
+        <a href="mailto:therenafarm@gmail.com" class="contact-method">
+          <div class="contact-method-icon"><i class="ph ph-envelope-simple"></i></div>
+          <div><h4>Email</h4><p>therenafarm@gmail.com</p><small>Replies within 24 hours</small></div>
+        </a>
+        <a href="mailto:info@renafarm.com" class="contact-method">
+          <div class="contact-method-icon"><i class="ph ph-envelope-simple"></i></div>
+          <div><h4>Official Email</h4><p>info@renafarm.com</p><small>Official business correspondence</small></div>
+        </a>
+        <div class="contact-method">
+          <div class="contact-method-icon"><i class="ph ph-map-pin"></i></div>
+          <div><h4>Farm Address</h4><p>Kenya Marble Quarry Road, Kajiado Central</p><small><a href="location.html" style="color:var(--f500);font-weight:600;">Get directions &rarr;</a></small></div>
+        </div>
+        <div class="contact-method">
+          <div class="contact-method-icon"><i class="ph ph-clock"></i></div>
+          <div><h4>Farm Hours</h4><p>Monday &ndash; Saturday: 7:00 AM &ndash; 6:00 PM</p><small>Sunday: By appointment only</small></div>
+        </div>
+
+        <div style="margin-top:1.5rem;padding:1.2rem;background:var(--f50);border-radius:var(--radius-lg);border:1px solid var(--f100);">
+          <h4 style="color:var(--f950);font-size:0.88rem;margin-bottom:0.8rem;font-family:'Inter',sans-serif;">Follow Us</h4>
+          <div style="display:flex;gap:0.6rem;">
+            <a href="https://www.tiktok.com/@the.renafarm" target="_blank" rel="noopener" class="social-icon-btn" title="TikTok" style="background:var(--f100);color:var(--f950);border-color:var(--f200);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.75a8.28 8.28 0 0 0 4.84 1.55V6.85a4.86 4.86 0 0 1-1.07-.16z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/the.renafarm" target="_blank" rel="noopener" class="social-icon-btn" title="Instagram" style="background:var(--f100);color:var(--f950);border-color:var(--f200);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="#" class="social-icon-btn" title="Facebook" style="background:var(--f100);color:var(--f950);border-color:var(--f200);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="background:var(--white);border:1px solid var(--f100);border-radius:var(--radius-lg);padding:2.5rem;box-shadow:var(--shadow-sm);">
+          <h3 style="color:var(--f950);margin-bottom:0.3rem;">Send Us a Message</h3>
+          <p style="font-size:0.85rem;margin-bottom:1.8rem;">Tell us what you need and we'll get back to you within 24 hours.</p>
+
+          <div class="success-banner" id="successBanner">
+            <i class="ph ph-check-circle" style="color:var(--f500);font-size:1.2rem;"></i>
+            Your message has been sent! We will be in touch soon.
+          </div>
+
+          <form id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="form-group"><label>First Name *</label><input type="text" name="firstName" placeholder="Nathan" required /></div>
+              <div class="form-group"><label>Last Name *</label><input type="text" name="lastName" placeholder="Kobaai" required /></div>
+            </div>
+            <div class="form-group"><label>Email Address *</label><input type="email" name="email" placeholder="you@example.com" required /></div>
+            <div class="form-group"><label>Phone / WhatsApp</label><input type="tel" name="phone" placeholder="+254 700 000 000" /></div>
+            <div class="form-group">
+              <label>I am interested in *</label>
+              <select name="interest" required>
+                <option value="" disabled selected>Select a product or service&hellip;</option>
+                <option value="dairy-cattle">Dairy Cows</option>
+                <option value="sahiwaal">Sahiwaal Cattle</option>
+                <option value="beef-cattle">Beef Cattle</option>
+                <option value="dorper-sheep">Dorper Sheep</option>
+                <option value="dorper-rams">Pure Dorper Rams</option>
+                <option value="gala-goats">Gala Goats</option>
+                <option value="kienyeji-chicken">Kienyeji Improved Chicken</option>
+                <option value="milk">Fresh Farm Milk</option>
+                <option value="silage">Silage</option>
+                <option value="boma-rhodes-hay">Boma Rhodes Hay</option>
+                <option value="napier">Napier Grass</option>
+                <option value="pellets">Pellets</option>
+                <option value="chicken-feeds">Chicken Feeds</option>
+                <option value="lucerne">Lucerne (Alfalfa)</option>
+                <option value="farm-visit">Farm Visit</option>
+                <option value="other">Other Enquiry</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Approximate Quantity</label><input type="text" name="quantity" placeholder="e.g. 10 goats, 5 bales of hay, 50kg milk weekly" /></div>
+            <div class="form-group"><label>Message *</label><textarea name="message" placeholder="Tell us more about your requirements, delivery location, timeline, and any questions you have&hellip;" required></textarea></div>
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;font-size:1rem;padding:0.9rem;">Send Message</button>
+            <p style="font-size:0.73rem;color:var(--gray-400);text-align:center;margin-top:0.8rem;">Your information is kept private and used only to respond to your enquiry.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2>Prefer to Visit?</h2>
+    <p>Come see Rena Farm for yourself &mdash; our team is happy to show you around. Call ahead to plan your visit.</p>
+    <a href="location.html" class="btn btn-primary">Get Directions</a>
+  </div>
+</section>
+
+<div id="rf-footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/layout.js"></script>
+<script>
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('button[type="submit"]');
+  btn.textContent = 'Sending…'; btn.disabled = true;
+  const data = new FormData(this);
+  const ok = await submitEnquiry({
+    first_name: data.get('firstName'),
+    last_name:  data.get('lastName'),
+    email:      data.get('email'),
+    phone:      data.get('phone') || null,
+    interest:   data.get('interest'),
+    quantity:   data.get('quantity') || null,
+    message:    data.get('message'),
+  });
+  if (ok) {
+    document.getElementById('successBanner').classList.add('show');
+    this.reset();
+    this.scrollIntoView({ behavior:'smooth', block:'start' });
+  } else {
+    btn.textContent = 'Error — try WhatsApp instead';
+    btn.style.background = '#ef4444';
+  }
+  setTimeout(() => { btn.textContent = 'Send Message'; btn.disabled = false; btn.style.background = ''; }, 4000);
+});
+</script>
+</body>
+</html>

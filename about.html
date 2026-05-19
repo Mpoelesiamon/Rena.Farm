@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us — Rena Farm</title>
+  <meta name="description" content="Learn about Rena Farm — founded in 2018 by Nathan Kobaai and Lucy Resiato in Kajiado Central, Kenya." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+  <style>
+    /* ── TEAM ── */
+    .team-section-label { font-size:0.72rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--f500); margin:3rem 0 1.2rem; padding-bottom:0.5rem; border-bottom:2px solid var(--f100); display:flex; align-items:center; gap:0.5rem; }
+    .team-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:1.5rem; margin-bottom:1rem; }
+    .team-card { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); padding:1.8rem 1.2rem; text-align:center; cursor:pointer; transition:all var(--transition); position:relative; overflow:hidden; }
+    .team-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--f900),var(--f300)); }
+    .team-card:hover { transform:translateY(-6px); box-shadow:var(--shadow-lg); border-color:var(--f300); }
+    .team-avatar { width:72px; height:72px; border-radius:50%; background:linear-gradient(135deg,var(--f900),var(--f500)); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-size:1.6rem; font-weight:800; color:var(--white); border:3px solid var(--f200); overflow:hidden; }
+    .team-avatar img { width:100%; height:100%; object-fit:cover; object-position:top; display:block; }
+    .team-name  { font-size:0.95rem; font-weight:700; color:var(--f950); margin-bottom:0.3rem; }
+    .team-role  { font-size:0.78rem; color:var(--f500); font-weight:600; margin-bottom:0.5rem; }
+    .team-click { font-size:0.72rem; color:var(--gray-400); }
+    /* ── MODAL ── */
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(7,30,7,0.65); backdrop-filter:blur(4px); z-index:2000; align-items:center; justify-content:center; padding:1rem; }
+    .modal-overlay.open { display:flex; }
+    .modal { background:var(--white); border-radius:var(--radius-lg); max-width:480px; width:100%; box-shadow:var(--shadow-lg); animation:modalIn 0.25s ease; overflow:hidden; }
+    @keyframes modalIn { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
+    .modal-header { background:linear-gradient(135deg,var(--f950),var(--f900)); padding:2rem; display:flex; align-items:center; gap:1.2rem; position:relative; }
+    .modal-avatar { width:64px; height:64px; border-radius:50%; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-size:1.6rem; font-weight:800; color:var(--white); flex-shrink:0; border:2px solid var(--f300); }
+    .modal-header h3  { color:var(--white); margin-bottom:0.2rem; font-size:1.1rem; }
+    .modal-header p   { color:var(--f300); font-size:0.82rem; margin:0; }
+    .modal-body { padding:1.8rem; }
+    .modal-detail { display:flex; gap:0.8rem; margin-bottom:1rem; font-size:0.88rem; }
+    .modal-detail-icon { font-size:1.1rem; flex-shrink:0; margin-top:0.1rem; min-width:20px; }
+    .modal-detail-label { font-weight:600; color:var(--f950); margin-bottom:0.1rem; font-size:0.82rem; }
+    .modal-detail-val   { color:var(--gray-500); }
+    .modal-close { position:absolute; top:1rem; right:1rem; background:rgba(255,255,255,0.1); border:none; color:var(--white); width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:1.1rem; transition:all var(--transition); display:flex; align-items:center; justify-content:center; }
+    .modal-close:hover { background:rgba(255,255,255,0.25); }
+    /* ── VALUES ── */
+    .values-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.5rem; margin-top:2.5rem; }
+    .value-card { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); padding:1.8rem; text-align:center; transition:all var(--transition); }
+    .value-card:hover { border-color:var(--f300); transform:translateY(-4px); box-shadow:var(--shadow-md); }
+    .value-icon { width:52px; height:52px; border-radius:14px; background:var(--f50); margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; color:var(--f700); font-size:1.5rem; }
+    .value-card h3 { font-size:1rem; color:var(--f950); margin-bottom:0.5rem; }
+    /* ── CTA ── */
+    .cta-section { background:linear-gradient(135deg,var(--f950),var(--f900)); padding:80px 0; text-align:center; }
+    .cta-section h2 { color:var(--white); margin-bottom:1rem; }
+    .cta-section p  { color:var(--f200); max-width:480px; margin:0 auto 2rem; }
+    .cta-buttons { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+  </style>
+</head>
+<body>
+
+<div id="rf-header"></div>
+
+<section class="page-hero" style="min-height:60vh;background-image:linear-gradient(rgba(7,30,7,0.45),rgba(7,30,7,0.65)),url('Media/Cultivation:Vegetation/fodder-field-05.jpg');background-size:cover;background-position:center 65%;">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a> <span class="sep">/</span> <span>About Us</span></div>
+    <h1>About Rena Farm</h1>
+    <p>Founded in 2018 by Nathan Kobaai &amp; Lucy Resiato &mdash; a farm built on passion, sustainability, and community.</p>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="section-white">
+  <div class="container">
+    <div class="two-col">
+      <div>
+        <p class="section-label">Our Story</p>
+        <h2 class="section-title">Built from the Ground Up Since 2018</h2>
+        <p>Rena Farm was founded in 2018 by Nathan Kobaai and Lucy Resiato along Kenya Marble Quarry Road in Kajiado Central &mdash; a region well-suited to mixed agribusiness. What started as a determined vision for sustainable, integrated farming has grown into a thriving operation producing cattle, sheep, goats, poultry, fodder, and dairy products.</p>
+        <br>
+        <p>Owned and operated by Rena Global Merchants Ltd, the farm is a family enterprise committed to quality at every stage &mdash; from breeding selection and animal nutrition, to fodder production and customer delivery. Today, Rena Farm employs 14 dedicated team members and serves buyers across Kenya.</p>
+        <br>
+        <p>Our tagline says it all: <em style="color:var(--f700);font-weight:600;">"Cultivating Sustainability, Enriching Lives through Farming."</em></p>
+      </div>
+      <div>
+        <div class="farm-timeline">
+          <div class="timeline-year">
+            <div class="year-badge">2018</div>
+            <h4>Founded</h4>
+            <p>Nathan Kobaai and Lucy Resiato establish Rena Farm along Kenya Marble Quarry Road, Kajiado Central.</p>
+          </div>
+          <div class="timeline-year">
+            <div class="year-badge">2019–2020</div>
+            <h4>Livestock Expansion</h4>
+            <p>Introduction of Pure Dorper sheep breeding program and Gala goat production. Sahiwaal and dairy cattle added.</p>
+          </div>
+          <div class="timeline-year">
+            <div class="year-badge">2021</div>
+            <h4>Fodder Programme</h4>
+            <p>40 acres allocated to fodder production &mdash; Boma Rhodes, Napier, Lucerne, Bracharia and silage operations begin.</p>
+          </div>
+          <div class="timeline-year">
+            <div class="year-badge">2022–2023</div>
+            <h4>Infrastructure Growth</h4>
+            <p>Water pan, drip irrigation, expanded pens, hay barn, CCTV security, and solar lighting installed.</p>
+          </div>
+          <div class="timeline-year">
+            <div class="year-badge">2024–Present</div>
+            <h4>Scaling Up</h4>
+            <p>Poultry enterprise launched. Technology integration, digital marketing, and export market development underway.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION & VALUES -->
+<section class="section-light">
+  <div class="container text-center">
+    <p class="section-label">Mission &amp; Values</p>
+    <h2 class="section-title">What Drives Us</h2>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon"><i class="ph ph-target"></i></div>
+        <h3>Mission</h3>
+        <p>To produce high-quality livestock, fodder, and dairy in a sustainable, integrated system that creates real value for our markets and livelihoods for our community.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><i class="ph ph-star"></i></div>
+        <h3>Vision</h3>
+        <p>To become the leading integrated farm enterprise in Kajiado County &mdash; recognised for quality, innovation, and impact.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><i class="ph ph-leaf"></i></div>
+        <h3>Sustainability</h3>
+        <p>We grow our own feed, harvest our own water, and manage our land responsibly for future generations.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><i class="ph ph-handshake"></i></div>
+        <h3>Integrity</h3>
+        <p>Honest pricing, reliable supply, and genuine relationships with every buyer, partner, and community member.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section-white">
+  <div class="container">
+    <p class="section-label">Our People</p>
+    <h2 class="section-title">Meet the Rena Farm Team</h2>
+    <p style="max-width:560px;">From our founders to our field staff &mdash; every person at Rena Farm plays a critical role in what we produce and how we serve our clients.</p>
+
+    <div class="team-section-label"><i class="ph ph-house" style="font-size:1rem;"></i> Founders &amp; Owners</div>
+    <div class="team-grid">
+      <div class="team-card" onclick="openModal('nathan')">
+        <div class="team-avatar"><img src="Media/Farm Staff/Nathan-Kobaai.jpg" alt="Nathan Kobaai" /></div>
+        <div class="team-name">Nathan Kobaai</div>
+        <div class="team-role">Owner &amp; Co-Founder</div>
+        <div class="team-click">Click for profile &rarr;</div>
+      </div>
+      <div class="team-card" onclick="openModal('lucy')">
+        <div class="team-avatar"><img src="Media/Farm Staff/Lucy-Resiato.jpg" alt="Lucy Resiato" /></div>
+        <div class="team-name">Lucy Resiato</div>
+        <div class="team-role">Owner &amp; Co-Founder</div>
+        <div class="team-click">Click for profile &rarr;</div>
+      </div>
+    </div>
+
+    <div class="team-section-label"><i class="ph ph-briefcase" style="font-size:1rem;"></i> Management Team</div>
+    <div class="team-grid">
+      <div class="team-card" onclick="openModal('frank')">
+        <div class="team-avatar"><img src="Media/Farm Staff/Frank-Nkanae.jpg" alt="Frank Kobaai" /></div>
+        <div class="team-name">Frank Kobaai</div>
+        <div class="team-role">General Manager</div>
+        <div class="team-click">Click for profile &rarr;</div>
+      </div>
+      <div class="team-card" onclick="openModal('sonia')">
+        <div class="team-avatar"><img src="Media/Farm Staff/Sonia-Siri.jpg" alt="Sonia Sirintai" /></div>
+        <div class="team-name">Sonia Sirintai</div>
+        <div class="team-role">Finance Manager</div>
+        <div class="team-click">Click for profile &rarr;</div>
+      </div>
+      <div class="team-card" onclick="openModal('marxwel')">
+        <div class="team-avatar"><img src="Media/Farm Staff/Marxwel.jpg" alt="Marxwel Kwalamei" /></div>
+        <div class="team-name">Marxwel Kwalamei</div>
+        <div class="team-role">Machinery &amp; Social Media</div>
+        <div class="team-click">Click for profile &rarr;</div>
+      </div>
+      <div class="team-card" onclick="openModal('lemayian')">
+        <div class="team-avatar"><img src="Media/Farm Staff/Lemayian.jpg" alt="Lemayian Kobaai" /></div>
+        <div class="team-name">Lemayian Kobaai</div>
+        <div class="team-role">General Coordinator &amp; Fodder</div>
+        <div class="team-click">Click for profile &rarr;</div>
+      </div>
+      <div class="team-card" onclick="openModal('finehas')">
+        <div class="team-avatar"><img src="Media/Farm Staff/Finehas-Mpoe.jpg" alt="Finehas Lessy" /></div>
+        <div class="team-name">Finehas Lessy</div>
+        <div class="team-role">Technical Supervisor</div>
+        <div class="team-click">Click for profile &rarr;</div>
+      </div>
+    </div>
+
+    <div class="team-section-label"><i class="ph ph-plant" style="font-size:1rem;"></i> Field Staff</div>
+    <div class="team-grid">
+      <div class="team-card" onclick="openModal('geofery')">
+        <div class="team-avatar">G</div>
+        <div class="team-name">Geofery Jose</div>
+        <div class="team-role">Head of Staff</div>
+        <div class="team-click">Click for profile &rarr;</div>
+      </div>
+      <div class="team-card" onclick="openModal('amos')"><div class="team-avatar">A</div><div class="team-name">Amos</div><div class="team-role">Farm Staff</div><div class="team-click">Click for profile &rarr;</div></div>
+      <div class="team-card" onclick="openModal('isaiah')"><div class="team-avatar">I</div><div class="team-name">Isaiah</div><div class="team-role">Farm Staff</div><div class="team-click">Click for profile &rarr;</div></div>
+      <div class="team-card" onclick="openModal('stanley')"><div class="team-avatar">S</div><div class="team-name">Stanley</div><div class="team-role">Farm Staff</div><div class="team-click">Click for profile &rarr;</div></div>
+      <div class="team-card" onclick="openModal('joshua')"><div class="team-avatar">J</div><div class="team-name">Joshua</div><div class="team-role">Farm Staff</div><div class="team-click">Click for profile &rarr;</div></div>
+      <div class="team-card" onclick="openModal('james')"><div class="team-avatar">J</div><div class="team-name">James</div><div class="team-role">Farm Staff</div><div class="team-click">Click for profile &rarr;</div></div>
+    </div>
+
+    <div class="team-section-label"><i class="ph ph-first-aid-kit" style="font-size:1rem;"></i> Veterinary</div>
+    <div class="team-grid">
+      <div class="team-card" onclick="openModal('daktari')">
+        <div class="team-avatar" style="font-size:2rem;">+</div>
+        <div class="team-name">Daktari</div>
+        <div class="team-role">Farm Veterinarian</div>
+        <div class="team-click">Click for profile &rarr;</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-avatar" id="modalAvatar">N</div>
+      <div>
+        <h3 id="modalName">Name</h3>
+        <p id="modalRole">Role</p>
+      </div>
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- CERTIFICATES (Dynamic) -->
+<section class="section-light" id="certs-section">
+  <div class="container text-center">
+    <p class="section-label">Certifications</p>
+    <h2 class="section-title">Our Certifications &amp; Achievements</h2>
+    <p class="section-subtitle">Official certifications and recognition earned by Rena Farm.</p>
+    <div id="certsGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-top:2.5rem;">
+      <div style="background:var(--white);border:2px dashed var(--f200);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;">
+        <i class="ph ph-certificate" style="font-size:3rem;color:var(--f200);margin-bottom:1rem;display:block;"></i>
+        <p style="color:var(--gray-400);font-size:0.88rem;">Certifications will be displayed here as they are published by the farm administration.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <h2>Want to Visit the Farm?</h2>
+    <p>We welcome buyers, breeders, and partners to visit Rena Farm and see our operations firsthand.</p>
+    <div class="cta-buttons">
+      <a href="location.html" class="btn btn-primary">Get Directions</a>
+      <a href="contact.html" class="btn btn-outline">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<div id="rf-footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/layout.js"></script>
+<script>
+const TEAM = {
+  nathan:   { name:'Nathan Kobaai', role:'Owner & Co-Founder', avatar:'N', details:[{icon:'&#127968;',label:'Role',val:'Owner & Co-Founder, Rena Global Merchants Ltd'},{icon:'&#128197;',label:'At Rena Since',val:'2018 — founding member'},{icon:'&#127757;',label:'Background',val:'Entrepreneur and agribusiness visionary. Nathan conceived and established Rena Farm in 2018 with a mission to build a sustainable, integrated farming enterprise in Kajiado Central.'},{icon:'&#127919;',label:'Responsibilities',val:'Overall farm strategy, business development, investor relations, and growth planning.'}] },
+  lucy:     { name:'Lucy Resiato', role:'Owner & Co-Founder', avatar:'L', details:[{icon:'&#127968;',label:'Role',val:'Owner & Co-Founder, Rena Global Merchants Ltd'},{icon:'&#128197;',label:'At Rena Since',val:'2018 — founding member'},{icon:'&#127757;',label:'Background',val:'Co-founder and strategic partner. Lucy plays a key role in the farm\'s direction, partnerships, and community engagement.'},{icon:'&#127919;',label:'Responsibilities',val:'Strategic partnerships, community relations, farm oversight, and co-leadership of Rena Global Merchants Ltd.'}] },
+  frank:    { name:'Frank Kobaai', role:'General Manager', avatar:'F', details:[{icon:'&#128188;',label:'Role',val:'General Manager'},{icon:'&#128197;',label:'Function',val:'Day-to-day farm operations'},{icon:'&#127757;',label:'Background',val:'Experienced farm manager with deep knowledge of livestock and agribusiness operations in Kajiado.'},{icon:'&#127919;',label:'Responsibilities',val:'Overseeing all daily farm operations across livestock, fodder, and support departments.'}] },
+  sonia:    { name:'Sonia Sirintai', role:'Finance Manager', avatar:'S', details:[{icon:'&#128200;',label:'Role',val:'Finance Manager'},{icon:'&#128197;',label:'Function',val:'Farm calculations, records & financial management'},{icon:'&#127757;',label:'Background',val:'Detail-oriented finance professional responsible for Rena Farm\'s financial health, record-keeping, and reporting.'},{icon:'&#127919;',label:'Responsibilities',val:'Financial records, expense tracking, payroll, revenue reporting, and maintaining accurate operational records.'}] },
+  marxwel:  { name:'Marxwel Kwalamei', role:'Machinery Expert & Social Media Manager', avatar:'M', details:[{icon:'&#9881;',label:'Role',val:'Machinery Expert & Social Media Manager'},{icon:'&#128295;',label:'Function',val:'Equipment management and digital presence'},{icon:'&#127757;',label:'Background',val:'Dual-skilled team member managing both the farm\'s mechanical infrastructure and its growing digital footprint.'},{icon:'&#127919;',label:'Responsibilities',val:'Maintenance of farm machinery plus managing Rena Farm\'s TikTok, Instagram, and other social media platforms.'}] },
+  lemayian: { name:'Lemayian Kobaai', role:'General Coordinator & Fodder Manager', avatar:'L', details:[{icon:'&#127807;',label:'Role',val:'General Coordinator & Fodder Production Manager'},{icon:'&#127807;',label:'Function',val:'Farm coordination and fodder operations'},{icon:'&#127757;',label:'Background',val:'Experienced coordinator managing both overall farm logistics and the 40-acre fodder production programme.'},{icon:'&#127919;',label:'Responsibilities',val:'Coordinating farm-wide activities, supervising 40 acres of fodder crops, irrigation management, and harvest scheduling.'}] },
+  finehas:  { name:'Finehas Lessy', role:'Technical Supervisor', avatar:'F', details:[{icon:'&#128295;',label:'Role',val:'Technical Supervisor'},{icon:'&#9881;',label:'Function',val:'Technical oversight of farm systems and infrastructure'},{icon:'&#127757;',label:'Background',val:'Technical specialist ensuring all farm systems, infrastructure, and equipment operate at peak performance.'},{icon:'&#127919;',label:'Responsibilities',val:'Supervising technical operations, infrastructure, water systems, security, solar equipment, and CCTV.'}] },
+  geofery:  { name:'Geofery Jose', role:'Head of Staff', avatar:'G', details:[{icon:'&#128101;',label:'Role',val:'Head of Staff'},{icon:'&#127807;',label:'Function',val:'Leads and coordinates the farm workforce'},{icon:'&#127757;',label:'Background',val:'Experienced farm operations leader who manages the day-to-day coordination of field staff across all departments.'},{icon:'&#127919;',label:'Responsibilities',val:'Supervising field staff daily activities, work scheduling, attendance management.'}] },
+  amos:     { name:'Amos', role:'Farm Staff', avatar:'A', details:[{icon:'&#127807;',label:'Role',val:'Farm Staff — Livestock & Field Operations'},{icon:'&#127919;',label:'Responsibilities',val:'Daily livestock care including feeding, watering, pen cleaning, animal monitoring, and support across farm operations.'}] },
+  isaiah:   { name:'Isaiah', role:'Farm Staff', avatar:'I', details:[{icon:'&#127807;',label:'Role',val:'Farm Staff — Livestock & Field Operations'},{icon:'&#127919;',label:'Responsibilities',val:'Daily livestock care including feeding, watering, pen cleaning, animal monitoring, and support across farm operations.'}] },
+  stanley:  { name:'Stanley', role:'Farm Staff', avatar:'S', details:[{icon:'&#127807;',label:'Role',val:'Farm Staff — Livestock & Field Operations'},{icon:'&#127919;',label:'Responsibilities',val:'Daily livestock care including feeding, watering, pen cleaning, animal monitoring, and support across farm operations.'}] },
+  joshua:   { name:'Joshua', role:'Farm Staff', avatar:'J', details:[{icon:'&#127807;',label:'Role',val:'Farm Staff — Livestock & Field Operations'},{icon:'&#127919;',label:'Responsibilities',val:'Daily livestock care including feeding, watering, pen cleaning, animal monitoring, and support across farm operations.'}] },
+  james:    { name:'James', role:'Farm Staff', avatar:'J', details:[{icon:'&#127807;',label:'Role',val:'Farm Staff — Livestock & Field Operations'},{icon:'&#127919;',label:'Responsibilities',val:'Daily livestock care including feeding, watering, pen cleaning, animal monitoring, and support across farm operations.'}] },
+  daktari:  { name:'Daktari', role:'Farm Veterinarian', avatar:'+', details:[{icon:'&#128138;',label:'Role',val:'Farm Veterinarian'},{icon:'&#128137;',label:'Function',val:'Animal health, welfare, and medical care'},{icon:'&#127757;',label:'Background',val:'Professional veterinarian providing comprehensive healthcare to all animals at Rena Farm.'},{icon:'&#127919;',label:'Responsibilities',val:'Vaccination programs, deworming, dipping schedules, disease diagnosis and treatment, health certifications, breeding support, and overall animal welfare across all livestock species.'}] },
+};
+
+function openModal(key) {
+  const p = TEAM[key]; if (!p) return;
+  document.getElementById('modalAvatar').textContent = p.avatar;
+  document.getElementById('modalName').textContent   = p.name;
+  document.getElementById('modalRole').textContent   = p.role;
+  document.getElementById('modalBody').innerHTML = p.details.map(d =>
+    `<div class="modal-detail"><div class="modal-detail-icon">${d.icon}</div><div><div class="modal-detail-label">${d.label}</div><div class="modal-detail-val">${d.val}</div></div></div>`
+  ).join('');
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOutside(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+loadCertificates && loadCertificates().then(data => {
+  if (!data.length) return;
+  document.getElementById('certsGrid').innerHTML = data.map(c => `
+    <div style="background:var(--white);border:1px solid var(--f200);border-radius:var(--radius-lg);overflow:hidden;">
+      ${c.image_url ? `<img src="${c.image_url}" alt="${c.title}" style="width:100%;height:180px;object-fit:cover;" />` : `<div style="height:120px;background:var(--f50);display:flex;align-items:center;justify-content:center;"><i class="ph ph-certificate" style="font-size:3rem;color:var(--f200);"></i></div>`}
+      <div style="padding:1.2rem;">
+        <div style="font-size:0.75rem;color:var(--f500);font-weight:700;margin-bottom:0.3rem;">${c.issued_by ?? ''}</div>
+        <h4 style="font-size:0.95rem;color:var(--f950);margin-bottom:0.3rem;font-family:'Inter',sans-serif;">${c.title}</h4>
+        <p style="font-size:0.82rem;">${c.description ?? ''}</p>
+      </div>
+    </div>`).join('');
+});
+</script>
+</body>
+</html>

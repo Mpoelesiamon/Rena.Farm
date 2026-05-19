@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In — Rena Farm</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+  <style>
+    body { background:var(--f50); }
+    .auth-page { min-height:100vh; display:flex; flex-direction:column; }
+    .auth-wrap { flex:1; display:flex; align-items:center; justify-content:center; padding:2rem 1rem; }
+    .auth-card { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); padding:2.5rem; width:100%; max-width:420px; box-shadow:var(--shadow-md); }
+    .auth-brand { text-align:center; margin-bottom:2rem; }
+    .auth-brand-name { font-size:1.3rem; font-weight:800; color:var(--f950); letter-spacing:0.05em; text-transform:uppercase; }
+    .auth-brand-sub  { font-size:0.72rem; color:var(--f500); letter-spacing:0.12em; text-transform:uppercase; }
+    .auth-title { font-size:1.4rem; font-weight:800; color:var(--f950); margin-bottom:0.3rem; }
+    .auth-sub   { font-size:0.88rem; color:var(--gray-500); margin-bottom:1.8rem; }
+    .form-group { margin-bottom:1.1rem; }
+    .form-label { display:block; font-size:0.8rem; font-weight:700; color:var(--f700); margin-bottom:0.4rem; }
+    .form-input { width:100%; padding:0.8rem 1rem; border:2px solid var(--f100); border-radius:var(--radius-lg); font-size:0.9rem; font-family:'Inter',sans-serif; color:var(--f950); background:var(--white); transition:border-color 0.2s; box-sizing:border-box; }
+    .form-input:focus { outline:none; border-color:var(--f500); }
+    .form-input.error { border-color:#ef4444; }
+    .error-msg { font-size:0.78rem; color:#ef4444; margin-top:0.3rem; display:none; }
+    .error-msg.show { display:block; }
+    .auth-btn { width:100%; padding:0.9rem; font-size:1rem; font-weight:700; margin-top:0.5rem; }
+    .auth-divider { text-align:center; font-size:0.8rem; color:var(--gray-400); margin:1.2rem 0; position:relative; }
+    .auth-divider::before { content:''; position:absolute; left:0; top:50%; right:0; height:1px; background:var(--f100); }
+    .auth-divider span { background:var(--white); padding:0 0.8rem; position:relative; }
+    .auth-footer { text-align:center; font-size:0.85rem; color:var(--gray-500); margin-top:1.5rem; }
+    .auth-footer a { color:var(--f700); font-weight:600; text-decoration:none; }
+    .auth-footer a:hover { color:var(--f900); }
+    .alert { padding:0.8rem 1rem; border-radius:var(--radius-lg); font-size:0.85rem; margin-bottom:1rem; display:none; }
+    .alert.show { display:block; }
+    .alert-error   { background:#fef2f2; border:1px solid #fecaca; color:#dc2626; }
+    .alert-success { background:#f0fdf4; border:1px solid #bbf7d0; color:#16a34a; }
+    .return-notice { background:var(--f50); border:1px solid var(--f100); border-radius:var(--radius-lg); padding:0.8rem 1rem; font-size:0.82rem; color:var(--f700); margin-bottom:1.5rem; display:flex; align-items:center; gap:0.5rem; }
+  </style>
+</head>
+<body class="auth-page">
+<div id="rf-header"></div>
+
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <div class="auth-brand-name">Rena Farm</div>
+      <div class="auth-brand-sub">Client Portal</div>
+    </div>
+
+    <div id="returnNotice" class="return-notice" style="display:none;">
+      <i class="ph ph-lock"></i>
+      <span>Sign in to continue with your request</span>
+    </div>
+
+    <div class="auth-title">Welcome back</div>
+    <p class="auth-sub">Sign in to your Rena Farm account to track enquiries and orders.</p>
+
+    <div class="alert alert-error" id="alertError"></div>
+
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="email">Email Address</label>
+        <input class="form-input" type="email" id="email" placeholder="john@example.com" autocomplete="email" />
+        <div class="error-msg" id="errEmail">Please enter a valid email address.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input class="form-input" type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+        <div class="error-msg" id="errPassword">Please enter your password.</div>
+      </div>
+      <button type="submit" class="btn btn-primary auth-btn" id="loginBtn">
+        <i class="ph ph-sign-in"></i> Sign In
+      </button>
+    </form>
+
+    <div class="auth-divider"><span>Don't have an account?</span></div>
+
+    <a href="" id="registerLink" class="btn btn-outline" style="width:100%;justify-content:center;text-align:center;">
+      Create a Free Account
+    </a>
+
+    <div class="auth-footer" style="margin-top:1rem;">
+      <a href="products.html#listings">← Back to Products</a>
+    </div>
+  </div>
+</div>
+
+<div id="rf-footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/layout.js"></script>
+<script>
+const params     = new URLSearchParams(window.location.search)
+const returnUrl  = params.get('return') ?? 'portal.html'
+
+// Show return notice if redirected
+if (params.get('return')) {
+  document.getElementById('returnNotice').style.display = 'flex'
+}
+
+// Set register link to preserve return URL
+document.getElementById('registerLink').href = `register.html?return=${encodeURIComponent(returnUrl)}`
+
+// If already logged in, redirect
+getClientSession().then(session => {
+  if (session) window.location.href = returnUrl
+})
+
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+  e.preventDefault()
+  const email    = document.getElementById('email').value.trim()
+  const password = document.getElementById('password').value
+
+  let valid = true
+  function check(id, errId, cond) {
+    document.getElementById(id).classList.toggle('error', !cond)
+    document.getElementById(errId).classList.toggle('show', !cond)
+    if (!cond) valid = false
+  }
+  check('email',    'errEmail',    email.includes('@'))
+  check('password', 'errPassword', password.length >= 6)
+  if (!valid) return
+
+  const btn = document.getElementById('loginBtn')
+  btn.disabled = true
+  btn.innerHTML = '<i class="ph ph-circle-notch" style="animation:spin 0.8s linear infinite;display:inline-block;"></i> Signing in…'
+
+  const { session, error } = await signInClient(email, password)
+
+  if (error) {
+    const alertEl = document.getElementById('alertError')
+    alertEl.textContent = error.message.includes('Invalid') ? 'Incorrect email or password. Please try again.' : error.message
+    alertEl.classList.add('show')
+    btn.disabled = false
+    btn.innerHTML = '<i class="ph ph-sign-in"></i> Sign In'
+  } else {
+    // Ensure client_profile row exists
+    if (session?.user) {
+      await db.from('client_profiles').upsert({
+        id: session.user.id,
+        full_name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Client',
+        phone: session.user.user_metadata?.phone || null,
+      }, { onConflict: 'id', ignoreDuplicates: true })
+    }
+    window.location.href = returnUrl
+  }
+})
+
+const style = document.createElement('style')
+style.textContent = '@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}'
+document.head.appendChild(style)
+</script>
+</body>
+</html>

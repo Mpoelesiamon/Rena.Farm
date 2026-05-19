@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery — Rena Farm</title>
+  <meta name="description" content="Photo gallery of Rena Farm — sheep, fodder crops, infrastructure, and life on the farm in Kajiado Central, Kenya." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+  <style>
+    .gallery-filter { display:flex; gap:0.6rem; flex-wrap:wrap; justify-content:center; margin-bottom:2.5rem; }
+    .filter-btn { padding:0.5rem 1.2rem; border-radius:50px; border:1.5px solid var(--f200); background:var(--white); color:var(--f700); font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.2s ease; font-family:'Inter',sans-serif; }
+    .filter-btn:hover, .filter-btn.active { background:var(--f700); border-color:var(--f700); color:var(--white); }
+    .gallery-masonry { columns:3; column-gap:1.2rem; }
+    .gallery-masonry .gallery-item { break-inside:avoid; margin-bottom:1.2rem; aspect-ratio:unset; min-height:200px; }
+    .gallery-masonry .gallery-item:nth-child(3n+1) { min-height:260px; }
+    .gallery-masonry .gallery-item:nth-child(3n+2) { min-height:200px; }
+    .gallery-masonry .gallery-item:nth-child(3n+3) { min-height:300px; }
+    .upload-zone { border:2.5px dashed var(--f200); border-radius:var(--radius-lg); padding:3rem 2rem; text-align:center; background:var(--f50); margin-top:3rem; }
+    .upload-zone h3 { color:var(--f950); margin-bottom:0.5rem; }
+    .upload-zone p  { font-size:0.9rem; margin-bottom:1.5rem; }
+    .cta-section { background:linear-gradient(135deg,var(--f950),var(--f900)); padding:80px 0; text-align:center; }
+    .cta-section h2 { color:var(--white); margin-bottom:1rem; }
+    .cta-section p  { color:var(--f200); max-width:500px; margin:0 auto 2rem; }
+    @media (max-width:768px) { .gallery-masonry { columns:2; } }
+    @media (max-width:480px) { .gallery-masonry { columns:1; } }
+  </style>
+</head>
+<body>
+
+<div id="rf-header"></div>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a> <span class="sep">/</span> <span>Gallery</span></div>
+    <h1>Farm Gallery</h1>
+    <p>A visual tour of Rena Farm &mdash; our animals, crops, infrastructure, and everyday farm life in Kajiado Central.</p>
+  </div>
+</section>
+
+<section class="section-white">
+  <div class="container">
+
+    <div class="gallery-filter">
+      <button class="filter-btn active" data-cat="all">All</button>
+      <button class="filter-btn" data-cat="sheep">Sheep &amp; Livestock</button>
+      <button class="filter-btn" data-cat="fodder">Fodder &amp; Crops</button>
+      <button class="filter-btn" data-cat="infra">Infrastructure</button>
+      <button class="filter-btn" data-cat="team">Team</button>
+    </div>
+
+    <div class="gallery-masonry" id="galleryGrid">
+
+      <!-- Sheep & Livestock -->
+      <div class="gallery-item" data-cat="sheep">
+        <img src="Media/Doper Ewes/dorper-ewe-01.jpg" alt="Dorper Ewes — Breeding Flock" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Dorper Ewes — Breeding Flock</div>
+      </div>
+
+      <div class="gallery-item" data-cat="sheep">
+        <img src="Media/Doper Ewes/dorper-ewe-08.jpg" alt="Ewes in the Paddock" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Ewes in the Paddock</div>
+      </div>
+
+      <div class="gallery-item" data-cat="sheep">
+        <img src="Media/Doper Ewes/dorper-ewe-15.jpg" alt="Dorper Flock at Rena Farm" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Dorper Flock at Rena Farm</div>
+      </div>
+
+      <div class="gallery-item" data-cat="sheep">
+        <img src="Media/Doper Rams/dorper-ram-01.jpg" alt="Pure Dorper Ram" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Pure Dorper Ram</div>
+      </div>
+
+      <div class="gallery-item" data-cat="sheep">
+        <img src="Media/Doper Rams/dorper-ram-10.jpg" alt="Dorper Rams — Breeding Stock" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Dorper Rams — Breeding Stock</div>
+      </div>
+
+      <div class="gallery-item" data-cat="sheep">
+        <img src="Media/Gala Goats/gala-goat-01.jpg" alt="Gala Goats" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Gala Goats</div>
+      </div>
+
+      <div class="gallery-item" data-cat="sheep">
+        <img src="Media/Gala Boars/gala-buck-01.jpg" alt="Gala Bucks" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Gala Bucks</div>
+      </div>
+
+      <div class="gallery-item" data-cat="sheep">
+        <img src="Media/Beef Cattle/beef-cattle-01.jpg" alt="Beef Cattle" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Beef Cattle</div>
+      </div>
+
+      <div class="gallery-item" data-cat="sheep">
+        <img src="Media/Dairy Cows/dairy-cow-01.jpg" alt="Dairy Cows" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Dairy Cows</div>
+      </div>
+
+      <!-- Poultry -->
+      <div class="gallery-item" data-cat="sheep">
+        <img src="Media/Poultry/poultry-01.jpg" alt="Kienyeji Improved Chicken" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Kienyeji Improved Chicken</div>
+      </div>
+
+      <div class="gallery-item" data-cat="sheep">
+        <img src="Media/Poultry/poultry-10.jpg" alt="Poultry at Rena Farm" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Poultry at Rena Farm</div>
+      </div>
+
+      <!-- Fodder & Crops -->
+      <div class="gallery-item" data-cat="fodder">
+        <img src="Media/Cultivation:Vegetation/fodder-field-01.jpg" alt="Fodder Fields — Rena Farm" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Fodder Fields — Rena Farm</div>
+      </div>
+
+      <div class="gallery-item" data-cat="fodder">
+        <img src="Media/Cultivation:Vegetation/fodder-field-04.jpg" alt="Cultivation at Rena Farm" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Cultivation at Rena Farm</div>
+      </div>
+
+      <div class="gallery-item" data-cat="fodder">
+        <img src="Media/Cultivation:Vegetation/fodder-field-08.jpg" alt="Napier Grass" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Napier Grass</div>
+      </div>
+
+      <div class="gallery-item" data-cat="fodder">
+        <img src="Media/Cultivation:Vegetation/fodder-field-11.jpg" alt="Lush Vegetation" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Lush Vegetation</div>
+      </div>
+
+      <div class="gallery-item" data-cat="fodder">
+        <img src="Media/Cultivation:Vegetation/fodder-field-14.jpg" alt="Farm Crops" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Farm Crops</div>
+      </div>
+
+      <!-- Infrastructure -->
+      <div class="gallery-item" data-cat="infra">
+        <img src="Media/Machinery/farm-machinery-01.jpg" alt="Farm Machinery" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Farm Machinery</div>
+      </div>
+
+      <div class="gallery-item" data-cat="infra">
+        <img src="Media/Machinery/farm-machinery-02.jpg" alt="Equipment at Rena Farm" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Equipment at Rena Farm</div>
+      </div>
+
+      <div class="gallery-item" data-cat="infra">
+        <img src="Media/Machinery/farm-machinery-03.jpg" alt="Farm Operations" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Farm Operations</div>
+      </div>
+
+      <div class="gallery-item" data-cat="infra">
+        <img src="Media/Vet & Meds/vet-health-01.jpg" alt="Veterinary Care" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Veterinary Care</div>
+      </div>
+
+      <!-- Team -->
+      <div class="gallery-item" data-cat="team">
+        <img src="Media/Farm Staff/farm-staff-01.jpg" alt="Rena Farm Team" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Rena Farm Team</div>
+      </div>
+
+      <div class="gallery-item" data-cat="team">
+        <img src="Media/Farm Staff/farm-staff-04.jpg" alt="Farm Operations" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Farm Operations</div>
+      </div>
+
+      <div class="gallery-item" data-cat="team">
+        <img src="Media/Farm Staff/farm-staff-07.jpg" alt="Team at Work" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" />
+        <div class="gallery-label">Team at Work</div>
+      </div>
+
+    </div>
+
+    <div class="upload-zone">
+      <i class="ph ph-camera" style="font-size:3rem;color:var(--f300);margin-bottom:1rem;display:block;"></i>
+      <h3>More Photos Coming Soon</h3>
+      <p>More photos coming soon — follow us on TikTok &amp; Instagram @the.renafarm</p>
+      <a href="contact.html" class="btn btn-outline-green">Contact Us to Visit the Farm</a>
+    </div>
+
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2>Want to See the Farm in Person?</h2>
+    <p>We welcome serious buyers and partners to visit Rena Farm. Get in touch to arrange a farm visit.</p>
+    <a href="contact.html" class="btn btn-primary">Arrange a Visit</a>
+  </div>
+</section>
+
+<div id="rf-footer"></div>
+<script src="js/layout.js"></script>
+</body>
+</html>

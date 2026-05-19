@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Location — Rena Farm</title>
+  <meta name="description" content="Find Rena Farm — located along Kenya Marble Quarry Road, Kajiado Central, Kenya. Get directions from Nairobi." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    #map { height:480px; width:100%; border-radius:var(--radius-lg); overflow:hidden; border:3px solid var(--f100); box-shadow:var(--shadow-lg); }
+    #routeMap { height:420px; width:100%; border-radius:var(--radius-lg); overflow:hidden; border:3px solid var(--f100); box-shadow:var(--shadow-lg); }
+    .location-detail { display:flex; align-items:flex-start; gap:1rem; margin-bottom:1.5rem; }
+    .location-icon { width:48px; height:48px; border-radius:12px; background:var(--f50); display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; color:var(--f700); }
+    .location-detail h4 { color:var(--f950); font-size:0.9rem; margin-bottom:0.2rem; font-weight:700; }
+    .location-detail p  { font-size:0.87rem; margin:0; }
+    .route-info { display:flex; align-items:center; gap:2rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+    .route-stat { text-align:center; }
+    .route-stat .num { font-size:1.8rem; font-weight:800; color:var(--f950); font-family:'Playfair Display',serif; }
+    .route-stat .label { font-size:0.75rem; color:var(--f500); text-transform:uppercase; letter-spacing:0.08em; }
+    .waypoint { display:flex; align-items:center; gap:0.8rem; margin-bottom:0.8rem; }
+    .wp-dot { width:12px; height:12px; border-radius:50%; flex-shrink:0; }
+    .wp-line { width:2px; height:20px; background:var(--f300); margin:0 5px; }
+    .tip-box { background:var(--f900); border-radius:var(--radius); padding:1rem 1.2rem; margin-top:1.5rem; display:flex; align-items:flex-start; gap:0.6rem; }
+    .tip-box i { color:var(--f300); flex-shrink:0; margin-top:0.1rem; }
+    .tip-box p { color:var(--f200); font-size:0.83rem; margin:0; }
+    .cta-section { background:linear-gradient(135deg,var(--f950),var(--f900)); padding:80px 0; text-align:center; }
+    .cta-section h2 { color:var(--white); margin-bottom:1rem; }
+    .cta-section p  { color:var(--f200); max-width:480px; margin:0 auto 2rem; }
+    .cta-buttons { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+  </style>
+</head>
+<body>
+
+<div id="rf-header"></div>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a> <span class="sep">/</span> <span>Location</span></div>
+    <h1>Find Rena Farm</h1>
+    <p>Located along Kenya Marble Quarry Road, Kajiado Central &mdash; approximately 1 hour 30 minutes from Nairobi CBD.</p>
+  </div>
+</section>
+
+<section class="section-white">
+  <div class="container">
+    <div class="two-col" style="gap:3rem;align-items:start;">
+      <div>
+        <p class="section-label">Farm Location</p>
+        <h2 class="section-title" style="margin-bottom:1.8rem;">Rena Farm &mdash; Kajiado Central</h2>
+        <div class="location-detail">
+          <div class="location-icon"><i class="ph ph-map-pin"></i></div>
+          <div><h4>Address</h4><p>Along Kenya Marble Quarry Road, Kajiado Central, Kajiado County, Kenya</p></div>
+        </div>
+        <div class="location-detail">
+          <div class="location-icon"><i class="ph ph-phone"></i></div>
+          <div><h4>Phone</h4><p><a href="tel:+254724980372" style="color:var(--f500);font-weight:600;">+254 724 980 372</a><br><a href="tel:+254715438010" style="color:var(--f500);font-weight:600;">+254 715 438 010</a></p></div>
+        </div>
+        <div class="location-detail">
+          <div class="location-icon" style="background:#e8fdf1;color:#25d366;"><i class="ph ph-whatsapp-logo"></i></div>
+          <div><h4>WhatsApp</h4><p><a href="https://wa.me/254724980372" target="_blank" rel="noopener" style="color:var(--f500);font-weight:600;">+254 724 980 372</a></p></div>
+        </div>
+        <div class="location-detail">
+          <div class="location-icon"><i class="ph ph-clock"></i></div>
+          <div><h4>Farm Hours</h4><p>Monday &ndash; Saturday: 7:00 AM &ndash; 6:00 PM<br>Sunday: By appointment only</p></div>
+        </div>
+        <div class="location-detail">
+          <div class="location-icon"><i class="ph ph-car"></i></div>
+          <div><h4>From Nairobi</h4><p>Take the Nairobi&ndash;Namanga Highway (A104) towards Kajiado. The farm is 1km along Kenya Marble Quarry Road. Approx. 1.5 hrs from Nairobi CBD.</p></div>
+        </div>
+        <div style="display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap;">
+          <a href="https://maps.app.goo.gl/gBLYYcUXMwrJ6fy1A" target="_blank" rel="noopener" class="btn btn-primary">Open in Google Maps</a>
+          <a href="contact.html" class="btn btn-outline-green">Arrange a Visit</a>
+        </div>
+      </div>
+      <div>
+        <div id="map"></div>
+        <p style="font-size:0.78rem;color:var(--gray-400);text-align:center;margin-top:0.6rem;">Rena Farm &mdash; Kenya Marble Quarry Road, Kajiado Central</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-light">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:2.5rem;">
+      <p class="section-label">Directions</p>
+      <h2 class="section-title">Getting Here from Nairobi</h2>
+    </div>
+    <div class="two-col" style="gap:3rem;align-items:start;">
+      <div>
+        <div class="route-info">
+          <div class="route-stat"><div class="num">~97</div><div class="label">km from Nairobi</div></div>
+          <div class="route-stat"><div class="num">~1.5</div><div class="label">hrs drive</div></div>
+          <div class="route-stat"><div class="num">A104</div><div class="label">Main highway</div></div>
+        </div>
+        <h3 style="font-size:1rem;color:var(--f950);margin-bottom:1.2rem;">Turn-by-Turn Directions</h3>
+        <div>
+          <div class="waypoint"><div class="wp-dot" style="background:var(--f500);"></div><div style="font-size:0.88rem;"><strong>Nairobi CBD</strong> &mdash; Start point</div></div>
+          <div style="padding-left:5px;"><div class="wp-line"></div></div>
+          <div class="waypoint"><div class="wp-dot" style="background:var(--f500);"></div><div style="font-size:0.88rem;">Head south on <strong>Mombasa Road / A109</strong> towards Mlolongo</div></div>
+          <div style="padding-left:5px;"><div class="wp-line"></div></div>
+          <div class="waypoint"><div class="wp-dot" style="background:var(--f500);"></div><div style="font-size:0.88rem;">Take the <strong>A104 Nairobi&ndash;Namanga Highway</strong> at Mlolongo/Athi River junction</div></div>
+          <div style="padding-left:5px;"><div class="wp-line"></div></div>
+          <div class="waypoint"><div class="wp-dot" style="background:var(--f500);"></div><div style="font-size:0.88rem;">Continue through <strong>Kitengela &rarr; Isinya &rarr; Kajiado Town</strong></div></div>
+          <div style="padding-left:5px;"><div class="wp-line"></div></div>
+          <div class="waypoint"><div class="wp-dot" style="background:var(--f500);"></div><div style="font-size:0.88rem;">Turn off at <strong>Kenya Marble Quarry Road</strong></div></div>
+          <div style="padding-left:5px;"><div class="wp-line"></div></div>
+          <div class="waypoint"><div class="wp-dot" style="background:#ef4444;width:14px;height:14px;"></div><div style="font-size:0.88rem;"><strong>Rena Farm</strong> &mdash; 1km along Kenya Marble Quarry Road</div></div>
+        </div>
+        <div class="tip-box">
+          <i class="ph ph-lightbulb" style="font-size:1.1rem;"></i>
+          <p><strong style="color:var(--white);">Tip:</strong> Call us before you travel &mdash; <a href="tel:+254724980372" style="color:var(--f300);font-weight:600;">+254 724 980372</a> &mdash; and we'll guide you the final stretch to the farm gate.</p>
+        </div>
+      </div>
+      <div>
+        <div id="routeMap"></div>
+        <p style="font-size:0.78rem;color:var(--gray-400);text-align:center;margin-top:0.6rem;">Animated route: Nairobi &rarr; Rena Farm</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2>Ready to Visit?</h2>
+    <p>Contact us to arrange your visit. We welcome buyers, breeders, and partners by appointment.</p>
+    <div class="cta-buttons">
+      <a href="https://wa.me/254724980372" target="_blank" rel="noopener" class="btn btn-primary">WhatsApp Us</a>
+      <a href="contact.html" class="btn btn-outline">Send a Message</a>
+    </div>
+  </div>
+</section>
+
+<div id="rf-footer"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/layout.js"></script>
+<script>
+  const FARM    = [-1.918604, 36.737787];
+  const NAIROBI = [-1.2864, 36.8172];
+
+  const map = L.map('map', { zoomControl: true }).setView(FARM, 15);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' }).addTo(map);
+
+  const farmIcon = L.divIcon({
+    html: '<div style="background:#0d330e;color:white;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;border:3px solid white;box-shadow:0 4px 12px rgba(0,0,0,0.35);">RF</div>',
+    iconSize:[40,40], iconAnchor:[20,20], className:''
+  });
+  L.marker(FARM, { icon: farmIcon }).addTo(map)
+    .bindPopup('<strong style="color:#0d330e;">Rena Farm</strong><br>Kenya Marble Quarry Road<br>Kajiado Central, Kenya<br><a href="https://maps.app.goo.gl/gBLYYcUXMwrJ6fy1A" target="_blank" style="color:#2d531a;">Open in Google Maps &rarr;</a>')
+    .openPopup();
+
+  const routeMap = L.map('routeMap', { zoomControl: false }).setView([-1.58, 36.79], 10);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' }).addTo(routeMap);
+
+  const routePoints = [
+    [-1.2864, 36.8172],
+    [-1.3648, 36.8236],
+    [-1.4572, 36.9708],
+    [-1.5023, 36.9200],
+    [-1.6235, 36.8850],
+    [-1.7200, 36.8200],
+    [-1.8524, 36.7769],
+    [-1.8900, 36.7500],
+    [-1.9186, 36.7378],
+  ];
+
+  const routeLine = L.polyline(routePoints, { color: '#2d531a', weight: 4, opacity: 0.85, dashArray: '10,8' }).addTo(routeMap);
+  routeMap.fitBounds(routeLine.getBounds(), { padding: [30,30] });
+
+  const startIcon = L.divIcon({ html: '<div style="background:#1d4ed8;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3);">NBI</div>', iconSize:[28,28], iconAnchor:[14,14], className:'' });
+  const endIcon   = L.divIcon({ html: '<div style="background:#ef4444;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3);">RF</div>', iconSize:[32,32], iconAnchor:[16,16], className:'' });
+  L.marker(NAIROBI, { icon: startIcon }).addTo(routeMap).bindPopup('<strong>Nairobi CBD</strong><br>Starting point');
+  L.marker(FARM,    { icon: endIcon   }).addTo(routeMap).bindPopup('<strong>Rena Farm</strong><br>Kenya Marble Quarry Rd, Kajiado');
+
+  const carIcon = L.divIcon({ html: '<div style="font-size:1.6rem;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4));">&#128663;</div>', iconSize:[32,32], iconAnchor:[16,16], className:'' });
+  const carMarker = L.marker(routePoints[0], { icon: carIcon }).addTo(routeMap);
+
+  let step = 0, progress = 0;
+  const SPEED = 0.008;
+  function animateCar() {
+    if (step >= routePoints.length - 1) { step = 0; progress = 0; }
+    progress += SPEED;
+    if (progress >= 1) { step++; progress = 0; }
+    if (step >= routePoints.length - 1) { step = 0; }
+    const [lat1, lng1] = routePoints[step];
+    const [lat2, lng2] = routePoints[step + 1];
+    carMarker.setLatLng([lat1 + (lat2 - lat1) * progress, lng1 + (lng2 - lng1) * progress]);
+    requestAnimationFrame(animateCar);
+  }
+  animateCar();
+</script>
+</body>
+</html>

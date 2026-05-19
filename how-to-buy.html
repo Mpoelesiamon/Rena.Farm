@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Buy — Rena Farm</title>
+  <meta name="description" content="Learn how to purchase livestock, fodder, dairy, and poultry from Rena Farm — step-by-step buying guide." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+  <style>
+    .step-card { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); padding:2rem; position:relative; overflow:hidden; transition:all var(--transition); }
+    .step-card::before { content:''; position:absolute; top:0; left:0; bottom:0; width:4px; background:linear-gradient(to bottom,var(--f500),var(--f300)); border-radius:4px 0 0 4px; }
+    .step-card:hover { box-shadow:var(--shadow-md); border-color:var(--f300); }
+    .step-num { width:48px; height:48px; border-radius:50%; background:var(--f900); color:var(--white); font-size:1.2rem; font-weight:800; display:flex; align-items:center; justify-content:center; margin-bottom:1rem; }
+    .step-card h3 { color:var(--f950); font-size:1rem; margin-bottom:0.5rem; }
+    .step-card p  { font-size:0.88rem; margin:0; }
+    .payment-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1.2rem; margin-top:2.5rem; }
+    .payment-card { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); padding:1.5rem; text-align:center; transition:all var(--transition); }
+    .payment-card:hover { border-color:var(--f300); transform:translateY(-3px); box-shadow:var(--shadow-sm); }
+    .payment-icon { font-size:1.8rem; margin-bottom:0.8rem; color:var(--f700); }
+    .payment-card h3 { font-size:0.95rem; color:var(--f950); margin-bottom:0.3rem; }
+    .payment-card p  { font-size:0.8rem; }
+    .faq-item { border:1px solid var(--f100); border-radius:var(--radius); margin-bottom:0.8rem; overflow:hidden; }
+    .faq-q { padding:1.1rem 1.4rem; background:var(--white); font-weight:600; font-size:0.92rem; color:var(--f950); cursor:pointer; display:flex; justify-content:space-between; align-items:center; transition:background var(--transition); user-select:none; }
+    .faq-q:hover { background:var(--f50); }
+    .faq-arrow { color:var(--f500); transition:transform 0.25s; font-size:1rem; }
+    .faq-item.open .faq-arrow { transform:rotate(180deg); }
+    .faq-item.open .faq-q { background:var(--f50); }
+    .faq-a { max-height:0; overflow:hidden; transition:max-height 0.3s ease, padding 0.3s ease; font-size:0.88rem; color:var(--gray-500); background:var(--f50); padding:0 1.4rem; }
+    .faq-item.open .faq-a { max-height:200px; padding:1rem 1.4rem; }
+    .cta-section { background:linear-gradient(135deg,var(--f950),var(--f900)); padding:80px 0; text-align:center; }
+    .cta-section h2 { color:var(--white); margin-bottom:1rem; }
+    .cta-section p  { color:var(--f200); max-width:480px; margin:0 auto 2rem; }
+    .cta-buttons { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+  </style>
+</head>
+<body>
+
+<div id="rf-header"></div>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a> <span class="sep">/</span> <span>How to Buy</span></div>
+    <h1>How to Buy</h1>
+    <p>A simple, transparent purchasing process &mdash; from first enquiry to delivery at your doorstep.</p>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="section-white">
+  <div class="container">
+    <div class="text-center">
+      <p class="section-label">Purchasing Process</p>
+      <h2 class="section-title">4 Simple Steps to Buy From Rena Farm</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:3rem;">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Browse &amp; Send an Enquiry</h3>
+        <p>Find your product of interest &mdash; livestock, fodder, dairy, or poultry. Contact us via WhatsApp, phone, or the enquiry form with the details of what you need.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Visit the Farm (Recommended)</h3>
+        <p>We strongly encourage a farm visit before purchasing livestock &mdash; especially breeding stock. See the animals firsthand, assess condition and conformation, and meet our team.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Confirm Your Order</h3>
+        <p>Once you are happy with your selection, confirm your order with our team. We will agree on quantities, price, delivery date, and location. A deposit may be required to hold your order.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h3>Delivery or Collection</h3>
+        <p>For bulk and reasonable order sizes, we deliver to your location using our farm transport. For small orders, we kindly request self-collection at the farm.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERY -->
+<section class="section-light">
+  <div class="container">
+    <div class="two-col">
+      <div>
+        <p class="section-label">Delivery Policy</p>
+        <h2 class="section-title">Delivery &amp; Collection</h2>
+        <div style="margin-top:1.5rem;">
+          <p style="margin-bottom:1rem;font-size:0.9rem;">We deliver bulk orders across the region using our own transport. Delivery is available for orders of reasonable size where the delivery cost does not exceed the product value.</p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon"><i class="ph ph-check-circle"></i></div>
+              <div><h4>Bulk Livestock Orders</h4><p>Multiple animals delivered using our livestock transport.</p></div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon"><i class="ph ph-check-circle"></i></div>
+              <div><h4>Large Fodder Orders</h4><p>Hay bales, napier, silage &mdash; delivered using our 12-tonne FH lorry.</p></div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon"><i class="ph ph-warning"></i></div>
+              <div><h4>Small Orders &mdash; Self-Collection</h4><p>For small orders where delivery cost exceeds the product value, buyers collect directly from the farm.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="section-label">Farm Visit</p>
+        <h2 class="section-title">Plan a Visit</h2>
+        <p style="margin:1.5rem 0 1.2rem;">We welcome all serious buyers to visit Rena Farm &mdash; especially for livestock, breeding stock, and large fodder orders.</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon"><i class="ph ph-phone"></i></div>
+            <div><h4>Call Ahead</h4><p>Contact us in advance to schedule your visit: <a href="tel:+254724980372" style="color:var(--f700);font-weight:600;">+254 724 980372</a></p></div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon"><i class="ph ph-clock"></i></div>
+            <div><h4>Visit Hours</h4><p>Monday &ndash; Saturday: 7:00 AM &ndash; 6:00 PM. Sundays by appointment.</p></div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon"><i class="ph ph-map-pin"></i></div>
+            <div><h4>Location</h4><p>Kenya Marble Quarry Road, Kajiado Central &mdash; approx. 1.5 hrs from Nairobi.</p></div>
+          </div>
+        </div>
+        <a href="location.html" class="btn btn-outline-green" style="margin-top:1.5rem;">Get Directions</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAYMENT METHODS -->
+<section class="section-white">
+  <div class="container text-center">
+    <p class="section-label">Payment</p>
+    <h2 class="section-title">Accepted Payment Methods</h2>
+    <p class="section-subtitle">We accept multiple secure payment methods for your convenience.</p>
+    <div class="payment-grid">
+      <div class="payment-card">
+        <div class="payment-icon"><i class="ph ph-device-mobile"></i></div>
+        <h3>M-Pesa</h3>
+        <p>Instant mobile money transfer. Most popular for Kenyan buyers &mdash; fast and reliable.</p>
+      </div>
+      <div class="payment-card">
+        <div class="payment-icon"><i class="ph ph-bank"></i></div>
+        <h3>Bank Transfer</h3>
+        <p>Direct bank transfer &mdash; preferred for large orders and corporate buyers.</p>
+      </div>
+      <div class="payment-card">
+        <div class="payment-icon"><i class="ph ph-money"></i></div>
+        <h3>Cash at Farm</h3>
+        <p>Cash payments accepted when collecting directly from the farm.</p>
+      </div>
+      <div class="payment-card">
+        <div class="payment-icon"><i class="ph ph-currency-bitcoin"></i></div>
+        <h3>Crypto</h3>
+        <p>Cryptocurrency payments accepted. Contact us for wallet details.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section-light">
+  <div class="container">
+    <div class="text-center"><p class="section-label">FAQ</p><h2 class="section-title">Frequently Asked Questions</h2></div>
+    <div style="max-width:760px;margin:2.5rem auto 0;">
+      <div class="faq-item">
+        <div class="faq-q">Do I need to visit the farm before buying? <span class="faq-arrow">&#8964;</span></div>
+        <div class="faq-a">A visit is not strictly required, but strongly recommended for livestock purchases &mdash; especially breeding stock. For fodder, most buyers confirm via phone and we arrange delivery.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What is the minimum order for delivery? <span class="faq-arrow">&#8964;</span></div>
+        <div class="faq-a">We deliver for bulk orders where the delivery cost is reasonable relative to the product value. Small individual orders are best collected directly from the farm. Contact us and we will advise based on your specific order.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How far do you deliver? <span class="faq-arrow">&#8964;</span></div>
+        <div class="faq-a">We deliver throughout Kajiado County and to Nairobi and surrounding areas. For longer distances, contact us and we will quote a delivery cost based on the order size and distance.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Are the animals health-certified? <span class="faq-arrow">&#8964;</span></div>
+        <div class="faq-a">Yes. All our animals are on structured health programs including vaccination, deworming, dipping, and regular vet checks. Health records and documentation are available on request.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I place a standing order for regular fodder supply? <span class="faq-arrow">&#8964;</span></div>
+        <div class="faq-a">Yes &mdash; we welcome regular supply arrangements for hay, napier, and silage. Contact our sales team to discuss volumes, frequency, and pricing for standing orders.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Do you export livestock internationally? <span class="faq-arrow">&#8964;</span></div>
+        <div class="faq-a">We work with licensed mutton exporters and can facilitate export-grade livestock supply. Contact us to discuss your export requirements.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2>Ready to Order?</h2>
+    <p>Contact us now and our team will guide you through the process.</p>
+    <div class="cta-buttons">
+      <a href="contact.html" class="btn btn-primary">Send an Enquiry</a>
+      <a href="https://wa.me/254724980372" target="_blank" rel="noopener" class="btn btn-outline">WhatsApp: +254 724 980372</a>
+    </div>
+  </div>
+</section>
+
+<div id="rf-footer"></div>
+<script src="js/layout.js"></script>
+</body>
+</html>
