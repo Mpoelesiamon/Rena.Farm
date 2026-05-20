@@ -145,6 +145,16 @@ async function signOutClient() {
   await db.auth.signOut()
 }
 
+async function signInWithGoogle(returnUrl = 'portal.html') {
+  const { error } = await db.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${window.location.origin}/login.html?return=${encodeURIComponent(returnUrl)}`,
+    }
+  })
+  return { error: error ?? null }
+}
+
 // Gate helper: if not logged in, redirect to login with return URL
 function requireAuth(returnUrl) {
   const url = returnUrl ?? window.location.href
