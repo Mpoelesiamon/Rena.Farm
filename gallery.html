@@ -455,7 +455,10 @@
   albums.forEach(({ cat, items: aItems }) => {
     const imgs   = aItems.slice(0, 4)
     const cls    = `p${Math.min(imgs.length, 4)}`
-    const thumbs = imgs.map(i => `<img src="${esc(i.thumbnail_url ?? i.media_url)}" alt="" loading="lazy" />`).join('')
+    const thumbs = imgs.map(i => {
+      const full = i.thumbnail_url ?? i.media_url
+      return `<img src="${esc(thumbUrl(full, 160))}" onerror="this.src='${esc(full)}';this.onerror=null" alt="" loading="lazy" />`
+    }).join('')
     const row = document.createElement('div')
     row.className = 'album-row'
     row.dataset.id = cat.id
@@ -500,13 +503,17 @@
     document.getElementById('photosPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }
 
-  /* ── Render photo grid ── */
+  /* ── Render photo grid — use resized thumbnails for fast loading ── */
   function renderGrid(photoItems) {
     photosGridEl.innerHTML = photoItems.map((item, idx) => {
-      const thumb = item.thumbnail_url ?? item.media_url
+      const full  = item.thumbnail_url ?? item.media_url
+      const small = thumbUrl(full, 480)
       return `
         <div class="photo-cell" data-idx="${idx}">
-          <img src="${esc(thumb)}" alt="${esc(item.title ?? '')}" loading="lazy" />
+          <img src="${esc(small)}"
+               onerror="this.src='${esc(full)}';this.onerror=null"
+               alt="${esc(item.title ?? '')}"
+               loading="lazy" decoding="async" />
           ${item.media_type === 'video' ? '<div class="vid-badge"><i class="ph ph-play"></i></div>' : ''}
         </div>`
     }).join('')
@@ -573,6 +580,15 @@
 
   function esc(s) {
     return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+  }
+
+  /* Serve a resized thumbnail via Supabase Storage image transform.
+     Falls back to the original URL via onerror if the plan doesn't support it. */
+  function thumbUrl(url, w = 500) {
+    if (!url) return url
+    const marker = '/storage/v1/object/public/'
+    if (!url.includes(marker)) return url
+    return url.replace(marker, '/storage/v1/render/image/public/') + `?width=${w}&quality=78&resize=contain`
   }
 
 })()
