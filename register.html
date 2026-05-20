@@ -7,106 +7,232 @@
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
   <style>
-    body { background:var(--f50); }
-    .auth-page { min-height:100vh; display:flex; flex-direction:column; }
-    .auth-wrap { flex:1; display:flex; align-items:center; justify-content:center; padding:2rem 1rem; }
-    .auth-card { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); padding:2.5rem; width:100%; max-width:440px; box-shadow:var(--shadow-md); }
-    .auth-brand { text-align:center; margin-bottom:2rem; }
-    .auth-brand-name { font-size:1.3rem; font-weight:800; color:var(--f950); letter-spacing:0.05em; text-transform:uppercase; }
-    .auth-brand-sub  { font-size:0.72rem; color:var(--f500); letter-spacing:0.12em; text-transform:uppercase; }
-    .auth-title { font-size:1.4rem; font-weight:800; color:var(--f950); margin-bottom:0.3rem; }
-    .auth-sub   { font-size:0.88rem; color:var(--gray-500); margin-bottom:1.8rem; }
-    .form-group { margin-bottom:1.1rem; }
-    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; }
+    /* Hide injected header/footer on auth pages */
+    #site-header, #site-footer, .whatsapp-float, .back-to-top { display:none !important; }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin:0; padding:0; min-height:100vh; background:#f3f4ef; font-family:'Inter',sans-serif; }
+
+    .auth-shell {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Photo panel (right on register) ── */
+    .auth-photo {
+      display: none;
+      position: relative;
+      overflow: hidden;
+      background-color: var(--f950);
+    }
+    @media (min-width:1024px) {
+      .auth-photo { display: flex; width: 45%; flex-shrink: 0; }
+    }
+    .auth-photo-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .auth-photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(225deg, rgba(7,30,7,0.82) 0%, rgba(7,30,7,0.55) 60%, rgba(7,30,7,0.35) 100%);
+    }
+    .auth-photo-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 3rem;
+      width: 100%;
+    }
+    .auth-photo-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .auth-photo-brand-logo {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--f500);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 800; font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .auth-photo-brand-name { color: #fff; font-weight: 700; font-size: 1rem; }
+    .auth-photo-brand-sub  { color: var(--f300); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 0.1rem; }
+    .auth-photo-headline   { color: #fff; font-size: clamp(1.8rem,3vw,2.6rem); font-weight: 900; line-height: 1.15; margin-bottom: 1rem; }
+    .auth-photo-sub        { color: rgba(255,255,255,0.65); font-size: 0.95rem; line-height: 1.7; max-width: 340px; }
+    .auth-photo-benefits   { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 2rem; }
+    .auth-photo-benefit    { display: flex; align-items: center; gap: 0.75rem; }
+    .auth-photo-benefit-icon { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .auth-photo-benefit-text { color: rgba(255,255,255,0.75); font-size: 0.85rem; }
+    .auth-photo-copy       { color: rgba(255,255,255,0.25); font-size: 0.72rem; }
+
+    /* ── Form panel (left on register) ── */
+    .auth-form-panel {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      background: #fff;
+      min-height: 100vh;
+      overflow-y: auto;
+    }
+    .auth-form-inner { width: 100%; max-width: 420px; padding: 1rem 0; }
+
+    /* Mobile brand */
+    .auth-mobile-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    @media (min-width:1024px) { .auth-mobile-brand { display:none; } }
+    .auth-mobile-logo {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--f900); display: flex; align-items: center;
+      justify-content: center; color: #fff; font-weight: 700;
+    }
+    .auth-mobile-brand-name { font-weight: 700; color: var(--f950); font-size: 0.95rem; }
+    .auth-mobile-brand-sub  { font-size: 0.65rem; color: var(--f500); letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* Form elements */
+    .auth-title { font-size: 1.6rem; font-weight: 800; color: var(--f950); margin-bottom: 0.3rem; }
+    .auth-sub   { font-size: 0.88rem; color: var(--gray-500); margin-bottom: 1.5rem; }
+    .form-row   { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    @media (max-width: 400px) { .form-row { grid-template-columns: 1fr; } }
+    .form-group { margin-bottom: 1rem; }
     .form-label { display:block; font-size:0.8rem; font-weight:700; color:var(--f700); margin-bottom:0.4rem; }
-    .form-input { width:100%; padding:0.8rem 1rem; border:2px solid var(--f100); border-radius:var(--radius-lg); font-size:0.9rem; font-family:'Inter',sans-serif; color:var(--f950); background:var(--white); transition:border-color 0.2s; box-sizing:border-box; }
+    .form-input { width:100%; padding:0.85rem 1rem; border:2px solid var(--f100); border-radius:12px; font-size:0.9rem; font-family:'Inter',sans-serif; color:var(--f950); background:#fff; transition:border-color 0.2s; }
     .form-input:focus { outline:none; border-color:var(--f500); }
     .form-input.error { border-color:#ef4444; }
-    .error-msg { font-size:0.78rem; color:#ef4444; margin-top:0.3rem; display:none; }
+    .error-msg { font-size:0.75rem; color:#ef4444; margin-top:0.3rem; display:none; }
     .error-msg.show { display:block; }
-    .auth-btn { width:100%; padding:0.9rem; font-size:1rem; font-weight:700; margin-top:0.5rem; }
-    .benefits { background:var(--f50); border-radius:var(--radius-lg); padding:1rem 1.2rem; margin-bottom:1.8rem; }
-    .benefits li { font-size:0.82rem; color:var(--f700); padding:0.25rem 0; display:flex; align-items:center; gap:0.5rem; }
-    .benefits li::before { content:'✓'; color:var(--f500); font-weight:700; }
-    .alert { padding:0.8rem 1rem; border-radius:var(--radius-lg); font-size:0.85rem; margin-bottom:1rem; display:none; }
+    .auth-btn { width:100%; padding:0.95rem; font-size:0.95rem; font-weight:700; margin-top:0.5rem; border-radius:12px; }
+    .alert { padding:0.85rem 1rem; border-radius:12px; font-size:0.85rem; margin-bottom:1rem; display:none; }
     .alert.show { display:block; }
-    .alert-error   { background:#fef2f2; border:1px solid #fecaca; color:#dc2626; }
+    .alert-error { background:#fef2f2; border:1px solid #fecaca; color:#dc2626; }
     .auth-divider { text-align:center; font-size:0.8rem; color:var(--gray-400); margin:1.2rem 0; position:relative; }
     .auth-divider::before { content:''; position:absolute; left:0; top:50%; right:0; height:1px; background:var(--f100); }
-    .auth-divider span { background:var(--white); padding:0 0.8rem; position:relative; }
-    .auth-footer { text-align:center; font-size:0.85rem; color:var(--gray-500); margin-top:1rem; }
+    .auth-divider span { background:#fff; padding:0 0.8rem; position:relative; }
+    .auth-footer { text-align:center; font-size:0.82rem; color:var(--gray-500); margin-top:1rem; }
     .auth-footer a { color:var(--f700); font-weight:600; text-decoration:none; }
-    @media (max-width:480px) { .form-row { grid-template-columns:1fr; } }
   </style>
 </head>
-<body class="auth-page">
+<body>
 <div id="rf-header"></div>
 
-<div class="auth-wrap">
-  <div class="auth-card">
-    <div class="auth-brand">
-      <div class="auth-brand-name">Rena Farm</div>
-      <div class="auth-brand-sub">Client Portal</div>
-    </div>
+<div class="auth-shell">
 
-    <div class="auth-title">Create your account</div>
-    <p class="auth-sub">Free to register. Takes 30 seconds.</p>
+  <!-- Form panel — LEFT on register -->
+  <div class="auth-form-panel">
+    <div class="auth-form-inner">
 
-    <ul class="benefits" style="list-style:none;margin:0 0 1.8rem;padding:0;">
-      <li>Track your enquiries and their status</li>
-      <li>Receive updates directly from the farm</li>
-      <li>Book products and manage orders</li>
-      <li>Message the farm team directly</li>
-    </ul>
-
-    <div class="alert alert-error" id="alertError"></div>
-
-    <form id="registerForm" novalidate>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label" for="firstName">First Name <span style="color:#ef4444">*</span></label>
-          <input class="form-input" type="text" id="firstName" placeholder="John" autocomplete="given-name" />
-          <div class="error-msg" id="errFirstName">Required.</div>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="lastName">Last Name <span style="color:#ef4444">*</span></label>
-          <input class="form-input" type="text" id="lastName" placeholder="Kamau" autocomplete="family-name" />
-          <div class="error-msg" id="errLastName">Required.</div>
+      <!-- Mobile logo -->
+      <div class="auth-mobile-brand">
+        <div class="auth-mobile-logo">R</div>
+        <div>
+          <div class="auth-mobile-brand-name">Rena Farm</div>
+          <div class="auth-mobile-brand-sub">Client Portal</div>
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-label" for="phone">Phone Number <span style="color:#ef4444">*</span></label>
-        <input class="form-input" type="tel" id="phone" placeholder="+254 7XX XXX XXX" autocomplete="tel" />
-        <div class="error-msg" id="errPhone">Enter a valid phone number.</div>
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="email">Email Address <span style="color:#ef4444">*</span></label>
-        <input class="form-input" type="email" id="email" placeholder="john@example.com" autocomplete="email" />
-        <div class="error-msg" id="errEmail">Enter a valid email.</div>
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="password">Password <span style="color:#ef4444">*</span></label>
-        <input class="form-input" type="password" id="password" placeholder="At least 8 characters" autocomplete="new-password" />
-        <div class="error-msg" id="errPassword">Password must be at least 8 characters.</div>
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="confirm">Confirm Password <span style="color:#ef4444">*</span></label>
-        <input class="form-input" type="password" id="confirm" placeholder="Repeat password" autocomplete="new-password" />
-        <div class="error-msg" id="errConfirm">Passwords do not match.</div>
-      </div>
-      <button type="submit" class="btn btn-primary auth-btn" id="registerBtn">
-        <i class="ph ph-user-plus"></i> Create Account
-      </button>
-    </form>
 
-    <div class="auth-divider"><span>Already have an account?</span></div>
-    <a href="" id="loginLink" class="btn btn-outline" style="width:100%;justify-content:center;text-align:center;">
-      Sign In
-    </a>
-    <div class="auth-footer" style="margin-top:1rem;">
-      <a href="products.html#listings">← Back to Products</a>
+      <h1 class="auth-title">Create your account</h1>
+      <p class="auth-sub">Free to register. Takes 30 seconds.</p>
+
+      <div class="alert alert-error" id="alertError"></div>
+
+      <form id="registerForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="firstName">First Name <span style="color:#ef4444">*</span></label>
+            <input class="form-input" type="text" id="firstName" placeholder="John" autocomplete="given-name" />
+            <div class="error-msg" id="errFirstName">Required.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="lastName">Last Name <span style="color:#ef4444">*</span></label>
+            <input class="form-input" type="text" id="lastName" placeholder="Kamau" autocomplete="family-name" />
+            <div class="error-msg" id="errLastName">Required.</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="phone">Phone Number <span style="color:#ef4444">*</span></label>
+          <input class="form-input" type="tel" id="phone" placeholder="+254 7XX XXX XXX" autocomplete="tel" />
+          <div class="error-msg" id="errPhone">Enter a valid phone number.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="email">Email Address <span style="color:#ef4444">*</span></label>
+          <input class="form-input" type="email" id="email" placeholder="john@example.com" autocomplete="email" />
+          <div class="error-msg" id="errEmail">Enter a valid email.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="password">Password <span style="color:#ef4444">*</span></label>
+          <input class="form-input" type="password" id="password" placeholder="At least 8 characters" autocomplete="new-password" />
+          <div class="error-msg" id="errPassword">Password must be at least 8 characters.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="confirm">Confirm Password <span style="color:#ef4444">*</span></label>
+          <input class="form-input" type="password" id="confirm" placeholder="Repeat password" autocomplete="new-password" />
+          <div class="error-msg" id="errConfirm">Passwords do not match.</div>
+        </div>
+        <button type="submit" class="btn btn-primary auth-btn" id="registerBtn">
+          <i class="ph ph-user-plus"></i> Create Account
+        </button>
+      </form>
+
+      <div class="auth-divider"><span>Already have an account?</span></div>
+      <a href="" id="loginLink" class="btn btn-outline" style="width:100%;justify-content:center;text-align:center;">
+        Sign In
+      </a>
+      <div class="auth-footer" style="margin-top:1rem;">
+        <a href="products.html#listings">← Back to Products</a>
+      </div>
     </div>
   </div>
+
+  <!-- Photo panel — RIGHT on register -->
+  <div class="auth-photo">
+    <img class="auth-photo-bg" src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-rams/dorper-ram-01.jpg" alt="Rena Farm" />
+    <div class="auth-photo-overlay"></div>
+    <div class="auth-photo-content">
+      <div class="auth-photo-brand">
+        <div class="auth-photo-brand-logo">R</div>
+        <div>
+          <div class="auth-photo-brand-name">Rena Farm</div>
+          <div class="auth-photo-brand-sub">Client Portal</div>
+        </div>
+      </div>
+      <div>
+        <h1 class="auth-photo-headline">Welcome to<br>Rena Farm.</h1>
+        <p class="auth-photo-sub">Cultivating sustainability, enriching lives — Kajiado Central, Kenya.</p>
+        <div class="auth-photo-benefits">
+          <div class="auth-photo-benefit">
+            <div class="auth-photo-benefit-icon"><i class="ph ph-list-checks" style="color:#fff;font-size:0.85rem;"></i></div>
+            <div class="auth-photo-benefit-text">Track your enquiries and their status</div>
+          </div>
+          <div class="auth-photo-benefit">
+            <div class="auth-photo-benefit-icon"><i class="ph ph-bell" style="color:#fff;font-size:0.85rem;"></i></div>
+            <div class="auth-photo-benefit-text">Receive updates directly from the farm</div>
+          </div>
+          <div class="auth-photo-benefit">
+            <div class="auth-photo-benefit-icon"><i class="ph ph-shopping-bag" style="color:#fff;font-size:0.85rem;"></i></div>
+            <div class="auth-photo-benefit-text">Book products and manage orders</div>
+          </div>
+          <div class="auth-photo-benefit">
+            <div class="auth-photo-benefit-icon"><i class="ph ph-chat-circle" style="color:#fff;font-size:0.85rem;"></i></div>
+            <div class="auth-photo-benefit-text">Message the farm team directly</div>
+          </div>
+        </div>
+      </div>
+      <p class="auth-photo-copy">© 2025 Rena Global Merchants Ltd — Kajiado Central, Kenya</p>
+    </div>
+  </div>
+
 </div>
 
 <div id="rf-footer"></div>

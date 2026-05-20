@@ -7,80 +7,196 @@
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
   <style>
-    body { background:var(--f50); }
-    .auth-page { min-height:100vh; display:flex; flex-direction:column; }
-    .auth-wrap { flex:1; display:flex; align-items:center; justify-content:center; padding:2rem 1rem; }
-    .auth-card { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); padding:2.5rem; width:100%; max-width:420px; box-shadow:var(--shadow-md); }
-    .auth-brand { text-align:center; margin-bottom:2rem; }
-    .auth-brand-name { font-size:1.3rem; font-weight:800; color:var(--f950); letter-spacing:0.05em; text-transform:uppercase; }
-    .auth-brand-sub  { font-size:0.72rem; color:var(--f500); letter-spacing:0.12em; text-transform:uppercase; }
-    .auth-title { font-size:1.4rem; font-weight:800; color:var(--f950); margin-bottom:0.3rem; }
-    .auth-sub   { font-size:0.88rem; color:var(--gray-500); margin-bottom:1.8rem; }
-    .form-group { margin-bottom:1.1rem; }
+    /* Hide injected header/footer on auth pages */
+    #site-header, #site-footer, .whatsapp-float, .back-to-top { display:none !important; }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin:0; padding:0; min-height:100vh; background:#f3f4ef; font-family:'Inter',sans-serif; }
+
+    .auth-shell {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Photo panel (left on login) ── */
+    .auth-photo {
+      display: none;
+      position: relative;
+      overflow: hidden;
+      background-color: var(--f950);
+    }
+    @media (min-width:1024px) {
+      .auth-photo { display: flex; width: 55%; flex-shrink: 0; }
+    }
+    .auth-photo-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .auth-photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(7,30,7,0.82) 0%, rgba(7,30,7,0.55) 60%, rgba(7,30,7,0.35) 100%);
+    }
+    .auth-photo-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 3rem;
+      width: 100%;
+    }
+    .auth-photo-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .auth-photo-brand-logo {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--f500);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 800; font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .auth-photo-brand-name { color: #fff; font-weight: 700; font-size: 1rem; }
+    .auth-photo-brand-sub  { color: var(--f300); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 0.1rem; }
+    .auth-photo-headline   { color: #fff; font-size: clamp(1.8rem,3vw,2.6rem); font-weight: 900; line-height: 1.15; margin-bottom: 1rem; }
+    .auth-photo-sub        { color: rgba(255,255,255,0.65); font-size: 0.95rem; line-height: 1.7; max-width: 340px; }
+    .auth-photo-stats      { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.12); }
+    .auth-photo-stat-num   { color: #fff; font-size: 1.6rem; font-weight: 800; }
+    .auth-photo-stat-lbl   { color: rgba(255,255,255,0.45); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.2rem; }
+    .auth-photo-copy       { color: rgba(255,255,255,0.25); font-size: 0.72rem; }
+
+    /* ── Form panel (right on login) ── */
+    .auth-form-panel {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      background: #fff;
+      min-height: 100vh;
+    }
+    .auth-form-inner { width: 100%; max-width: 400px; }
+
+    /* Mobile brand */
+    .auth-mobile-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    @media (min-width:1024px) { .auth-mobile-brand { display:none; } }
+    .auth-mobile-logo {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--f900); display: flex; align-items: center;
+      justify-content: center; color: #fff; font-weight: 700;
+    }
+    .auth-mobile-brand-name { font-weight: 700; color: var(--f950); font-size: 0.95rem; }
+    .auth-mobile-brand-sub  { font-size: 0.65rem; color: var(--f500); letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* Form elements */
+    .auth-title { font-size: 1.6rem; font-weight: 800; color: var(--f950); margin-bottom: 0.3rem; }
+    .auth-sub   { font-size: 0.88rem; color: var(--gray-500); margin-bottom: 2rem; }
+    .form-group { margin-bottom: 1.1rem; }
     .form-label { display:block; font-size:0.8rem; font-weight:700; color:var(--f700); margin-bottom:0.4rem; }
-    .form-input { width:100%; padding:0.8rem 1rem; border:2px solid var(--f100); border-radius:var(--radius-lg); font-size:0.9rem; font-family:'Inter',sans-serif; color:var(--f950); background:var(--white); transition:border-color 0.2s; box-sizing:border-box; }
+    .form-input { width:100%; padding:0.85rem 1rem; border:2px solid var(--f100); border-radius:12px; font-size:0.9rem; font-family:'Inter',sans-serif; color:var(--f950); background:#fff; transition:border-color 0.2s; }
     .form-input:focus { outline:none; border-color:var(--f500); }
     .form-input.error { border-color:#ef4444; }
-    .error-msg { font-size:0.78rem; color:#ef4444; margin-top:0.3rem; display:none; }
+    .error-msg { font-size:0.75rem; color:#ef4444; margin-top:0.3rem; display:none; }
     .error-msg.show { display:block; }
-    .auth-btn { width:100%; padding:0.9rem; font-size:1rem; font-weight:700; margin-top:0.5rem; }
-    .auth-divider { text-align:center; font-size:0.8rem; color:var(--gray-400); margin:1.2rem 0; position:relative; }
-    .auth-divider::before { content:''; position:absolute; left:0; top:50%; right:0; height:1px; background:var(--f100); }
-    .auth-divider span { background:var(--white); padding:0 0.8rem; position:relative; }
-    .auth-footer { text-align:center; font-size:0.85rem; color:var(--gray-500); margin-top:1.5rem; }
-    .auth-footer a { color:var(--f700); font-weight:600; text-decoration:none; }
-    .auth-footer a:hover { color:var(--f900); }
-    .alert { padding:0.8rem 1rem; border-radius:var(--radius-lg); font-size:0.85rem; margin-bottom:1rem; display:none; }
+    .auth-btn { width:100%; padding:0.95rem; font-size:0.95rem; font-weight:700; margin-top:0.5rem; border-radius:12px; }
+    .alert { padding:0.85rem 1rem; border-radius:12px; font-size:0.85rem; margin-bottom:1rem; display:none; }
     .alert.show { display:block; }
-    .alert-error   { background:#fef2f2; border:1px solid #fecaca; color:#dc2626; }
-    .alert-success { background:#f0fdf4; border:1px solid #bbf7d0; color:#16a34a; }
-    .return-notice { background:var(--f50); border:1px solid var(--f100); border-radius:var(--radius-lg); padding:0.8rem 1rem; font-size:0.82rem; color:var(--f700); margin-bottom:1.5rem; display:flex; align-items:center; gap:0.5rem; }
+    .alert-error { background:#fef2f2; border:1px solid #fecaca; color:#dc2626; }
+    .auth-divider { text-align:center; font-size:0.8rem; color:var(--gray-400); margin:1.4rem 0; position:relative; }
+    .auth-divider::before { content:''; position:absolute; left:0; top:50%; right:0; height:1px; background:var(--f100); }
+    .auth-divider span { background:#fff; padding:0 0.8rem; position:relative; }
+    .auth-footer { text-align:center; font-size:0.82rem; color:var(--gray-500); margin-top:1rem; }
+    .auth-footer a { color:var(--f700); font-weight:600; text-decoration:none; }
+    .return-notice { background:var(--f50); border:1px solid var(--f100); border-radius:12px; padding:0.75rem 1rem; font-size:0.82rem; color:var(--f700); margin-bottom:1.5rem; display:flex; align-items:center; gap:0.5rem; }
   </style>
 </head>
-<body class="auth-page">
+<body>
 <div id="rf-header"></div>
 
-<div class="auth-wrap">
-  <div class="auth-card">
-    <div class="auth-brand">
-      <div class="auth-brand-name">Rena Farm</div>
-      <div class="auth-brand-sub">Client Portal</div>
-    </div>
+<div class="auth-shell">
 
-    <div id="returnNotice" class="return-notice" style="display:none;">
-      <i class="ph ph-lock"></i>
-      <span>Sign in to continue with your request</span>
-    </div>
-
-    <div class="auth-title">Welcome back</div>
-    <p class="auth-sub">Sign in to your Rena Farm account to track enquiries and orders.</p>
-
-    <div class="alert alert-error" id="alertError"></div>
-
-    <form id="loginForm" novalidate>
-      <div class="form-group">
-        <label class="form-label" for="email">Email Address</label>
-        <input class="form-input" type="email" id="email" placeholder="john@example.com" autocomplete="email" />
-        <div class="error-msg" id="errEmail">Please enter a valid email address.</div>
+  <!-- Photo panel — LEFT on login -->
+  <div class="auth-photo">
+    <img class="auth-photo-bg" src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-05.jpg" alt="Rena Farm" />
+    <div class="auth-photo-overlay"></div>
+    <div class="auth-photo-content">
+      <div class="auth-photo-brand">
+        <div class="auth-photo-brand-logo">R</div>
+        <div>
+          <div class="auth-photo-brand-name">Rena Farm</div>
+          <div class="auth-photo-brand-sub">Client Portal</div>
+        </div>
       </div>
-      <div class="form-group">
-        <label class="form-label" for="password">Password</label>
-        <input class="form-input" type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
-        <div class="error-msg" id="errPassword">Please enter your password.</div>
+      <div>
+        <h1 class="auth-photo-headline">Your farm,<br>your journey.</h1>
+        <p class="auth-photo-sub">Track your enquiries, communicate with our team, and manage your orders — all in one place.</p>
+        <div class="auth-photo-stats">
+          <div><div class="auth-photo-stat-num">110+</div><div class="auth-photo-stat-lbl">Acres</div></div>
+          <div><div class="auth-photo-stat-num">750</div><div class="auth-photo-stat-lbl">Capacity</div></div>
+          <div><div class="auth-photo-stat-num">2018</div><div class="auth-photo-stat-lbl">Est.</div></div>
+        </div>
       </div>
-      <button type="submit" class="btn btn-primary auth-btn" id="loginBtn">
-        <i class="ph ph-sign-in"></i> Sign In
-      </button>
-    </form>
+      <p class="auth-photo-copy">© 2025 Rena Global Merchants Ltd — Kajiado Central, Kenya</p>
+    </div>
+  </div>
 
-    <div class="auth-divider"><span>Don't have an account?</span></div>
+  <!-- Form panel — RIGHT on login -->
+  <div class="auth-form-panel">
+    <div class="auth-form-inner">
 
-    <a href="" id="registerLink" class="btn btn-outline" style="width:100%;justify-content:center;text-align:center;">
-      Create a Free Account
-    </a>
+      <!-- Mobile logo -->
+      <div class="auth-mobile-brand">
+        <div class="auth-mobile-logo">R</div>
+        <div>
+          <div class="auth-mobile-brand-name">Rena Farm</div>
+          <div class="auth-mobile-brand-sub">Client Portal</div>
+        </div>
+      </div>
 
-    <div class="auth-footer" style="margin-top:1rem;">
-      <a href="products.html#listings">← Back to Products</a>
+      <div id="returnNotice" class="return-notice" style="display:none;">
+        <i class="ph ph-lock"></i>
+        <span>Sign in to continue with your request</span>
+      </div>
+
+      <h1 class="auth-title">Welcome back</h1>
+      <p class="auth-sub">Sign in to your Rena Farm client account.</p>
+
+      <div class="alert alert-error" id="alertError"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="email">Email Address</label>
+          <input class="form-input" type="email" id="email" placeholder="john@example.com" autocomplete="email" />
+          <div class="error-msg" id="errEmail">Please enter a valid email address.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input class="form-input" type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+          <div class="error-msg" id="errPassword">Please enter your password.</div>
+        </div>
+        <button type="submit" class="btn btn-primary auth-btn" id="loginBtn">
+          <i class="ph ph-sign-in"></i> Sign In
+        </button>
+      </form>
+
+      <div class="auth-divider"><span>New to Rena Farm?</span></div>
+      <a href="" id="registerLink" class="btn btn-outline" style="width:100%;justify-content:center;text-align:center;">
+        Create a Free Account
+      </a>
+      <div class="auth-footer" style="margin-top:1.2rem;">
+        <a href="products.html#listings">← Back to Products</a>
+      </div>
     </div>
   </div>
 </div>
@@ -93,15 +209,12 @@
 const params     = new URLSearchParams(window.location.search)
 const returnUrl  = params.get('return') ?? 'portal.html'
 
-// Show return notice if redirected
 if (params.get('return')) {
   document.getElementById('returnNotice').style.display = 'flex'
 }
 
-// Set register link to preserve return URL
 document.getElementById('registerLink').href = `register.html?return=${encodeURIComponent(returnUrl)}`
 
-// If already logged in, redirect
 getClientSession().then(session => {
   if (session) window.location.href = returnUrl
 })
@@ -134,7 +247,6 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     btn.disabled = false
     btn.innerHTML = '<i class="ph ph-sign-in"></i> Sign In'
   } else {
-    // Ensure client_profile row exists
     if (session?.user) {
       await db.from('client_profiles').upsert({
         id: session.user.id,
