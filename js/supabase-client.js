@@ -198,6 +198,27 @@ async function loadClientEnquiries() {
   return data ?? []
 }
 
+// ── Gallery: categories ──
+async function loadGalleryCategories() {
+  const { data } = await db.from('gallery_categories')
+    .select('*')
+    .eq('is_active', true)
+    .order('sort_order')
+  return data ?? []
+}
+
+// ── Gallery: items (optionally filtered by category) ──
+async function loadGalleryItems(categoryId = null) {
+  let q = db.from('gallery_items')
+    .select('*, gallery_categories(id, name, slug)')
+    .eq('is_published', true)
+    .order('sort_order')
+    .order('created_at', { ascending: false })
+  if (categoryId) q = q.eq('category_id', categoryId)
+  const { data } = await q
+  return data ?? []
+}
+
 // ── Format date ──
 function fmtDate(d) {
   if (!d) return ''
