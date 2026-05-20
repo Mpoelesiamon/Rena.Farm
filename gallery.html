@@ -67,10 +67,8 @@
       padding: 0.4rem;
       border-radius: 10px;
       cursor: pointer;
-      transition: background 0.18s;
       margin-bottom: 0.3rem;
     }
-    .album-row:hover { background: var(--f50); }
     .album-row.active { background: var(--f100); }
 
     /* Full-width 2×2 collage thumbnail */
@@ -83,9 +81,9 @@
       gap: 2px;
       background: var(--f100);
       margin-bottom: 0.45rem;
-      transition: opacity 0.15s;
+      transition: transform 0.22s ease;
     }
-    .album-row:hover .album-row-thumb { opacity: 0.9; }
+    .album-row:hover .album-row-thumb { transform: scale(0.97); }
     .album-row-thumb.p1 { grid-template-columns: 1fr; }
     .album-row-thumb.p2 { grid-template-columns: 1fr 1fr; }
     .album-row-thumb.p3 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
@@ -113,8 +111,6 @@
     /* ── Right: photos panel ── */
     .gallery-photos-panel {
       min-height: calc(100vh - var(--nav-h));
-      display: flex;
-      flex-direction: column;
     }
 
     /* Sticky header inside photos panel — shows album name */
@@ -135,12 +131,11 @@
     .ppb-count { font-size: 0.78rem; color: var(--gray-500); }
     .ppb-sep   { color: var(--f200); font-size: 0.8rem; }
 
-    /* Photo grid — CSS columns masonry, thin border, no rounded corners */
+    /* Photo grid — narrow auto-count columns, images at natural aspect ratio (no crop) */
     .photos-grid {
-      columns: 4;
+      columns: 160px; /* browser picks column count: ~6-7 on desktop */
       column-gap: 2px;
       padding: 2px;
-      flex: 1;
     }
     .photo-cell {
       break-inside: avoid;
@@ -153,11 +148,12 @@
       border: 1px solid rgba(0,0,0,0.07);
     }
     .photo-cell img {
-      width: 100%; height: auto;
+      width: 100%;
+      height: auto;      /* natural aspect ratio — no cropping */
       display: block;
-      transition: transform 0.4s ease;
+      transition: transform 0.35s ease;
     }
-    .photo-cell:hover img { transform: scale(1.04); }
+    .photo-cell:hover img { transform: scale(1.03); }
     .photo-cell .vid-badge {
       position: absolute; bottom: 0.5rem; left: 0.5rem;
       background: rgba(0,0,0,0.52);
@@ -167,12 +163,11 @@
       pointer-events: none;
     }
 
-    /* Photos panel skeleton — column masonry to match */
+    /* Photos panel skeleton — matches narrow column masonry */
     .photos-grid-skel {
-      columns: 4;
+      columns: 160px;
       column-gap: 2px;
       padding: 2px;
-      flex: 1;
     }
     .photo-skel {
       break-inside: avoid;
@@ -197,7 +192,7 @@
     .gallery-empty {
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      text-align: center; padding: 5rem 2rem; flex: 1;
+      text-align: center; padding: 5rem 2rem;
     }
     .gallery-empty-icon { font-size: 3.5rem; color: var(--f200); margin-bottom: 1.2rem; }
     .gallery-empty h3 { color: var(--f950); margin-bottom: 0.5rem; }
@@ -259,8 +254,7 @@
     /* ── Tablet (≤1024px) ── */
     @media (max-width: 1024px) {
       .gallery-body { grid-template-columns: 200px 1fr; }
-      .photos-grid { columns: 3; }
-      .photos-grid-skel { columns: 3; }
+      /* columns: 160px auto-adapts — no override needed */
     }
 
     /* ── Mobile (≤768px): stacked, albums become 2-column card grid at top ── */
@@ -300,9 +294,9 @@
       #albumsSkel { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; }
       .panel-skel-row { padding: 0.25rem; margin-bottom: 0; }
 
-      /* Photos: 2-col masonry on mobile */
-      .photos-grid { columns: 2; }
-      .photos-grid-skel { columns: 2; }
+      /* Narrower columns on mobile so images stay compact */
+      .photos-grid { columns: 120px; }
+      .photos-grid-skel { columns: 120px; }
 
       .lb-nav { display: none; }
     }
