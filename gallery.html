@@ -8,139 +8,196 @@
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
   <style>
-    /* ── Filter tabs ── */
-    .gallery-filters {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 2.5rem;
-    }
-    .gf-btn {
-      padding: 0.5rem 1.3rem;
-      border-radius: 50px;
-      border: 1.5px solid var(--f200);
-      background: var(--white);
-      color: var(--f700);
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
-      white-space: nowrap;
-    }
-    .gf-btn:hover  { border-color: var(--f500); color: var(--f900); }
-    .gf-btn.active { background: var(--f950); border-color: var(--f950); color: var(--white); }
 
-    /* ── Gallery grid ── */
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.75rem;
+    /* ── Page hero (compact) ── */
+    .gallery-page-hero {
+      padding: 3rem 0 2.5rem;
+      background: var(--f950);
+      color: var(--white);
+      text-align: center;
     }
+    .gallery-page-hero h1 { color: var(--white); margin-bottom: 0.4rem; }
+    .gallery-page-hero p  { color: var(--f300); font-size: 0.95rem; }
 
-    /* ── Gallery card ── */
-    .gallery-card {
-      position: relative;
-      aspect-ratio: 4 / 3;
-      border-radius: 12px;
+    /* ── Mosaic hero ── */
+    .mosaic-wrap {
+      margin-bottom: 3.5rem;
+      border-radius: 20px;
       overflow: hidden;
-      cursor: pointer;
-      background: var(--f50);
     }
-    .gallery-card img {
+    .gallery-mosaic {
+      display: grid;
+      grid-template-areas:
+        "big a b"
+        "big c d";
+      grid-template-columns: 1.9fr 1fr 1fr;
+      grid-template-rows: 270px 195px;
+      gap: 6px;
+    }
+    .mosaic-item { overflow: hidden; }
+    .mosaic-item img {
       width: 100%; height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.45s ease;
+      transition: transform 0.6s ease;
     }
-    .gallery-card:hover img { transform: scale(1.07); }
+    .mosaic-item:hover img { transform: scale(1.05); }
+    .mosaic-item:nth-child(1) { grid-area: big; }
+    .mosaic-item:nth-child(2) { grid-area: a; }
+    .mosaic-item:nth-child(3) { grid-area: b; }
+    .mosaic-item:nth-child(4) { grid-area: c; }
+    .mosaic-item:nth-child(5) { grid-area: d; }
 
-    /* Overlay — slides up on hover */
-    .gallery-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(7,30,7,0.88) 0%, rgba(7,30,7,0.35) 45%, transparent 72%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 1rem;
-    }
-    .gallery-card:hover .gallery-overlay { opacity: 1; }
-    .gallery-cat-badge {
-      font-size: 0.64rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--f300);
-      margin-bottom: 0.3rem;
-    }
-    .gallery-item-title {
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: #fff;
-      line-height: 1.3;
-    }
-
-    /* Video play badge */
-    .gallery-play {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 52px; height: 52px;
-      background: rgba(255,255,255,0.9);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
+    /* ── Albums landing ── */
+    .albums-heading {
+      font-size: 1.35rem;
+      font-weight: 800;
       color: var(--f950);
-      font-size: 1.3rem;
-      pointer-events: none;
-      transition: transform 0.2s ease, background 0.2s ease;
+      margin-bottom: 1.25rem;
     }
-    .gallery-card:hover .gallery-play {
-      transform: translate(-50%, -50%) scale(1.12);
-      background: #fff;
+    .albums-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
     }
+    .album-card {
+      cursor: pointer;
+      transition: transform 0.25s ease;
+    }
+    .album-card:hover { transform: translateY(-5px); }
+    .album-card:hover .album-preview { box-shadow: 0 12px 32px rgba(7,30,7,0.18); }
 
-    /* Team portrait cards — taller */
-    .gallery-card.portrait { aspect-ratio: 2 / 3; }
-    .gallery-card.portrait .gallery-name-tag {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      background: linear-gradient(to top, rgba(7,30,7,0.92) 0%, transparent 100%);
-      padding: 1.5rem 1rem 0.9rem;
-      opacity: 1;
+    /* Album preview collage */
+    .album-preview {
+      aspect-ratio: 1;
+      border-radius: 16px;
+      overflow: hidden;
+      display: grid;
+      gap: 2px;
+      background: var(--f100);
+      margin-bottom: 0.75rem;
+      transition: box-shadow 0.3s ease;
+      box-shadow: 0 4px 16px rgba(7,30,7,0.1);
     }
-    .gallery-card.portrait .gallery-name-tag .gallery-item-title { font-size: 0.9rem; }
-    .gallery-card.portrait .gallery-overlay { display: none; }
+    .album-preview.p1 { grid-template-columns: 1fr; }
+    .album-preview.p2 { grid-template-columns: 1fr 1fr; }
+    .album-preview.p3 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+    .album-preview.p3 img:first-child { grid-column: 1 / -1; }
+    .album-preview.p4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+    .album-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    /* ── Skeleton loader ── */
-    .gallery-skeleton {
+    .album-title { font-size: 0.92rem; font-weight: 700; color: var(--f950); margin-bottom: 0.15rem; }
+    .album-count { font-size: 0.78rem; color: var(--gray-500); }
+
+    /* ── Album detail view ── */
+    .album-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--f100);
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: none;
+      border: 1.5px solid var(--f200);
+      border-radius: 50px;
+      padding: 0.45rem 1rem;
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--f700);
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+      font-family: 'Inter', sans-serif;
+    }
+    .back-btn:hover { border-color: var(--f600); color: var(--f950); background: var(--f50); }
+    .album-nav-title { font-size: 1.4rem; font-weight: 800; color: var(--f950); flex: 1; }
+    .album-nav-count { font-size: 0.85rem; color: var(--gray-500); flex-shrink: 0; }
+
+    /* Square photo grid */
+    .album-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 0.75rem;
+      gap: 4px;
+    }
+    .ag-item {
+      aspect-ratio: 1;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      background: var(--f50);
+    }
+    .ag-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .ag-item:hover img { transform: scale(1.04); }
+    .ag-item .ag-video-badge {
+      position: absolute;
+      bottom: 0.45rem;
+      left: 0.45rem;
+      background: rgba(0,0,0,0.52);
+      border-radius: 50px;
+      width: 26px; height: 26px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 0.72rem;
+      pointer-events: none;
+    }
+
+    /* ── Skeleton ── */
+    .gallery-skeleton {
+      display: grid;
+      grid-template-columns: 1.9fr 1fr 1fr;
+      grid-template-rows: 270px 195px;
+      gap: 6px;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 3.5rem;
     }
     .g-skel {
-      aspect-ratio: 4 / 3;
-      border-radius: 12px;
       background: linear-gradient(90deg, var(--f50) 25%, var(--f100) 50%, var(--f50) 75%);
       background-size: 200% 100%;
       animation: shimmer 1.4s infinite;
     }
+    .g-skel:first-child { grid-row: 1 / 3; }
     @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+    /* Albums skeleton */
+    .albums-skeleton {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .album-skel-card { }
+    .album-skel-img {
+      aspect-ratio: 1;
+      border-radius: 16px;
+      background: linear-gradient(90deg, var(--f50) 25%, var(--f100) 50%, var(--f50) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      margin-bottom: 0.65rem;
+    }
+    .album-skel-text {
+      height: 14px; width: 70%;
+      border-radius: 6px;
+      background: var(--f100);
+      margin-bottom: 0.4rem;
+    }
+    .album-skel-sub { height: 11px; width: 40%; border-radius: 6px; background: var(--f50); }
 
     /* ── Empty state ── */
     .gallery-empty {
       text-align: center;
       padding: 5rem 2rem;
     }
-    .gallery-empty-icon {
-      font-size: 3.5rem;
-      color: var(--f200);
-      display: block;
-      margin-bottom: 1.2rem;
-    }
+    .gallery-empty-icon { font-size: 3.5rem; color: var(--f200); display: block; margin-bottom: 1.2rem; }
     .gallery-empty h3 { color: var(--f950); margin-bottom: 0.5rem; }
     .gallery-empty p  { color: var(--gray-500); font-size: 0.9rem; max-width: 380px; margin: 0 auto 1.5rem; }
     .gallery-empty-social { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
@@ -148,8 +205,7 @@
     /* ── Lightbox ── */
     .lightbox {
       display: none;
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background: rgba(0,0,0,0.96);
       z-index: 2000;
       align-items: center;
@@ -157,7 +213,6 @@
       padding: 1rem;
     }
     .lightbox.open { display: flex; }
-
     .lb-inner {
       position: relative;
       display: flex;
@@ -166,63 +221,45 @@
       max-width: min(90vw, 1000px);
       width: 100%;
     }
-    .lb-img-wrap {
-      position: relative;
-      width: 100%;
-      display: flex;
-      justify-content: center;
+    .lb-img-wrap { width: 100%; display: flex; justify-content: center; position: relative; }
+    .lb-img-wrap img { max-width: 100%; max-height: 74vh; object-fit: contain; border-radius: 8px; display: block; }
+    .lb-video-btn {
+      position: absolute;
+      inset: 0; display: flex;
+      align-items: center; justify-content: center;
     }
-    .lb-img-wrap img {
-      max-width: 100%;
-      max-height: 72vh;
-      object-fit: contain;
-      border-radius: 8px;
-      display: block;
+    .lb-watch-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(255,255,255,0.15);
+      border: 1.5px solid rgba(255,255,255,0.4);
+      color: #fff; border-radius: 50px;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.9rem; font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
     }
-    .lb-info {
-      text-align: center;
-      padding: 0.9rem 1rem 0;
-      width: 100%;
-    }
-    .lb-cat-label {
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--f300);
-      margin-bottom: 0.35rem;
-    }
-    .lb-title   { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.25rem; }
-    .lb-caption { font-size: 0.83rem; color: rgba(255,255,255,0.55); }
-    .lb-counter { font-size: 0.75rem; color: rgba(255,255,255,0.35); margin-top: 0.5rem; }
-
-    /* Close */
+    .lb-watch-btn:hover { background: rgba(255,255,255,0.28); }
+    .lb-info { text-align: center; padding: 0.8rem 1rem 0; width: 100%; }
+    .lb-cat-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--f300); margin-bottom: 0.3rem; }
+    .lb-title   { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.2rem; }
+    .lb-caption { font-size: 0.82rem; color: rgba(255,255,255,0.5); }
+    .lb-counter { font-size: 0.72rem; color: rgba(255,255,255,0.3); margin-top: 0.45rem; }
     .lb-close {
-      position: fixed;
-      top: 1.2rem; right: 1.2rem;
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.12);
-      border: none; color: #fff;
+      position: fixed; top: 1.2rem; right: 1.2rem;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(255,255,255,0.12); border: none; color: #fff;
       font-size: 1.4rem; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s;
-      z-index: 2001;
+      transition: background 0.2s; z-index: 2001;
     }
     .lb-close:hover { background: rgba(255,255,255,0.25); }
-
-    /* Prev / Next */
     .lb-nav {
-      position: fixed;
-      top: 50%; transform: translateY(-50%);
-      width: 48px; height: 48px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.12);
-      border: none; color: #fff;
+      position: fixed; top: 50%; transform: translateY(-50%);
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(255,255,255,0.12); border: none; color: #fff;
       font-size: 1.6rem; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s;
-      z-index: 2001;
+      transition: background 0.2s; z-index: 2001;
     }
     .lb-nav:hover  { background: rgba(255,255,255,0.25); }
     .lb-nav:disabled { opacity: 0.2; pointer-events: none; }
@@ -235,15 +272,41 @@
     .cta-section p  { color: var(--f200); max-width: 500px; margin: 0 auto 2rem; }
 
     /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .albums-grid { grid-template-columns: repeat(3, 1fr); }
+    }
     @media (max-width: 900px) {
-      .gallery-grid, .gallery-skeleton { grid-template-columns: repeat(2, 1fr); }
+      .gallery-mosaic {
+        grid-template-areas: "big a" "big c";
+        grid-template-columns: 1.4fr 1fr;
+        grid-template-rows: 200px 155px;
+      }
+      .gallery-mosaic .mosaic-item:nth-child(3),
+      .gallery-mosaic .mosaic-item:nth-child(5) { display: none; }
+      .gallery-skeleton {
+        grid-template-columns: 1.4fr 1fr;
+        grid-template-rows: 200px 155px;
+      }
+      .gallery-skeleton .g-skel:nth-child(3),
+      .gallery-skeleton .g-skel:nth-child(5) { display: none; }
     }
-    @media (max-width: 600px) {
-      .gallery-grid, .gallery-skeleton { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
-      .lb-nav { display: none; } /* swipe on mobile instead */
-    }
-    @media (max-width: 380px) {
-      .gallery-grid, .gallery-skeleton { grid-template-columns: 1fr; }
+    @media (max-width: 640px) {
+      .gallery-mosaic {
+        grid-template-columns: 1.2fr 1fr;
+        grid-template-rows: 155px 120px;
+        gap: 4px;
+      }
+      .gallery-skeleton {
+        grid-template-columns: 1.2fr 1fr;
+        grid-template-rows: 155px 120px;
+        gap: 4px;
+      }
+      .mosaic-wrap { border-radius: 12px; margin-bottom: 2.5rem; }
+      .albums-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+      .albums-skeleton { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+      .album-grid { grid-template-columns: repeat(3, 1fr); gap: 2px; }
+      .lb-nav { display: none; }
+      .album-nav-title { font-size: 1.15rem; }
     }
   </style>
 </head>
@@ -251,34 +314,59 @@
 
 <div id="rf-header"></div>
 
-<!-- Page hero -->
-<section class="page-hero">
+<!-- Compact page hero -->
+<section class="gallery-page-hero">
   <div class="container">
-    <div class="breadcrumb"><a href="index.html">Home</a> <span class="sep">/</span> <span>Gallery</span></div>
-    <h1>Farm Gallery</h1>
-    <p>A visual tour of Rena Farm &mdash; our animals, crops, infrastructure, and everyday life in Kajiado Central.</p>
+    <h1>Gallery</h1>
+    <p>Life at Rena Farm — animals, crops, people &amp; the land</p>
   </div>
 </section>
 
 <section class="section-white">
   <div class="container">
 
-    <!-- Filter tabs — "All" is static, rest loaded from DB -->
-    <div class="gallery-filters" id="galleryFilters">
-      <button class="gf-btn active" data-cat="all">All</button>
+    <!-- LOADING STATE -->
+    <div id="galleryLoading">
+      <!-- Mosaic skeleton -->
+      <div class="gallery-skeleton">
+        <div class="g-skel" style="grid-row:1/3"></div>
+        <div class="g-skel"></div><div class="g-skel"></div>
+        <div class="g-skel"></div><div class="g-skel"></div>
+      </div>
+      <!-- Albums skeleton -->
+      <div class="albums-skeleton">
+        <div class="album-skel-card"><div class="album-skel-img"></div><div class="album-skel-text"></div><div class="album-skel-sub"></div></div>
+        <div class="album-skel-card"><div class="album-skel-img"></div><div class="album-skel-text"></div><div class="album-skel-sub"></div></div>
+        <div class="album-skel-card"><div class="album-skel-img"></div><div class="album-skel-text"></div><div class="album-skel-sub"></div></div>
+        <div class="album-skel-card"><div class="album-skel-img"></div><div class="album-skel-text"></div><div class="album-skel-sub"></div></div>
+      </div>
     </div>
 
-    <!-- Skeleton while loading -->
-    <div class="gallery-skeleton" id="gallerySkeleton">
-      <div class="g-skel"></div><div class="g-skel"></div><div class="g-skel"></div>
-      <div class="g-skel"></div><div class="g-skel"></div><div class="g-skel"></div>
+    <!-- LANDING VIEW (albums + mosaic) -->
+    <div id="viewLanding" style="display:none">
+      <!-- Mosaic hero -->
+      <div class="mosaic-wrap">
+        <div class="gallery-mosaic" id="galleryMosaic"></div>
+      </div>
+      <!-- Albums -->
+      <h2 class="albums-heading">Albums</h2>
+      <div class="albums-grid" id="albumsGrid"></div>
     </div>
 
-    <!-- Grid (hidden until loaded) -->
-    <div class="gallery-grid" id="galleryGrid" style="display:none;"></div>
+    <!-- ALBUM DETAIL VIEW -->
+    <div id="viewAlbum" style="display:none">
+      <div class="album-nav">
+        <button class="back-btn" id="backBtn">
+          <i class="ph ph-caret-left"></i> Albums
+        </button>
+        <div class="album-nav-title" id="albumTitle"></div>
+        <div class="album-nav-count" id="albumCount"></div>
+      </div>
+      <div class="album-grid" id="albumGrid"></div>
+    </div>
 
-    <!-- Empty state -->
-    <div class="gallery-empty" id="galleryEmpty" style="display:none;">
+    <!-- EMPTY STATE -->
+    <div class="gallery-empty" id="galleryEmpty" style="display:none">
       <i class="ph ph-camera gallery-empty-icon"></i>
       <h3>Gallery Coming Soon</h3>
       <p>We're putting together our best farm photos and videos — check back shortly.</p>
@@ -295,7 +383,7 @@
   </div>
 </section>
 
-<!-- ── Lightbox ── -->
+<!-- Lightbox -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
   <button class="lb-close" id="lbClose" aria-label="Close"><i class="ph ph-x"></i></button>
   <button class="lb-nav" id="lbPrev" aria-label="Previous"><i class="ph ph-caret-left"></i></button>
@@ -304,12 +392,17 @@
   <div class="lb-inner">
     <div class="lb-img-wrap">
       <img id="lbImg" src="" alt="" />
+      <div class="lb-video-btn" id="lbVideoBtn" style="display:none">
+        <a id="lbVideoLink" href="#" target="_blank" rel="noopener" class="lb-watch-btn">
+          <i class="ph ph-play-circle"></i> Watch Video
+        </a>
+      </div>
     </div>
     <div class="lb-info">
       <div class="lb-cat-label" id="lbCat"></div>
-      <div class="lb-title"   id="lbTitle"></div>
-      <div class="lb-caption" id="lbCaption"></div>
-      <div class="lb-counter" id="lbCounter"></div>
+      <div class="lb-title"    id="lbTitle"></div>
+      <div class="lb-caption"  id="lbCaption"></div>
+      <div class="lb-counter"  id="lbCounter"></div>
     </div>
   </div>
 </div>
@@ -330,99 +423,129 @@
 <script src="js/layout.js"></script>
 <script>
 ;(async function () {
-  const filtersEl  = document.getElementById('galleryFilters')
-  const gridEl     = document.getElementById('galleryGrid')
-  const skeletonEl = document.getElementById('gallerySkeleton')
+
+  /* ── Elements ── */
+  const loadingEl  = document.getElementById('galleryLoading')
+  const landingEl  = document.getElementById('viewLanding')
+  const albumEl    = document.getElementById('viewAlbum')
   const emptyEl    = document.getElementById('galleryEmpty')
+  const mosaicEl   = document.getElementById('galleryMosaic')
+  const albumsEl   = document.getElementById('albumsGrid')
+  const albumGridEl= document.getElementById('albumGrid')
+  const albumTitle = document.getElementById('albumTitle')
+  const albumCount = document.getElementById('albumCount')
   const lightboxEl = document.getElementById('lightbox')
 
-  let allItems     = []
-  let currentItems = []
-  let lbIndex      = 0
+  /* ── State ── */
+  let allItems        = []
+  let allCategories   = []
+  let currentItems    = []   // items in current album (for lightbox)
+  let lbIndex         = 0
 
-  /* ── Load data ── */
+  /* ── Load ── */
   const [categories, items] = await Promise.all([
     loadGalleryCategories(),
     loadGalleryItems()
   ])
-  allItems = items
+  allItems      = items
+  allCategories = categories
 
-  /* ── Build filter tabs from DB categories ── */
-  categories.forEach(cat => {
-    const btn = document.createElement('button')
-    btn.className      = 'gf-btn'
-    btn.dataset.cat    = cat.id
-    btn.textContent    = cat.name
-    filtersEl.appendChild(btn)
+  loadingEl.style.display = 'none'
+
+  /* Build a map: categoryId → items */
+  const catItemMap = {}
+  categories.forEach(c => { catItemMap[c.id] = [] })
+  items.forEach(i => {
+    if (i.category_id && catItemMap[i.category_id]) catItemMap[i.category_id].push(i)
   })
+  const uncategorized = items.filter(i => !i.category_id)
 
-  /* ── Filter click ── */
-  filtersEl.addEventListener('click', e => {
-    const btn = e.target.closest('.gf-btn')
-    if (!btn) return
-    filtersEl.querySelectorAll('.gf-btn').forEach(b => b.classList.remove('active'))
-    btn.classList.add('active')
-    const cat = btn.dataset.cat
-    renderGrid(cat === 'all' ? allItems : allItems.filter(i => i.category_id === cat))
-  })
-
-  /* ── Hide skeleton, render ── */
-  skeletonEl.remove()
-  renderGrid(allItems)
-
-  /* ── Render grid ── */
-  function renderGrid(items) {
-    currentItems = items
-    gridEl.innerHTML = ''
-
-    if (!items.length) {
-      emptyEl.style.display  = 'block'
-      gridEl.style.display   = 'none'
-      return
-    }
-    emptyEl.style.display  = 'none'
-    gridEl.style.display   = 'grid'
-
-    items.forEach((item, idx) => {
-      const catName  = item.gallery_categories?.name ?? ''
-      const title    = item.title    ?? ''
-      const caption  = item.caption  ?? ''
-      const isPortrait = item.media_type === 'portrait' ||
-                         (item.gallery_categories?.slug === 'team')
-
-      const card = document.createElement('div')
-      card.className  = 'gallery-card' + (isPortrait ? ' portrait' : '')
-      card.dataset.index = idx
-
-      if (item.media_type === 'video') {
-        const thumb = item.thumbnail_url || item.media_url
-        card.innerHTML = `
-          <img src="${esc(thumb)}" alt="${esc(title)}" loading="lazy" />
-          <div class="gallery-play"><i class="ph ph-play"></i></div>
-          <div class="gallery-overlay">
-            <div class="gallery-cat-badge">${esc(catName)}</div>
-            <div class="gallery-item-title">${esc(title)}</div>
-          </div>`
-      } else if (isPortrait) {
-        card.innerHTML = `
-          <img src="${esc(item.media_url)}" alt="${esc(title)}" loading="lazy" />
-          <div class="gallery-name-tag">
-            <div class="gallery-cat-badge">${esc(catName)}</div>
-            <div class="gallery-item-title">${esc(title)}</div>
-          </div>`
-      } else {
-        card.innerHTML = `
-          <img src="${esc(item.media_url)}" alt="${esc(title)}" loading="lazy" />
-          <div class="gallery-overlay">
-            <div class="gallery-cat-badge">${esc(catName)}</div>
-            <div class="gallery-item-title">${esc(title)}</div>
-          </div>`
-      }
-
-      card.addEventListener('click', () => openLightbox(idx))
-      gridEl.appendChild(card)
-    })
+  /* Albums that actually have images */
+  const albums = categories
+    .filter(c => (catItemMap[c.id] ?? []).length > 0)
+    .map(c => ({ cat: c, items: catItemMap[c.id] }))
+  if (uncategorized.length > 0) {
+    albums.push({ cat: { id: '__uncategorized', name: 'Other', slug: 'other' }, items: uncategorized })
   }
+
+  if (!items.length) {
+    emptyEl.style.display = 'block'
+    return
+  }
+
+  /* ── Render mosaic ── */
+  const featured = items.filter(i => i.is_featured)
+  const mosaicPicks = [
+    ...featured,
+    ...items.filter(i => !i.is_featured)
+  ].slice(0, 5)
+
+  mosaicEl.innerHTML = mosaicPicks.map(item => `
+    <div class="mosaic-item">
+      <img src="${esc(item.thumbnail_url ?? item.media_url)}" alt="${esc(item.title ?? '')}" loading="lazy" />
+    </div>
+  `).join('')
+
+  /* ── Render albums grid ── */
+  albumsEl.innerHTML = albums.map(({ cat, items: aItems }) => {
+    const imgs = aItems.slice(0, 4)
+    const cls  = `p${Math.min(imgs.length, 4)}`
+    const imgTags = imgs.map(i => `<img src="${esc(i.thumbnail_url ?? i.media_url)}" alt="" loading="lazy" />`).join('')
+    return `
+      <div class="album-card" data-cat="${esc(cat.id)}">
+        <div class="album-preview ${cls}">${imgTags}</div>
+        <div class="album-title">${esc(cat.name)}</div>
+        <div class="album-count">${aItems.length} photo${aItems.length !== 1 ? 's' : ''}</div>
+      </div>
+    `
+  }).join('')
+
+  /* Album card click */
+  albumsEl.addEventListener('click', e => {
+    const card = e.target.closest('.album-card')
+    if (!card) return
+    const catId = card.dataset.cat
+    const album = albums.find(a => a.cat.id === catId)
+    if (album) openAlbum(album)
+  })
+
+  landingEl.style.display = 'block'
+
+  /* ── Open album ── */
+  function openAlbum({ cat, items: aItems }) {
+    currentItems = aItems
+    albumTitle.textContent = cat.name
+    albumCount.textContent = `${aItems.length} photo${aItems.length !== 1 ? 's' : ''}`
+
+    albumGridEl.innerHTML = aItems.map((item, idx) => {
+      const thumb = item.thumbnail_url ?? item.media_url
+      const isVideo = item.media_type === 'video'
+      return `
+        <div class="ag-item" data-index="${idx}">
+          <img src="${esc(thumb)}" alt="${esc(item.title ?? '')}" loading="lazy" />
+          ${isVideo ? '<div class="ag-video-badge"><i class="ph ph-play"></i></div>' : ''}
+        </div>
+      `
+    }).join('')
+
+    albumGridEl.addEventListener('click', e => {
+      const item = e.target.closest('.ag-item')
+      if (!item) return
+      openLightbox(parseInt(item.dataset.index))
+    }, { once: true })
+
+    landingEl.style.display = 'none'
+    albumEl.style.display   = 'block'
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  /* ── Back to albums ── */
+  document.getElementById('backBtn').addEventListener('click', () => {
+    albumEl.style.display   = 'none'
+    landingEl.style.display = 'block'
+    currentItems = []
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  })
 
   /* ── Lightbox ── */
   function openLightbox(idx) {
@@ -440,10 +563,24 @@
   function updateLightbox() {
     const item = currentItems[lbIndex]
     if (!item) return
-    document.getElementById('lbImg').src       = item.media_url
-    document.getElementById('lbImg').alt       = item.title ?? ''
-    document.getElementById('lbTitle').textContent   = item.title    ?? ''
-    document.getElementById('lbCaption').textContent = item.caption  ?? ''
+    const isVideo = item.media_type === 'video'
+
+    const lbImg     = document.getElementById('lbImg')
+    const lbVidBtn  = document.getElementById('lbVideoBtn')
+    const lbVidLink = document.getElementById('lbVideoLink')
+
+    lbImg.src = item.thumbnail_url ?? item.media_url
+    lbImg.alt = item.title ?? ''
+
+    if (isVideo && item.video_embed_url) {
+      lbVidBtn.style.display  = 'flex'
+      lbVidLink.href          = item.video_embed_url
+    } else {
+      lbVidBtn.style.display  = 'none'
+    }
+
+    document.getElementById('lbTitle').textContent   = item.title   ?? ''
+    document.getElementById('lbCaption').textContent = item.caption ?? ''
     document.getElementById('lbCat').textContent     = item.gallery_categories?.name ?? ''
     document.getElementById('lbCounter').textContent = `${lbIndex + 1} / ${currentItems.length}`
     document.getElementById('lbPrev').disabled = lbIndex === 0
@@ -453,31 +590,28 @@
   document.getElementById('lbClose').addEventListener('click', closeLightbox)
   document.getElementById('lbPrev').addEventListener('click', () => { lbIndex--; updateLightbox() })
   document.getElementById('lbNext').addEventListener('click', () => { lbIndex++; updateLightbox() })
-
-  /* Click outside image to close */
   lightboxEl.addEventListener('click', e => { if (e.target === lightboxEl) closeLightbox() })
 
-  /* Keyboard nav */
   document.addEventListener('keydown', e => {
     if (!lightboxEl.classList.contains('open')) return
     if (e.key === 'Escape')      closeLightbox()
-    if (e.key === 'ArrowLeft'  && lbIndex > 0)                        { lbIndex--; updateLightbox() }
-    if (e.key === 'ArrowRight' && lbIndex < currentItems.length - 1)  { lbIndex++; updateLightbox() }
+    if (e.key === 'ArrowLeft'  && lbIndex > 0)                       { lbIndex--; updateLightbox() }
+    if (e.key === 'ArrowRight' && lbIndex < currentItems.length - 1) { lbIndex++; updateLightbox() }
   })
 
-  /* Touch swipe */
   let touchX = 0
   lightboxEl.addEventListener('touchstart', e => { touchX = e.touches[0].clientX }, { passive: true })
   lightboxEl.addEventListener('touchend',   e => {
     const dx = e.changedTouches[0].clientX - touchX
     if (Math.abs(dx) < 40) return
     if (dx < 0 && lbIndex < currentItems.length - 1) { lbIndex++; updateLightbox() }
-    if (dx > 0 && lbIndex > 0)                        { lbIndex--; updateLightbox() }
+    if (dx > 0 && lbIndex > 0)                       { lbIndex--; updateLightbox() }
   }, { passive: true })
 
   function esc(s) {
     return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
   }
+
 })()
 </script>
 </body>
