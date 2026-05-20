@@ -1057,7 +1057,7 @@ header.scrolled {
   .review-card { width: 280px; }
 
   /* Page hero */
-  .page-hero { padding-bottom: 2rem; }
+  .page-hero { padding-bottom: 2rem; min-height: 36vh; }
 }
 
 @media (max-width: 560px) {
