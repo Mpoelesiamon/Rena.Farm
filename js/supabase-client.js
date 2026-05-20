@@ -203,7 +203,7 @@ async function loadGalleryCategories() {
   const { data } = await db.from('gallery_categories')
     .select('*')
     .eq('is_active', true)
-    .order('sort_order')
+    .order('name')
   return data ?? []
 }
 
