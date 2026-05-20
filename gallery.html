@@ -11,42 +11,13 @@
 
     /* ── Page hero (compact) ── */
     .gallery-page-hero {
-      padding: 3rem 0 2.5rem;
+      padding: 6rem 0 2.5rem; /* top accounts for fixed navbar height */
       background: var(--f950);
       color: var(--white);
       text-align: center;
     }
     .gallery-page-hero h1 { color: var(--white); margin-bottom: 0.4rem; }
     .gallery-page-hero p  { color: var(--f300); font-size: 0.95rem; }
-
-    /* ── Mosaic hero ── */
-    .mosaic-wrap {
-      margin-bottom: 3.5rem;
-      border-radius: 20px;
-      overflow: hidden;
-    }
-    .gallery-mosaic {
-      display: grid;
-      grid-template-areas:
-        "big a b"
-        "big c d";
-      grid-template-columns: 1.9fr 1fr 1fr;
-      grid-template-rows: 270px 195px;
-      gap: 6px;
-    }
-    .mosaic-item { overflow: hidden; }
-    .mosaic-item img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.6s ease;
-    }
-    .mosaic-item:hover img { transform: scale(1.05); }
-    .mosaic-item:nth-child(1) { grid-area: big; }
-    .mosaic-item:nth-child(2) { grid-area: a; }
-    .mosaic-item:nth-child(3) { grid-area: b; }
-    .mosaic-item:nth-child(4) { grid-area: c; }
-    .mosaic-item:nth-child(5) { grid-area: d; }
 
     /* ── Albums landing ── */
     .albums-heading {
@@ -151,21 +122,6 @@
     }
 
     /* ── Skeleton ── */
-    .gallery-skeleton {
-      display: grid;
-      grid-template-columns: 1.9fr 1fr 1fr;
-      grid-template-rows: 270px 195px;
-      gap: 6px;
-      border-radius: 20px;
-      overflow: hidden;
-      margin-bottom: 3.5rem;
-    }
-    .g-skel {
-      background: linear-gradient(90deg, var(--f50) 25%, var(--f100) 50%, var(--f50) 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.4s infinite;
-    }
-    .g-skel:first-child { grid-row: 1 / 3; }
     @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
     /* Albums skeleton */
@@ -267,12 +223,11 @@
     #lbNext { right: 1rem; }
 
     /* ── Sample grid (random picks) ── */
-    .sample-section { margin-top: 3.5rem; }
-    .sample-section .albums-heading { margin-bottom: 1rem; }
+    .sample-section { margin: 0; }
     .sample-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 5px;
+      gap: 0;
     }
     .sample-item {
       aspect-ratio: 1;
@@ -282,9 +237,7 @@
       background: var(--f50);
     }
     .sample-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
-    .sample-item:hover img { transform: scale(1.05); }
-    /* Occasional taller cells for variety */
-    .sample-item.tall { aspect-ratio: 4/5; }
+    .sample-item:hover img { transform: scale(1.04); }
     .sample-item .sample-play {
       position: absolute; bottom: 0.5rem; left: 0.5rem;
       background: rgba(0,0,0,0.5); border-radius: 50%;
@@ -303,33 +256,8 @@
       .albums-grid { grid-template-columns: repeat(3, 1fr); }
       .sample-grid { grid-template-columns: repeat(4, 1fr); }
     }
-    @media (max-width: 900px) {
-      .gallery-mosaic {
-        grid-template-areas: "big a" "big c";
-        grid-template-columns: 1.4fr 1fr;
-        grid-template-rows: 200px 155px;
-      }
-      .gallery-mosaic .mosaic-item:nth-child(3),
-      .gallery-mosaic .mosaic-item:nth-child(5) { display: none; }
-      .gallery-skeleton {
-        grid-template-columns: 1.4fr 1fr;
-        grid-template-rows: 200px 155px;
-      }
-      .gallery-skeleton .g-skel:nth-child(3),
-      .gallery-skeleton .g-skel:nth-child(5) { display: none; }
-    }
+    .albums-section { padding: 3rem 0 0; }
     @media (max-width: 640px) {
-      .gallery-mosaic {
-        grid-template-columns: 1.2fr 1fr;
-        grid-template-rows: 155px 120px;
-        gap: 4px;
-      }
-      .gallery-skeleton {
-        grid-template-columns: 1.2fr 1fr;
-        grid-template-rows: 155px 120px;
-        gap: 4px;
-      }
-      .mosaic-wrap { border-radius: 12px; margin-bottom: 2.5rem; }
       .albums-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
       .albums-skeleton { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
       .album-grid { grid-template-columns: repeat(3, 1fr); gap: 2px; }
@@ -351,18 +279,16 @@
   </div>
 </section>
 
+<!-- Sample grid — full width, no container padding, right below hero -->
+<div id="sampleSection" style="display:none">
+  <div class="sample-grid" id="sampleGrid"></div>
+</div>
+
 <section class="section-white">
   <div class="container">
 
     <!-- LOADING STATE -->
     <div id="galleryLoading">
-      <!-- Mosaic skeleton -->
-      <div class="gallery-skeleton">
-        <div class="g-skel" style="grid-row:1/3"></div>
-        <div class="g-skel"></div><div class="g-skel"></div>
-        <div class="g-skel"></div><div class="g-skel"></div>
-      </div>
-      <!-- Albums skeleton -->
       <div class="albums-skeleton">
         <div class="album-skel-card"><div class="album-skel-img"></div><div class="album-skel-text"></div><div class="album-skel-sub"></div></div>
         <div class="album-skel-card"><div class="album-skel-img"></div><div class="album-skel-text"></div><div class="album-skel-sub"></div></div>
@@ -371,21 +297,10 @@
       </div>
     </div>
 
-    <!-- LANDING VIEW (albums + mosaic) -->
+    <!-- LANDING VIEW (albums only) -->
     <div id="viewLanding" style="display:none">
-      <!-- Mosaic hero -->
-      <div class="mosaic-wrap">
-        <div class="gallery-mosaic" id="galleryMosaic"></div>
-      </div>
-      <!-- Albums -->
       <h2 class="albums-heading">Albums</h2>
       <div class="albums-grid" id="albumsGrid"></div>
-
-      <!-- Random sample from all albums -->
-      <div class="sample-section" id="sampleSection" style="display:none">
-        <h2 class="albums-heading">From the Farm</h2>
-        <div class="sample-grid" id="sampleGrid"></div>
-      </div>
     </div>
 
     <!-- ALBUM DETAIL VIEW -->
@@ -464,7 +379,6 @@
   const landingEl  = document.getElementById('viewLanding')
   const albumEl    = document.getElementById('viewAlbum')
   const emptyEl    = document.getElementById('galleryEmpty')
-  const mosaicEl   = document.getElementById('galleryMosaic')
   const albumsEl   = document.getElementById('albumsGrid')
   const albumGridEl= document.getElementById('albumGrid')
   const albumTitle = document.getElementById('albumTitle')
@@ -508,19 +422,6 @@
     return
   }
 
-  /* ── Render mosaic ── */
-  const featured = items.filter(i => i.is_featured)
-  const mosaicPicks = [
-    ...featured,
-    ...items.filter(i => !i.is_featured)
-  ].slice(0, 5)
-
-  mosaicEl.innerHTML = mosaicPicks.map(item => `
-    <div class="mosaic-item">
-      <img src="${esc(item.thumbnail_url ?? item.media_url)}" alt="${esc(item.title ?? '')}" loading="lazy" />
-    </div>
-  `).join('')
-
   /* ── Render albums grid ── */
   albumsEl.innerHTML = albums.map(({ cat, items: aItems }) => {
     const imgs = aItems.slice(0, 4)
@@ -550,22 +451,19 @@
   let sampleItems  = []
 
   if (items.length > 0) {
-    // Pick proportionally from each album so large albums don't dominate
-    const perAlbum = Math.max(2, Math.ceil(18 / Math.max(albums.length, 1)))
+    const perAlbum = Math.max(2, Math.ceil(20 / Math.max(albums.length, 1)))
     const pool = []
     albums.forEach(({ items: aItems }) => {
       const shuffled = [...aItems].sort(() => Math.random() - 0.5)
       pool.push(...shuffled.slice(0, perAlbum))
     })
-    sampleItems = pool.sort(() => Math.random() - 0.5).slice(0, 18)
+    sampleItems = pool.sort(() => Math.random() - 0.5).slice(0, 20)
 
-    const tallIndices = new Set([2, 7, 13]) // these positions get taller cells for variety
     sampleGrid.innerHTML = sampleItems.map((item, idx) => {
       const thumb = item.thumbnail_url ?? item.media_url
-      const tall  = tallIndices.has(idx) ? ' tall' : ''
       const isVid = item.media_type === 'video'
       return `
-        <div class="sample-item${tall}" data-idx="${idx}">
+        <div class="sample-item" data-idx="${idx}">
           <img src="${esc(thumb)}" alt="${esc(item.title ?? '')}" loading="lazy" />
           ${isVid ? '<div class="sample-play"><i class="ph ph-play"></i></div>' : ''}
         </div>`
@@ -606,6 +504,7 @@
       openLightbox(parseInt(item.dataset.index))
     }, { once: true })
 
+    sampleEl.style.display  = 'none'
     landingEl.style.display = 'none'
     albumEl.style.display   = 'block'
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -615,6 +514,7 @@
   document.getElementById('backBtn').addEventListener('click', () => {
     albumEl.style.display   = 'none'
     landingEl.style.display = 'block'
+    if (sampleItems.length) sampleEl.style.display = 'block'
     currentItems = []
     window.scrollTo({ top: 0, behavior: 'smooth' })
   })
