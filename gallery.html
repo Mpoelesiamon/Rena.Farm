@@ -266,6 +266,33 @@
     #lbPrev { left: 1rem; }
     #lbNext { right: 1rem; }
 
+    /* ── Sample grid (random picks) ── */
+    .sample-section { margin-top: 3.5rem; }
+    .sample-section .albums-heading { margin-bottom: 1rem; }
+    .sample-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+    }
+    .sample-item {
+      aspect-ratio: 1;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      background: var(--f50);
+    }
+    .sample-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+    .sample-item:hover img { transform: scale(1.05); }
+    /* Occasional taller cells for variety */
+    .sample-item.tall { aspect-ratio: 4/5; }
+    .sample-item .sample-play {
+      position: absolute; bottom: 0.5rem; left: 0.5rem;
+      background: rgba(0,0,0,0.5); border-radius: 50%;
+      width: 24px; height: 24px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 0.7rem; pointer-events: none;
+    }
+
     /* ── CTA ── */
     .cta-section { background: linear-gradient(135deg, var(--f950), var(--f900)); padding: 80px 0; text-align: center; }
     .cta-section h2 { color: var(--white); margin-bottom: 1rem; }
@@ -274,6 +301,7 @@
     /* ── Responsive ── */
     @media (max-width: 1024px) {
       .albums-grid { grid-template-columns: repeat(3, 1fr); }
+      .sample-grid { grid-template-columns: repeat(4, 1fr); }
     }
     @media (max-width: 900px) {
       .gallery-mosaic {
@@ -305,6 +333,7 @@
       .albums-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
       .albums-skeleton { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
       .album-grid { grid-template-columns: repeat(3, 1fr); gap: 2px; }
+      .sample-grid { grid-template-columns: repeat(3, 1fr); }
       .lb-nav { display: none; }
       .album-nav-title { font-size: 1.15rem; }
     }
@@ -351,6 +380,12 @@
       <!-- Albums -->
       <h2 class="albums-heading">Albums</h2>
       <div class="albums-grid" id="albumsGrid"></div>
+
+      <!-- Random sample from all albums -->
+      <div class="sample-section" id="sampleSection" style="display:none">
+        <h2 class="albums-heading">From the Farm</h2>
+        <div class="sample-grid" id="sampleGrid"></div>
+      </div>
     </div>
 
     <!-- ALBUM DETAIL VIEW -->
@@ -508,6 +543,43 @@
     const album = albums.find(a => a.cat.id === catId)
     if (album) openAlbum(album)
   })
+
+  /* ── Render random sample ── */
+  const sampleEl   = document.getElementById('sampleSection')
+  const sampleGrid = document.getElementById('sampleGrid')
+  let sampleItems  = []
+
+  if (items.length > 0) {
+    // Pick proportionally from each album so large albums don't dominate
+    const perAlbum = Math.max(2, Math.ceil(18 / Math.max(albums.length, 1)))
+    const pool = []
+    albums.forEach(({ items: aItems }) => {
+      const shuffled = [...aItems].sort(() => Math.random() - 0.5)
+      pool.push(...shuffled.slice(0, perAlbum))
+    })
+    sampleItems = pool.sort(() => Math.random() - 0.5).slice(0, 18)
+
+    const tallIndices = new Set([2, 7, 13]) // these positions get taller cells for variety
+    sampleGrid.innerHTML = sampleItems.map((item, idx) => {
+      const thumb = item.thumbnail_url ?? item.media_url
+      const tall  = tallIndices.has(idx) ? ' tall' : ''
+      const isVid = item.media_type === 'video'
+      return `
+        <div class="sample-item${tall}" data-idx="${idx}">
+          <img src="${esc(thumb)}" alt="${esc(item.title ?? '')}" loading="lazy" />
+          ${isVid ? '<div class="sample-play"><i class="ph ph-play"></i></div>' : ''}
+        </div>`
+    }).join('')
+
+    sampleGrid.addEventListener('click', e => {
+      const el = e.target.closest('.sample-item')
+      if (!el) return
+      currentItems = sampleItems
+      openLightbox(parseInt(el.dataset.idx))
+    })
+
+    sampleEl.style.display = 'block'
+  }
 
   landingEl.style.display = 'block'
 
