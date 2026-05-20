@@ -98,6 +98,14 @@
     .toggle-chevron { font-size: 1.1rem; transition: transform 0.25s ease; }
     .map-card.collapsed .toggle-chevron { transform: rotate(180deg); }
 
+    /* Expand upward when panel is dragged to bottom half of map */
+    .map-card.expand-up { display: flex; flex-direction: column-reverse; }
+    .map-card.expand-up .map-card-toggle {
+      border-bottom: none;
+      border-top: 1px solid var(--f100);
+    }
+    .map-card.expand-up.collapsed .map-card-toggle { border-top-color: transparent; }
+
     /* Expandable content */
     .map-card-content {
       max-height: min(380px, 55vh);
@@ -218,23 +226,25 @@
       .page-hero p  { font-size: 0.82rem; line-height: 1.5; margin: 0; }
       .breadcrumb   { margin-bottom: 0.4rem; font-size: 0.78rem; }
 
-      .map-section { padding: 0.5rem 0 1.5rem; }
-      .map-section .container { padding-left: 10px; padding-right: 10px; }
+      .map-section { padding: 0 0 1.5rem; }
+      .map-section .container { padding-left: 0; padding-right: 0; }
 
       .map-wrap {
-        height: calc(100vh - 125px);
-        height: calc(100dvh - 125px);
+        height: calc(100vh - 115px);
+        height: calc(100dvh - 115px);
         min-height: 420px;
-        border-radius: 14px;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        box-shadow: none;
       }
 
-      /* Panel: let it use most of the map width with borders */
       .map-card {
         max-width: min(290px, calc(100% - 1.6rem));
         width: min(290px, calc(100% - 1.6rem));
       }
       .map-card-content {
-        max-height: min(340px, calc(100dvh - 240px));
+        max-height: min(340px, calc(100dvh - 220px));
       }
 
       .map-caption { display: none; }
@@ -321,12 +331,12 @@
           <div class="wp-line"></div>
           <div class="waypoint">
             <div class="wp-dot" style="background:var(--f500);"></div>
-            <div class="wp-text">Turn at <strong>Mla Chake Shop</strong> onto Kenya Marble Quarry Road &mdash; 6.5km off A104</div>
+            <div class="wp-text">At <strong>Mla Chake Shop</strong>, turn onto Kenya Marble Quarry Road &mdash; the shop sits right at the A104 junction</div>
           </div>
           <div class="wp-line"></div>
           <div class="waypoint">
             <div class="wp-dot" style="background:#ef4444;width:13px;height:13px;margin-top:0.25rem;"></div>
-            <div class="wp-text"><strong>Rena Farm</strong> &mdash; on your right, 6.5km along Marble Quarry Road</div>
+            <div class="wp-text"><strong>Rena Farm</strong> &mdash; 6.5km from the junction, on your <strong>left</strong></div>
           </div>
 
           <div class="tip-box">
@@ -426,7 +436,7 @@
           <div class="info-card-icon"><i class="ph ph-car"></i></div>
           <h4>From Nairobi</h4>
         </div>
-        <p>A104 Nairobi–Namanga Hwy through Kitengela &rarr; Isinya &rarr; Kajiado Town. Turn at Mla Chake Shop, 6.5km along Marble Quarry Road.</p>
+        <p>A104 Nairobi–Namanga Hwy through Kitengela &rarr; Isinya &rarr; Kajiado Town. Turn at <strong>Mla Chake Shop</strong> (A104 junction), then 6.5km along Marble Quarry Road &mdash; farm on your <strong>left</strong>.</p>
       </div>
 
       <div class="info-card">
@@ -458,87 +468,123 @@
 <div id="rf-footer"></div>
 <script src="js/layout.js"></script>
 <script>
-  /* ── Collapse / expand ── */
-  function toggleMapCard(e) {
-    e.stopPropagation();
-    const card    = document.getElementById('mapCard');
-    const chevron = document.getElementById('toggleChevron');
-    const btn     = document.getElementById('collapseBtn');
-    const collapsed = card.classList.toggle('collapsed');
-    btn.setAttribute('aria-expanded', String(!collapsed));
-    chevron.className = collapsed ? 'ph ph-caret-down toggle-chevron' : 'ph ph-caret-up toggle-chevron';
+(function () {
+  const card      = document.getElementById('mapCard');
+  const handle    = document.getElementById('mapCardHandle');
+  const container = document.querySelector('.map-container');
+
+  /* ── Smart expand direction ── */
+  function updateExpandDirection() {
+    const wr      = container.getBoundingClientRect();
+    const cr      = card.getBoundingClientRect();
+    const panelTop = cr.top - wr.top;           // header's top relative to map
+    const headerH  = handle.offsetHeight;
+    const inBottom = panelTop > wr.height * 0.5;
+    const isUp     = card.classList.contains('expand-up');
+
+    if (inBottom && !isUp) {
+      /* switch to expand-up: anchor card by bottom so content grows upward */
+      card.classList.add('expand-up');
+      card.style.top    = 'auto';
+      card.style.bottom = Math.max(8, wr.height - panelTop - headerH) + 'px';
+      if (!card.style.left || card.style.left === 'auto')
+        card.style.left = Math.max(8, cr.left - wr.left) + 'px';
+      card.style.right  = 'auto';
+    } else if (!inBottom && isUp) {
+      /* switch back to expand-down: anchor by top */
+      const newTop = Math.max(8, cr.top - wr.top);
+      card.classList.remove('expand-up');
+      card.style.bottom = 'auto';
+      card.style.top    = newTop + 'px';
+    }
   }
 
+  /* ── Collapse / expand ── */
+  window.toggleMapCard = function (e) {
+    e.stopPropagation();
+    const isCollapsed = card.classList.contains('collapsed');
+    if (isCollapsed) updateExpandDirection(); // set direction before opening
+    const nowCollapsed = card.classList.toggle('collapsed');
+    document.getElementById('collapseBtn').setAttribute('aria-expanded', String(!nowCollapsed));
+    const chevron = document.getElementById('toggleChevron');
+    chevron.className = nowCollapsed ? 'ph ph-caret-down toggle-chevron' : 'ph ph-caret-up toggle-chevron';
+  };
+
   /* ── Draggable panel ── */
-  (function () {
-    const card      = document.getElementById('mapCard');
-    const handle    = document.getElementById('mapCardHandle');
-    const container = document.querySelector('.map-container');
+  let active = false, useBottom = false;
+  let startX = 0, startY = 0, originLeft = 0, originTop = 0, originBottom = 0;
 
-    let active = false;
-    let startX = 0, startY = 0, originLeft = 0, originTop = 0;
+  function beginDrag(clientX, clientY) {
+    active   = true;
+    startX   = clientX;
+    startY   = clientY;
+    useBottom = card.classList.contains('expand-up');
+    const cr  = card.getBoundingClientRect();
+    const wr  = container.getBoundingClientRect();
+    originLeft   = cr.left - wr.left;
+    originTop    = cr.top  - wr.top;
+    originBottom = wr.height - (cr.top - wr.top) - cr.height;
+    /* Normalise: always set explicit left; right is never used after first drag */
+    card.style.right = 'auto';
+    card.style.left  = originLeft + 'px';
+    if (!useBottom) card.style.top = originTop + 'px';
+    handle.style.cursor           = 'grabbing';
+    document.body.style.userSelect = 'none';
+  }
 
-    function beginDrag(clientX, clientY) {
-      active  = true;
-      startX  = clientX;
-      startY  = clientY;
-      const cr = card.getBoundingClientRect();
-      const wr = container.getBoundingClientRect();
-      originLeft = cr.left - wr.left;
-      originTop  = cr.top  - wr.top;
-      /* switch from right-anchoring to left-anchoring */
-      card.style.right = 'auto';
-      card.style.left  = originLeft + 'px';
-      card.style.top   = originTop  + 'px';
-      handle.style.cursor = 'grabbing';
-      document.body.style.userSelect = 'none';
+  function moveDrag(clientX, clientY) {
+    if (!active) return;
+    const wr  = container.getBoundingClientRect();
+    const cr  = card.getBoundingClientRect();
+    const pad = 8;
+    const dx  = clientX - startX;
+    const dy  = clientY - startY;
+
+    /* Horizontal — same for both modes */
+    let newL = Math.max(pad, Math.min(originLeft + dx, wr.width - cr.width - pad));
+    card.style.left = newL + 'px';
+
+    /* Vertical */
+    if (useBottom) {
+      /* Bottom-anchored: moving down reduces the bottom offset */
+      let newB = Math.max(pad, Math.min(originBottom - dy, wr.height - cr.height - pad));
+      card.style.bottom = newB + 'px';
+    } else {
+      let newT = Math.max(pad, Math.min(originTop + dy, wr.height - handle.offsetHeight - pad));
+      card.style.top = newT + 'px';
     }
+  }
 
-    function moveDrag(clientX, clientY) {
-      if (!active) return;
-      const wr   = container.getBoundingClientRect();
-      const cr   = card.getBoundingClientRect();
-      const pad  = 8;
-      let newL   = originLeft + (clientX - startX);
-      let newT   = originTop  + (clientY - startY);
-      newL = Math.max(pad, Math.min(newL, wr.width  - cr.width  - pad));
-      newT = Math.max(pad, Math.min(newT, wr.height - 50));         /* keep header visible */
-      card.style.left = newL + 'px';
-      card.style.top  = newT + 'px';
-    }
+  function endDrag() {
+    if (!active) return;
+    active = false;
+    handle.style.cursor            = 'grab';
+    document.body.style.userSelect = '';
+    updateExpandDirection(); /* re-evaluate after drop */
+  }
 
-    function endDrag() {
-      if (!active) return;
-      active = false;
-      handle.style.cursor = 'grab';
-      document.body.style.userSelect = '';
-    }
+  /* Mouse */
+  handle.addEventListener('mousedown', e => {
+    if (e.target.closest('.collapse-btn')) return;
+    beginDrag(e.clientX, e.clientY);
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
+  document.addEventListener('mouseup',   endDrag);
 
-    /* Mouse */
-    handle.addEventListener('mousedown', e => {
-      if (e.target.closest('.collapse-btn')) return;
-      beginDrag(e.clientX, e.clientY);
-      e.preventDefault();
-    });
-    document.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
-    document.addEventListener('mouseup',   endDrag);
-
-    /* Touch */
-    handle.addEventListener('touchstart', e => {
-      if (e.target.closest('.collapse-btn')) return;
-      const t = e.touches[0];
-      beginDrag(t.clientX, t.clientY);
-      e.preventDefault();
-    }, { passive: false });
-
-    document.addEventListener('touchmove', e => {
-      if (!active) return;
-      moveDrag(e.touches[0].clientX, e.touches[0].clientY);
-      e.preventDefault();
-    }, { passive: false });
-
-    document.addEventListener('touchend', endDrag);
-  })();
+  /* Touch */
+  handle.addEventListener('touchstart', e => {
+    if (e.target.closest('.collapse-btn')) return;
+    beginDrag(e.touches[0].clientX, e.touches[0].clientY);
+    e.preventDefault();
+  }, { passive: false });
+  document.addEventListener('touchmove', e => {
+    if (!active) return;
+    moveDrag(e.touches[0].clientX, e.touches[0].clientY);
+    e.preventDefault();
+  }, { passive: false });
+  document.addEventListener('touchend', endDrag);
+})();
 </script>
 </body>
 </html>
