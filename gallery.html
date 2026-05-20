@@ -8,191 +8,226 @@
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
   <style>
+    :root { --nav-h: 70px; }
 
-    /* ── Page hero (compact) ── */
-    .gallery-page-hero {
-      padding: 6rem 0 2.5rem; /* top accounts for fixed navbar height */
+    /* ── Hero — left-aligned, scrolls behind fixed navbar naturally ── */
+    .gallery-hero {
+      padding: calc(var(--nav-h) + 1.75rem) 0 1.75rem;
       background: var(--f950);
       color: var(--white);
-      text-align: center;
     }
-    .gallery-page-hero h1 { color: var(--white); margin-bottom: 0.4rem; }
-    .gallery-page-hero p  { color: var(--f300); font-size: 0.95rem; }
+    .gallery-hero h1 { color: var(--white); margin-bottom: 0.3rem; font-size: 2.2rem; }
+    .gallery-hero p  { color: var(--f300); font-size: 0.93rem; margin: 0; }
 
-    /* ── Albums landing ── */
-    .albums-heading {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--f950);
-      margin-bottom: 1.25rem;
-    }
-    .albums-grid {
+    /* ── Two-panel split ── */
+    .gallery-body {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
+      grid-template-columns: 260px 1fr;
+      border-top: 1px solid var(--f100);
     }
-    .album-card {
-      cursor: pointer;
-      transition: transform 0.25s ease;
+
+    /* ── Left: albums panel (sticky sidebar) ── */
+    .gallery-albums-panel {
+      position: sticky;
+      top: var(--nav-h);
+      height: calc(100vh - var(--nav-h));
+      overflow-y: auto;
+      border-right: 1px solid var(--f100);
+      background: var(--white);
+      scrollbar-width: thin;
+      scrollbar-color: var(--f200) transparent;
     }
-    .album-card:hover { transform: translateY(-5px); }
-    .album-card:hover .album-preview { box-shadow: 0 12px 32px rgba(7,30,7,0.18); }
+    .gallery-albums-panel::-webkit-scrollbar { width: 4px; }
+    .gallery-albums-panel::-webkit-scrollbar-thumb { background: var(--f200); }
 
-    /* Album preview collage */
-    .album-preview {
-      aspect-ratio: 1;
-      border-radius: 16px;
-      overflow: hidden;
-      display: grid;
-      gap: 2px;
-      background: var(--f100);
-      margin-bottom: 0.75rem;
-      transition: box-shadow 0.3s ease;
-      box-shadow: 0 4px 16px rgba(7,30,7,0.1);
+    .albums-panel-inner { padding: 1rem 0.75rem 2rem; }
+
+    .albums-panel-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--gray-500);
+      padding: 0 0.5rem;
+      margin-bottom: 0.5rem;
     }
-    .album-preview.p1 { grid-template-columns: 1fr; }
-    .album-preview.p2 { grid-template-columns: 1fr 1fr; }
-    .album-preview.p3 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
-    .album-preview.p3 img:first-child { grid-column: 1 / -1; }
-    .album-preview.p4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
-    .album-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    .album-title { font-size: 0.92rem; font-weight: 700; color: var(--f950); margin-bottom: 0.15rem; }
-    .album-count { font-size: 0.78rem; color: var(--gray-500); }
-
-    /* ── Album detail view ── */
-    .album-nav {
+    /* "All Photos" row */
+    .all-photos-row {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.75rem;
-      padding-bottom: 1.25rem;
-      border-bottom: 1px solid var(--f100);
-    }
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      background: none;
-      border: 1.5px solid var(--f200);
-      border-radius: 50px;
-      padding: 0.45rem 1rem;
-      font-size: 0.83rem;
-      font-weight: 600;
-      color: var(--f700);
+      gap: 0.65rem;
+      padding: 0.55rem 0.6rem;
+      border-radius: 8px;
       cursor: pointer;
-      transition: all 0.2s;
-      flex-shrink: 0;
-      font-family: 'Inter', sans-serif;
+      transition: background 0.15s;
+      margin-bottom: 0.1rem;
     }
-    .back-btn:hover { border-color: var(--f600); color: var(--f950); background: var(--f50); }
-    .album-nav-title { font-size: 1.4rem; font-weight: 800; color: var(--f950); flex: 1; }
-    .album-nav-count { font-size: 0.85rem; color: var(--gray-500); flex-shrink: 0; }
+    .all-photos-row:hover { background: var(--f50); }
+    .all-photos-row.active { background: var(--f100); }
+    .all-photos-icon {
+      width: 42px; height: 42px;
+      border-radius: 6px;
+      background: var(--f100);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.1rem;
+      color: var(--f600);
+    }
+    .all-photos-row.active .all-photos-icon { background: var(--f200); }
+    .ap-name  { font-size: 0.8rem; font-weight: 600; color: var(--f950); }
+    .ap-count { font-size: 0.7rem; color: var(--gray-500); }
 
-    /* Square photo grid */
-    .album-grid {
+    /* Album row in sidebar */
+    .album-row {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.45rem 0.6rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-bottom: 0.1rem;
+    }
+    .album-row:hover { background: var(--f50); }
+    .album-row.active { background: var(--f100); }
+
+    /* Small 2×2 collage thumbnail */
+    .album-row-thumb {
+      width: 42px; height: 42px;
+      border-radius: 6px;
+      overflow: hidden;
+      flex-shrink: 0;
+      display: grid;
+      gap: 1px;
+      background: var(--f100);
+    }
+    .album-row-thumb.p1 { grid-template-columns: 1fr; }
+    .album-row-thumb.p2 { grid-template-columns: 1fr 1fr; }
+    .album-row-thumb.p3 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+    .album-row-thumb.p3 img:first-child { grid-column: 1 / -1; }
+    .album-row-thumb.p4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+    .album-row-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .album-row-info { min-width: 0; }
+    .album-row-name  { font-size: 0.8rem; font-weight: 600; color: var(--f950); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .album-row-count { font-size: 0.7rem; color: var(--gray-500); margin-top: 0.1rem; }
+    .album-row.active .album-row-name { color: var(--f700); }
+
+    /* Loading skeleton for left panel */
+    .panel-skel-row {
+      display: flex; align-items: center; gap: 0.65rem;
+      padding: 0.45rem 0.6rem; margin-bottom: 0.1rem;
+    }
+    .panel-skel-thumb {
+      width: 42px; height: 42px; border-radius: 6px; flex-shrink: 0;
+      background: linear-gradient(90deg, var(--f50) 25%, var(--f100) 50%, var(--f50) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+    }
+    .panel-skel-lines { flex: 1; }
+    .panel-skel-line { height: 11px; border-radius: 4px; background: var(--f100); margin-bottom: 0.3rem; }
+    .panel-skel-line.short { width: 55%; }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+    /* ── Right: photos panel ── */
+    .gallery-photos-panel {
+      min-height: calc(100vh - var(--nav-h));
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Sticky header inside photos panel — shows album name */
+    .photos-panel-bar {
+      display: none;
+      position: sticky;
+      top: var(--nav-h);
+      z-index: 5;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--f100);
+      padding: 0.6rem 1rem;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .photos-panel-bar.visible { display: flex; }
+    .ppb-title { font-size: 0.9rem; font-weight: 700; color: var(--f950); }
+    .ppb-count { font-size: 0.78rem; color: var(--gray-500); }
+    .ppb-sep   { color: var(--f200); font-size: 0.8rem; }
+
+    /* Photo grid — no gap, thin border, no rounded corners */
+    .photos-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 4px;
+      flex: 1;
     }
-    .ag-item {
+    .photo-cell {
       aspect-ratio: 1;
       overflow: hidden;
       cursor: pointer;
       position: relative;
       background: var(--f50);
+      border: 1px solid rgba(0,0,0,0.07);
     }
-    .ag-item img {
+    .photo-cell img {
       width: 100%; height: 100%;
       object-fit: cover;
       display: block;
       transition: transform 0.4s ease;
     }
-    .ag-item:hover img { transform: scale(1.04); }
-    .ag-item .ag-video-badge {
-      position: absolute;
-      bottom: 0.45rem;
-      left: 0.45rem;
+    .photo-cell:hover img { transform: scale(1.04); }
+    .photo-cell .vid-badge {
+      position: absolute; bottom: 0.5rem; left: 0.5rem;
       background: rgba(0,0,0,0.52);
-      border-radius: 50px;
-      width: 26px; height: 26px;
+      width: 26px; height: 26px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      color: #fff; font-size: 0.72rem;
+      color: #fff; font-size: 0.7rem;
       pointer-events: none;
     }
 
-    /* ── Skeleton ── */
-    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-
-    /* Albums skeleton */
-    .albums-skeleton {
+    /* Photos panel skeleton shimmer */
+    .photos-grid-skel {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-      margin-top: 1rem;
+      grid-template-columns: repeat(3, 1fr);
+      flex: 1;
     }
-    .album-skel-card { }
-    .album-skel-img {
+    .photo-skel {
       aspect-ratio: 1;
-      border-radius: 16px;
       background: linear-gradient(90deg, var(--f50) 25%, var(--f100) 50%, var(--f50) 75%);
       background-size: 200% 100%;
       animation: shimmer 1.4s infinite;
-      margin-bottom: 0.65rem;
+      border: 1px solid rgba(0,0,0,0.05);
     }
-    .album-skel-text {
-      height: 14px; width: 70%;
-      border-radius: 6px;
-      background: var(--f100);
-      margin-bottom: 0.4rem;
-    }
-    .album-skel-sub { height: 11px; width: 40%; border-radius: 6px; background: var(--f50); }
 
     /* ── Empty state ── */
     .gallery-empty {
-      text-align: center;
-      padding: 5rem 2rem;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 5rem 2rem; flex: 1;
     }
-    .gallery-empty-icon { font-size: 3.5rem; color: var(--f200); display: block; margin-bottom: 1.2rem; }
+    .gallery-empty-icon { font-size: 3.5rem; color: var(--f200); margin-bottom: 1.2rem; }
     .gallery-empty h3 { color: var(--f950); margin-bottom: 0.5rem; }
-    .gallery-empty p  { color: var(--gray-500); font-size: 0.9rem; max-width: 380px; margin: 0 auto 1.5rem; }
-    .gallery-empty-social { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .gallery-empty p  { color: var(--gray-500); font-size: 0.9rem; max-width: 360px; margin: 0 auto; }
 
     /* ── Lightbox ── */
     .lightbox {
-      display: none;
-      position: fixed; inset: 0;
+      display: none; position: fixed; inset: 0;
       background: rgba(0,0,0,0.96);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
+      z-index: 2000; align-items: center; justify-content: center; padding: 1rem;
     }
     .lightbox.open { display: flex; }
     .lb-inner {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-width: min(90vw, 1000px);
-      width: 100%;
+      position: relative; display: flex; flex-direction: column; align-items: center;
+      max-width: min(90vw, 1000px); width: 100%;
     }
     .lb-img-wrap { width: 100%; display: flex; justify-content: center; position: relative; }
-    .lb-img-wrap img { max-width: 100%; max-height: 74vh; object-fit: contain; border-radius: 8px; display: block; }
-    .lb-video-btn {
-      position: absolute;
-      inset: 0; display: flex;
-      align-items: center; justify-content: center;
-    }
+    .lb-img-wrap img { max-width: 100%; max-height: 74vh; object-fit: contain; display: block; }
+    .lb-video-btn { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
     .lb-watch-btn {
       display: inline-flex; align-items: center; gap: 0.5rem;
-      background: rgba(255,255,255,0.15);
-      border: 1.5px solid rgba(255,255,255,0.4);
-      color: #fff; border-radius: 50px;
-      padding: 0.6rem 1.4rem;
-      font-size: 0.9rem; font-weight: 700;
-      text-decoration: none;
-      transition: background 0.2s;
+      background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4);
+      color: #fff; border-radius: 50px; padding: 0.6rem 1.4rem;
+      font-size: 0.9rem; font-weight: 700; text-decoration: none; transition: background 0.2s;
     }
     .lb-watch-btn:hover { background: rgba(255,255,255,0.28); }
     .lb-info { text-align: center; padding: 0.8rem 1rem 0; width: 100%; }
@@ -222,48 +257,73 @@
     #lbPrev { left: 1rem; }
     #lbNext { right: 1rem; }
 
-    /* ── Sample grid (random picks) ── */
-    .sample-section { margin: 0; }
-    .sample-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 0;
-    }
-    .sample-item {
-      aspect-ratio: 1;
-      overflow: hidden;
-      cursor: pointer;
-      position: relative;
-      background: var(--f50);
-    }
-    .sample-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
-    .sample-item:hover img { transform: scale(1.04); }
-    .sample-item .sample-play {
-      position: absolute; bottom: 0.5rem; left: 0.5rem;
-      background: rgba(0,0,0,0.5); border-radius: 50%;
-      width: 24px; height: 24px;
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; font-size: 0.7rem; pointer-events: none;
-    }
-
     /* ── CTA ── */
     .cta-section { background: linear-gradient(135deg, var(--f950), var(--f900)); padding: 80px 0; text-align: center; }
     .cta-section h2 { color: var(--white); margin-bottom: 1rem; }
     .cta-section p  { color: var(--f200); max-width: 500px; margin: 0 auto 2rem; }
 
-    /* ── Responsive ── */
+    /* ── Tablet (≤1024px) ── */
     @media (max-width: 1024px) {
-      .albums-grid { grid-template-columns: repeat(3, 1fr); }
-      .sample-grid { grid-template-columns: repeat(4, 1fr); }
+      .gallery-body { grid-template-columns: 220px 1fr; }
     }
-    .albums-section { padding: 3rem 0 0; }
-    @media (max-width: 640px) {
-      .albums-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-      .albums-skeleton { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-      .album-grid { grid-template-columns: repeat(3, 1fr); gap: 2px; }
-      .sample-grid { grid-template-columns: repeat(3, 1fr); }
+
+    /* ── Mobile (≤768px): stacked, albums become horizontal strip ── */
+    @media (max-width: 768px) {
+      .gallery-body {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+      }
+
+      /* Left panel: horizontal scroll strip */
+      .gallery-albums-panel {
+        position: static;
+        height: auto;
+        overflow-y: visible;
+        overflow-x: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--f100);
+        scrollbar-width: none;
+      }
+      .gallery-albums-panel::-webkit-scrollbar { display: none; }
+      .albums-panel-inner {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.6rem 0.75rem;
+        white-space: nowrap;
+        min-width: max-content;
+      }
+      .albums-panel-label { display: none; }
+
+      /* Pill-style items on mobile */
+      .all-photos-row, .album-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 0.5rem 0.6rem;
+        gap: 0.3rem;
+        border-radius: 10px;
+        min-width: 72px;
+        margin-bottom: 0;
+      }
+      .all-photos-icon { width: 52px; height: 52px; border-radius: 8px; font-size: 1.2rem; }
+      .album-row-thumb { width: 52px; height: 52px; border-radius: 8px; }
+      .ap-name, .album-row-name  { font-size: 0.7rem; white-space: normal; line-height: 1.2; }
+      .ap-count, .album-row-count { font-size: 0.63rem; }
+
+      /* Hide loading skeletons on mobile (load is fast) */
+      .panel-skel-row { display: none; }
+
+      /* Photos: 2-col on mobile */
+      .photos-grid { grid-template-columns: repeat(2, 1fr); }
+      .photos-grid-skel { grid-template-columns: repeat(2, 1fr); }
+
       .lb-nav { display: none; }
-      .album-nav-title { font-size: 1.15rem; }
+    }
+
+    @media (max-width: 420px) {
+      .gallery-hero h1 { font-size: 1.7rem; }
     }
   </style>
 </head>
@@ -271,74 +331,63 @@
 
 <div id="rf-header"></div>
 
-<!-- Compact page hero -->
-<section class="gallery-page-hero">
+<!-- Hero — left-aligned, scrolls behind fixed navbar as user scrolls down -->
+<section class="gallery-hero">
   <div class="container">
     <h1>Gallery</h1>
     <p>Life at Rena Farm — animals, crops, people &amp; the land</p>
   </div>
 </section>
 
-<!-- Sample grid — full width, no container padding, right below hero -->
-<div id="sampleSection" style="display:none">
-  <div class="sample-grid" id="sampleGrid"></div>
-</div>
+<!-- Two-panel body -->
+<div class="gallery-body">
 
-<section class="section-white">
-  <div class="container">
-
-    <!-- LOADING STATE -->
-    <div id="galleryLoading">
-      <div class="albums-skeleton">
-        <div class="album-skel-card"><div class="album-skel-img"></div><div class="album-skel-text"></div><div class="album-skel-sub"></div></div>
-        <div class="album-skel-card"><div class="album-skel-img"></div><div class="album-skel-text"></div><div class="album-skel-sub"></div></div>
-        <div class="album-skel-card"><div class="album-skel-img"></div><div class="album-skel-text"></div><div class="album-skel-sub"></div></div>
-        <div class="album-skel-card"><div class="album-skel-img"></div><div class="album-skel-text"></div><div class="album-skel-sub"></div></div>
+  <!-- LEFT: sticky albums sidebar -->
+  <div class="gallery-albums-panel" id="albumsPanel">
+    <div class="albums-panel-inner" id="albumsPanelInner">
+      <div class="albums-panel-label">Albums</div>
+      <!-- Skeleton while loading -->
+      <div id="albumsSkel">
+        <div class="panel-skel-row"><div class="panel-skel-thumb"></div><div class="panel-skel-lines"><div class="panel-skel-line" style="width:75%"></div><div class="panel-skel-line short"></div></div></div>
+        <div class="panel-skel-row"><div class="panel-skel-thumb"></div><div class="panel-skel-lines"><div class="panel-skel-line" style="width:60%"></div><div class="panel-skel-line short"></div></div></div>
+        <div class="panel-skel-row"><div class="panel-skel-thumb"></div><div class="panel-skel-lines"><div class="panel-skel-line" style="width:80%"></div><div class="panel-skel-line short"></div></div></div>
       </div>
+      <!-- Actual list injected by JS -->
+      <div id="albumsList" style="display:none"></div>
     </div>
+  </div>
 
-    <!-- LANDING VIEW (albums only) -->
-    <div id="viewLanding" style="display:none">
-      <h2 class="albums-heading">Albums</h2>
-      <div class="albums-grid" id="albumsGrid"></div>
+  <!-- RIGHT: photos panel -->
+  <div class="gallery-photos-panel" id="photosPanel">
+    <!-- Sticky bar showing active album name -->
+    <div class="photos-panel-bar" id="photosPanelBar">
+      <span class="ppb-title" id="ppbTitle"></span>
+      <span class="ppb-sep">·</span>
+      <span class="ppb-count" id="ppbCount"></span>
     </div>
-
-    <!-- ALBUM DETAIL VIEW -->
-    <div id="viewAlbum" style="display:none">
-      <div class="album-nav">
-        <button class="back-btn" id="backBtn">
-          <i class="ph ph-caret-left"></i> Albums
-        </button>
-        <div class="album-nav-title" id="albumTitle"></div>
-        <div class="album-nav-count" id="albumCount"></div>
-      </div>
-      <div class="album-grid" id="albumGrid"></div>
+    <!-- Skeleton while loading -->
+    <div class="photos-grid-skel" id="photosGridSkel">
+      <div class="photo-skel"></div><div class="photo-skel"></div><div class="photo-skel"></div>
+      <div class="photo-skel"></div><div class="photo-skel"></div><div class="photo-skel"></div>
+      <div class="photo-skel"></div><div class="photo-skel"></div><div class="photo-skel"></div>
     </div>
-
-    <!-- EMPTY STATE -->
+    <!-- Actual photo grid -->
+    <div class="photos-grid" id="photosGrid" style="display:none"></div>
+    <!-- Empty state -->
     <div class="gallery-empty" id="galleryEmpty" style="display:none">
       <i class="ph ph-camera gallery-empty-icon"></i>
       <h3>Gallery Coming Soon</h3>
       <p>We're putting together our best farm photos and videos — check back shortly.</p>
-      <div class="gallery-empty-social">
-        <a href="https://www.tiktok.com/@the.renafarm" target="_blank" rel="noopener" class="btn btn-outline-green">
-          <i class="ph ph-tiktok-logo"></i> @the.renafarm
-        </a>
-        <a href="https://www.instagram.com/the.renafarm" target="_blank" rel="noopener" class="btn btn-outline-green">
-          <i class="ph ph-instagram-logo"></i> @the.renafarm
-        </a>
-      </div>
     </div>
-
   </div>
-</section>
+
+</div>
 
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
   <button class="lb-close" id="lbClose" aria-label="Close"><i class="ph ph-x"></i></button>
   <button class="lb-nav" id="lbPrev" aria-label="Previous"><i class="ph ph-caret-left"></i></button>
   <button class="lb-nav" id="lbNext" aria-label="Next"><i class="ph ph-caret-right"></i></button>
-
   <div class="lb-inner">
     <div class="lb-img-wrap">
       <img id="lbImg" src="" alt="" />
@@ -374,203 +423,174 @@
 <script>
 ;(async function () {
 
-  /* ── Elements ── */
-  const loadingEl  = document.getElementById('galleryLoading')
-  const landingEl  = document.getElementById('viewLanding')
-  const albumEl    = document.getElementById('viewAlbum')
-  const emptyEl    = document.getElementById('galleryEmpty')
-  const albumsEl   = document.getElementById('albumsGrid')
-  const albumGridEl= document.getElementById('albumGrid')
-  const albumTitle = document.getElementById('albumTitle')
-  const albumCount = document.getElementById('albumCount')
-  const lightboxEl = document.getElementById('lightbox')
+  const albumsSkelEl     = document.getElementById('albumsSkel')
+  const albumsListEl     = document.getElementById('albumsList')
+  const photosGridSkelEl = document.getElementById('photosGridSkel')
+  const photosGridEl     = document.getElementById('photosGrid')
+  const galleryEmptyEl   = document.getElementById('galleryEmpty')
+  const photosPanelBarEl = document.getElementById('photosPanelBar')
+  const ppbTitleEl       = document.getElementById('ppbTitle')
+  const ppbCountEl       = document.getElementById('ppbCount')
+  const lightboxEl       = document.getElementById('lightbox')
 
-  /* ── State ── */
-  let allItems        = []
-  let allCategories   = []
-  let currentItems    = []   // items in current album (for lightbox)
-  let lbIndex         = 0
+  let allItems    = []
+  let albums      = []
+  let currentItems = []
+  let lbIndex     = 0
 
   /* ── Load ── */
   const [categories, items] = await Promise.all([
     loadGalleryCategories(),
     loadGalleryItems()
   ])
-  allItems      = items
-  allCategories = categories
+  allItems = items
 
-  loadingEl.style.display = 'none'
-
-  /* Build a map: categoryId → items */
+  /* Build album → items map */
   const catItemMap = {}
   categories.forEach(c => { catItemMap[c.id] = [] })
-  items.forEach(i => {
-    if (i.category_id && catItemMap[i.category_id]) catItemMap[i.category_id].push(i)
-  })
+  items.forEach(i => { if (i.category_id && catItemMap[i.category_id]) catItemMap[i.category_id].push(i) })
   const uncategorized = items.filter(i => !i.category_id)
 
-  /* Albums that actually have images */
-  const albums = categories
+  albums = categories
     .filter(c => (catItemMap[c.id] ?? []).length > 0)
     .map(c => ({ cat: c, items: catItemMap[c.id] }))
   if (uncategorized.length > 0) {
     albums.push({ cat: { id: '__uncategorized', name: 'Other', slug: 'other' }, items: uncategorized })
   }
 
+  albumsSkelEl.style.display     = 'none'
+  photosGridSkelEl.style.display = 'none'
+
   if (!items.length) {
-    emptyEl.style.display = 'block'
+    albumsListEl.style.display = 'block'
+    galleryEmptyEl.style.display = 'block'
     return
   }
 
-  /* ── Render albums grid ── */
-  albumsEl.innerHTML = albums.map(({ cat, items: aItems }) => {
-    const imgs = aItems.slice(0, 4)
-    const cls  = `p${Math.min(imgs.length, 4)}`
-    const imgTags = imgs.map(i => `<img src="${esc(i.thumbnail_url ?? i.media_url)}" alt="" loading="lazy" />`).join('')
-    return `
-      <div class="album-card" data-cat="${esc(cat.id)}">
-        <div class="album-preview ${cls}">${imgTags}</div>
-        <div class="album-title">${esc(cat.name)}</div>
-        <div class="album-count">${aItems.length} photo${aItems.length !== 1 ? 's' : ''}</div>
-      </div>
-    `
-  }).join('')
+  /* ── Render left panel ── */
+  const allRow = document.createElement('div')
+  allRow.className = 'all-photos-row active'
+  allRow.dataset.id = '__all'
+  allRow.innerHTML = `
+    <div class="all-photos-icon"><i class="ph ph-images"></i></div>
+    <div class="album-row-info">
+      <div class="ap-name">All Photos</div>
+      <div class="ap-count">${items.length} photo${items.length !== 1 ? 's' : ''}</div>
+    </div>`
+  albumsListEl.appendChild(allRow)
 
-  /* Album card click */
-  albumsEl.addEventListener('click', e => {
-    const card = e.target.closest('.album-card')
-    if (!card) return
-    const catId = card.dataset.cat
-    const album = albums.find(a => a.cat.id === catId)
-    if (album) openAlbum(album)
+  albums.forEach(({ cat, items: aItems }) => {
+    const imgs    = aItems.slice(0, 4)
+    const cls     = `p${Math.min(imgs.length, 4)}`
+    const thumbs  = imgs.map(i => `<img src="${esc(i.thumbnail_url ?? i.media_url)}" alt="" loading="lazy" />`).join('')
+    const row = document.createElement('div')
+    row.className = 'album-row'
+    row.dataset.id = cat.id
+    row.innerHTML = `
+      <div class="album-row-thumb ${cls}">${thumbs}</div>
+      <div class="album-row-info">
+        <div class="album-row-name">${esc(cat.name)}</div>
+        <div class="album-row-count">${aItems.length} photo${aItems.length !== 1 ? 's' : ''}</div>
+      </div>`
+    albumsListEl.appendChild(row)
+  })
+  albumsListEl.style.display = 'block'
+
+  /* Left panel click */
+  albumsListEl.addEventListener('click', e => {
+    const row = e.target.closest('.album-row, .all-photos-row')
+    if (!row) return
+    albumsListEl.querySelectorAll('.album-row, .all-photos-row').forEach(r => r.classList.remove('active'))
+    row.classList.add('active')
+    const id = row.dataset.id
+    if (id === '__all') {
+      showAllPhotos()
+    } else {
+      const album = albums.find(a => a.cat.id === id)
+      if (album) showAlbum(album)
+    }
   })
 
-  /* ── Render random sample ── */
-  const sampleEl   = document.getElementById('sampleSection')
-  const sampleGrid = document.getElementById('sampleGrid')
-  let sampleItems  = []
+  /* ── Show all photos (random shuffle of everything) ── */
+  function showAllPhotos() {
+    photosPanelBarEl.classList.remove('visible')
+    currentItems = [...items].sort(() => Math.random() - 0.5)
+    renderGrid(currentItems)
+  }
 
-  if (items.length > 0) {
-    const perAlbum = Math.max(2, Math.ceil(20 / Math.max(albums.length, 1)))
-    const pool = []
-    albums.forEach(({ items: aItems }) => {
-      const shuffled = [...aItems].sort(() => Math.random() - 0.5)
-      pool.push(...shuffled.slice(0, perAlbum))
-    })
-    sampleItems = pool.sort(() => Math.random() - 0.5).slice(0, 20)
+  /* ── Show single album ── */
+  function showAlbum({ cat, items: aItems }) {
+    currentItems = aItems
+    ppbTitleEl.textContent = cat.name
+    ppbCountEl.textContent = `${aItems.length} photo${aItems.length !== 1 ? 's' : ''}`
+    photosPanelBarEl.classList.add('visible')
+    renderGrid(aItems)
+    /* Scroll right panel into view on mobile */
+    document.getElementById('photosPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  }
 
-    sampleGrid.innerHTML = sampleItems.map((item, idx) => {
+  /* ── Render photo grid ── */
+  function renderGrid(photoItems) {
+    photosGridEl.innerHTML = photoItems.map((item, idx) => {
       const thumb = item.thumbnail_url ?? item.media_url
-      const isVid = item.media_type === 'video'
       return `
-        <div class="sample-item" data-idx="${idx}">
+        <div class="photo-cell" data-idx="${idx}">
           <img src="${esc(thumb)}" alt="${esc(item.title ?? '')}" loading="lazy" />
-          ${isVid ? '<div class="sample-play"><i class="ph ph-play"></i></div>' : ''}
+          ${item.media_type === 'video' ? '<div class="vid-badge"><i class="ph ph-play"></i></div>' : ''}
         </div>`
     }).join('')
-
-    sampleGrid.addEventListener('click', e => {
-      const el = e.target.closest('.sample-item')
-      if (!el) return
-      currentItems = sampleItems
-      openLightbox(parseInt(el.dataset.idx))
-    })
-
-    sampleEl.style.display = 'block'
+    photosGridEl.style.display = 'grid'
   }
 
-  landingEl.style.display = 'block'
-
-  /* ── Open album ── */
-  function openAlbum({ cat, items: aItems }) {
-    currentItems = aItems
-    albumTitle.textContent = cat.name
-    albumCount.textContent = `${aItems.length} photo${aItems.length !== 1 ? 's' : ''}`
-
-    albumGridEl.innerHTML = aItems.map((item, idx) => {
-      const thumb = item.thumbnail_url ?? item.media_url
-      const isVideo = item.media_type === 'video'
-      return `
-        <div class="ag-item" data-index="${idx}">
-          <img src="${esc(thumb)}" alt="${esc(item.title ?? '')}" loading="lazy" />
-          ${isVideo ? '<div class="ag-video-badge"><i class="ph ph-play"></i></div>' : ''}
-        </div>
-      `
-    }).join('')
-
-    albumGridEl.addEventListener('click', e => {
-      const item = e.target.closest('.ag-item')
-      if (!item) return
-      openLightbox(parseInt(item.dataset.index))
-    }, { once: true })
-
-    sampleEl.style.display  = 'none'
-    landingEl.style.display = 'none'
-    albumEl.style.display   = 'block'
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-  /* ── Back to albums ── */
-  document.getElementById('backBtn').addEventListener('click', () => {
-    albumEl.style.display   = 'none'
-    landingEl.style.display = 'block'
-    if (sampleItems.length) sampleEl.style.display = 'block'
-    currentItems = []
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+  photosGridEl.addEventListener('click', e => {
+    const cell = e.target.closest('.photo-cell')
+    if (!cell) return
+    openLightbox(parseInt(cell.dataset.idx))
   })
+
+  /* Initial load: show all photos shuffled */
+  showAllPhotos()
 
   /* ── Lightbox ── */
   function openLightbox(idx) {
-    lbIndex = idx
-    updateLightbox()
+    lbIndex = idx; updateLightbox()
     lightboxEl.classList.add('open')
     document.body.style.overflow = 'hidden'
   }
-
   function closeLightbox() {
     lightboxEl.classList.remove('open')
     document.body.style.overflow = ''
   }
-
   function updateLightbox() {
     const item = currentItems[lbIndex]
     if (!item) return
-    const isVideo = item.media_type === 'video'
-
-    const lbImg     = document.getElementById('lbImg')
-    const lbVidBtn  = document.getElementById('lbVideoBtn')
-    const lbVidLink = document.getElementById('lbVideoLink')
-
-    lbImg.src = item.thumbnail_url ?? item.media_url
-    lbImg.alt = item.title ?? ''
-
-    if (isVideo && item.video_embed_url) {
-      lbVidBtn.style.display  = 'flex'
-      lbVidLink.href          = item.video_embed_url
-    } else {
-      lbVidBtn.style.display  = 'none'
-    }
-
+    document.getElementById('lbImg').src     = item.thumbnail_url ?? item.media_url
+    document.getElementById('lbImg').alt     = item.title ?? ''
     document.getElementById('lbTitle').textContent   = item.title   ?? ''
     document.getElementById('lbCaption').textContent = item.caption ?? ''
     document.getElementById('lbCat').textContent     = item.gallery_categories?.name ?? ''
     document.getElementById('lbCounter').textContent = `${lbIndex + 1} / ${currentItems.length}`
     document.getElementById('lbPrev').disabled = lbIndex === 0
     document.getElementById('lbNext').disabled = lbIndex === currentItems.length - 1
+    const lbVidBtn  = document.getElementById('lbVideoBtn')
+    const lbVidLink = document.getElementById('lbVideoLink')
+    if (item.media_type === 'video' && item.video_embed_url) {
+      lbVidBtn.style.display = 'flex'; lbVidLink.href = item.video_embed_url
+    } else {
+      lbVidBtn.style.display = 'none'
+    }
   }
 
   document.getElementById('lbClose').addEventListener('click', closeLightbox)
   document.getElementById('lbPrev').addEventListener('click', () => { lbIndex--; updateLightbox() })
   document.getElementById('lbNext').addEventListener('click', () => { lbIndex++; updateLightbox() })
   lightboxEl.addEventListener('click', e => { if (e.target === lightboxEl) closeLightbox() })
-
   document.addEventListener('keydown', e => {
     if (!lightboxEl.classList.contains('open')) return
-    if (e.key === 'Escape')      closeLightbox()
+    if (e.key === 'Escape')     closeLightbox()
     if (e.key === 'ArrowLeft'  && lbIndex > 0)                       { lbIndex--; updateLightbox() }
     if (e.key === 'ArrowRight' && lbIndex < currentItems.length - 1) { lbIndex++; updateLightbox() }
   })
-
   let touchX = 0
   lightboxEl.addEventListener('touchstart', e => { touchX = e.touches[0].clientX }, { passive: true })
   lightboxEl.addEventListener('touchend',   e => {
