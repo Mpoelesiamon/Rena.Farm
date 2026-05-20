@@ -509,7 +509,9 @@ nav {
   display: flex;
   align-items: flex-end;
   padding-bottom: 3rem;
-  background: var(--f950);
+  background-color: var(--f950);
+  background-size: cover;
+  background-position: center;
   padding-top: 72px;
   position: relative;
   overflow: hidden;
