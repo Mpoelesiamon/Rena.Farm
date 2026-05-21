@@ -17,8 +17,8 @@
 
     /* ── STORY SPLIT ── */
     .story-split { display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
-    .story-img-side { position: relative; overflow: hidden; }
-    .story-img-side img { width: 100%; height: auto; aspect-ratio: 4/3; object-fit: cover; object-position: center; display: block; }
+    .story-img-side { position: relative; padding: 2.5rem 0 2.5rem 2.5rem; }
+    .story-img-side img { width: 100%; height: auto; aspect-ratio: 4/3; object-fit: cover; object-position: center; display: block; border-radius: var(--radius-lg); }
     .story-text-side { padding: 5rem 5rem; display: flex; flex-direction: column; justify-content: center; background: var(--white); }
     .story-pull { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-style: italic; color: var(--f700); border-left: 4px solid var(--f300); padding: 0.4rem 0 0.4rem 1.4rem; margin: 1.8rem 0; line-height: 1.75; }
 
@@ -109,7 +109,7 @@
     /* ── MOBILE ── */
     @media (max-width: 860px) {
       .story-split { grid-template-columns: 1fr; }
-      .story-img-side { min-height: 340px; max-height: 400px; }
+      .story-img-side { padding: 1.2rem 1.2rem 0; }
       .story-text-side { padding: 3rem 2rem; }
     }
     @media (max-width: 768px) {
