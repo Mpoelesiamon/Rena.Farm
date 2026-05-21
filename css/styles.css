@@ -139,9 +139,7 @@ header {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
-  background: rgba(4,18,4,0.72);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: var(--f950);
   border-bottom: 1px solid rgba(255,255,255,0.06);
   transition: all var(--transition);
 }
@@ -952,7 +950,6 @@ footer {
 
 /* ── HEADER SCROLLED STATE ── */
 header.scrolled {
-  background: rgba(4,18,4,0.92);
   box-shadow: 0 4px 24px rgba(7,30,7,0.4);
 }
 
@@ -1022,9 +1019,6 @@ header.scrolled {
   .nav-dropdown.open .dropdown-menu { display: block; }
   .caret { display: none; }
   .hamburger { display: none !important; }
-  .nav-wa-mob { display: flex; }
-  .mob-pill-nav { display: flex; }
-  .whatsapp-float { display: none; }
 }
 
 @media (max-width: 768px) {
@@ -1063,7 +1057,7 @@ header.scrolled {
   .review-card { width: 280px; }
 
   /* Page hero */
-  .page-hero { padding-bottom: 2rem; min-height: 36vh; }
+  .page-hero { padding-bottom: 2rem; min-height: 36vh; padding-top: 92px; }
 }
 
 @media (max-width: 560px) {
@@ -1104,40 +1098,39 @@ header.scrolled {
 }
 
 /* ══════════════════════════════════════════════════
-   MOBILE / TABLET NAV — WA HEADER BUTTON + PILL NAV
+   MOBILE / TABLET — APPLE-STYLE FLOATING NAV
+   Base styles (hidden by default). The @media block
+   below activates them — ORDER IS CRITICAL.
    ══════════════════════════════════════════════════ */
 
-/* WA button in header (mobile/tablet only) */
+/* WA button — lives in the header on mobile */
 .nav-wa-mob {
   display: none;
-  width: 36px; height: 36px;
+  width: 38px; height: 38px;
   border-radius: 50%;
   background: #25d366;
   align-items: center; justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 2px 10px rgba(37,211,102,0.45);
+  box-shadow: 0 2px 10px rgba(37,211,102,0.5);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.nav-wa-mob:hover { transform: scale(1.1); box-shadow: 0 4px 18px rgba(37,211,102,0.65); }
+.nav-wa-mob:hover { transform: scale(1.1); }
 
-/* Right-side floating pill nav (mobile/tablet only) */
+/* Floating pill nav — right-side island */
 .mob-pill-nav {
   display: none;
   position: fixed;
-  right: 10px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 1500;
   flex-direction: column;
-  background: rgba(4,18,4,0.76);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.11);
-  border-radius: 26px;
+  background: var(--f950);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 28px;
   padding: 6px;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.07);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.3);
   gap: 2px;
-  /* Slide-out animation hook */
   transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease;
 }
 .mob-pill-nav.pill-hidden {
@@ -1150,21 +1143,42 @@ header.scrolled {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
-  padding: 9px 10px;
-  border-radius: 20px;
+  gap: 3px;
+  padding: 10px 10px;
+  border-radius: 22px;
   text-decoration: none;
-  color: rgba(255,255,255,0.42);
+  color: rgba(255,255,255,0.38);
   transition: color 0.2s ease, background 0.2s ease;
-  min-width: 48px;
+  min-width: 50px;
 }
 .mob-pill-item i { font-size: 1.3rem; line-height: 1; }
 .mob-pill-item span {
-  font-size: 0.56rem;
+  font-size: 0.55rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   line-height: 1;
 }
-.mob-pill-item:hover { color: rgba(255,255,255,0.82); background: rgba(255,255,255,0.08); }
+.mob-pill-item:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.07); }
 .mob-pill-item.active { color: var(--white); background: var(--f700); }
+
+/* ── Activate on mobile/tablet — MUST come after base styles ── */
+@media (max-width: 1024px) {
+  /* Floating header island */
+  header {
+    top: 10px;
+    left: 12px;
+    right: 12px;
+    border-radius: 20px;
+    border-bottom: none;
+    overflow: hidden;
+    box-shadow: 0 4px 28px rgba(0,0,0,0.45);
+  }
+  header::after { border-radius: 0 0 20px 20px; }
+  header.scrolled { box-shadow: 0 6px 36px rgba(0,0,0,0.55); }
+
+  /* Show pill + WA, hide hamburger + floating WA */
+  .mob-pill-nav { display: flex; }
+  .nav-wa-mob   { display: flex; }
+  .whatsapp-float { display: none; }
+}
