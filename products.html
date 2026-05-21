@@ -30,6 +30,27 @@
     .cta-section p  { color:var(--f200); max-width:480px; margin:0 auto 2rem; }
     .cta-buttons { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
 
+    /* ── SHOP PRODUCT CARDS ── */
+    .pl-card { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); overflow:hidden; transition:all var(--transition); display:flex; flex-direction:column; }
+    .pl-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-md); border-color:var(--f300); }
+    .pl-card-img { position:relative; height:180px; background:var(--f50); overflow:hidden; }
+    .pl-card-img img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease; }
+    .pl-card:hover .pl-card-img img { transform:scale(1.05); }
+    .pl-card-img .pl-no-img { display:flex; align-items:center; justify-content:center; height:100%; font-size:3rem; color:var(--f200); }
+    .pl-avail { position:absolute; top:0.6rem; left:0.6rem; font-size:0.68rem; font-weight:700; padding:0.2rem 0.6rem; border-radius:50px; }
+    .pl-avail.available { background:#d1fae5; color:#065f46; }
+    .pl-avail.limited { background:#fef3c7; color:#92400e; }
+    .pl-avail.out_of_stock { background:#fee2e2; color:#991b1b; }
+    .pl-avail.seasonal { background:#dbeafe; color:#1e40af; }
+    .pl-cat-badge { position:absolute; top:0.6rem; right:0.6rem; font-size:0.65rem; font-weight:700; padding:0.2rem 0.55rem; border-radius:50px; background:rgba(7,30,7,0.7); color:var(--f200); backdrop-filter:blur(4px); }
+    .pl-body { padding:1rem 1.1rem 1.2rem; flex:1; display:flex; flex-direction:column; }
+    .pl-name { font-size:0.95rem; font-weight:700; color:var(--f950); margin-bottom:0.3rem; }
+    .pl-desc { font-size:0.8rem; color:var(--gray-500); line-height:1.5; flex:1; margin-bottom:0.6rem; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .pl-price { font-size:0.95rem; font-weight:800; color:var(--f900); }
+    .pl-price span { font-size:0.72rem; font-weight:500; color:var(--gray-400); }
+    .pl-enquire { display:block; text-align:center; margin-top:0.8rem; padding:0.5rem; background:var(--f50); border:1.5px solid var(--f200); border-radius:var(--radius); font-size:0.78rem; font-weight:700; color:var(--f700); text-decoration:none; transition:all var(--transition); }
+    .pl-enquire:hover { background:var(--f900); color:var(--white); border-color:var(--f900); }
+
     /* ── LISTINGS ── */
     .filter-tabs { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:2rem; }
     .filter-tab { padding:0.45rem 1.1rem; border-radius:50px; border:1.5px solid var(--f200); background:var(--white); color:var(--f700); font-size:0.82rem; font-weight:600; cursor:pointer; transition:all 0.2s; font-family:'Inter',sans-serif; }
@@ -178,8 +199,35 @@
   </div>
 </section>
 
+<!-- SHOP PRODUCT LISTINGS -->
+<section class="section-light" id="shop">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:2rem;">
+      <p class="section-label">Shop Now</p>
+      <h2 class="section-title">Browse Our Products</h2>
+      <p class="section-subtitle">All products listed for sale — filtered by category. Click any card to enquire or order.</p>
+    </div>
+    <div class="filter-tabs" id="shopTabs">
+      <button class="filter-tab active" data-cat="all">All</button>
+      <button class="filter-tab" data-cat="livestock">Livestock</button>
+      <button class="filter-tab" data-cat="fodder">Fodder</button>
+      <button class="filter-tab" data-cat="feeds">Feeds</button>
+      <button class="filter-tab" data-cat="dairy">Dairy</button>
+      <button class="filter-tab" data-cat="poultry">Poultry</button>
+      <button class="filter-tab" data-cat="grains">Grains</button>
+      <button class="filter-tab" data-cat="other">Other</button>
+    </div>
+    <div id="shopGrid" class="products-grid">
+      <!-- skeleton -->
+      <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line" style="width:60%"></div><div class="skeleton-line" style="width:40%"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line" style="width:55%"></div><div class="skeleton-line" style="width:35%"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line" style="width:65%"></div><div class="skeleton-line" style="width:45%"></div></div></div>
+    </div>
+  </div>
+</section>
+
 <!-- DYNAMIC LISTINGS -->
-<section class="section-light" id="listings">
+<section class="section-white" id="listings">
   <div class="container">
     <div class="text-center" style="margin-bottom:2rem;">
       <p class="section-label">Available Now</p>
@@ -302,7 +350,60 @@
 const SPECIES_LABELS = { dorper_sheep:'Dorper Sheep', gala_goat:'Gala Goat', dairy_cow:'Dairy Cow', beef_cattle:'Beef Cattle', sahiwal:'Sahiwal', kienyeji_chicken:'Kienyeji Chicken', other:'Other' }
 const STATUS_LABELS  = { on_sale:'On Sale', booked:'Booked', sold:'Sold' }
 const STATUS_CLS     = { on_sale:'status-on_sale', booked:'status-booked', sold:'status-sold' }
+const CAT_LABELS     = { livestock:'Livestock', fodder:'Fodder', feeds:'Feeds', dairy:'Dairy', poultry:'Poultry', grains:'Grains', other:'Other' }
+const AVAIL_LABELS   = { available:'Available', limited:'Limited', out_of_stock:'Out of Stock', seasonal:'Seasonal' }
 let allAnimals = [], currentImages = [], currentImgIdx = 0, currentFilter = 'all'
+let allListings = [], shopFilter = 'all'
+
+/* ── Shop: load product_listings ── */
+async function initShop() {
+  try {
+    allListings = await loadActiveProductListings()
+    renderShop(allListings)
+    document.querySelectorAll('#shopTabs .filter-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#shopTabs .filter-tab').forEach(b => b.classList.remove('active'))
+        btn.classList.add('active')
+        shopFilter = btn.dataset.cat
+        renderShop(shopFilter === 'all' ? allListings : allListings.filter(p => p.category === shopFilter))
+      })
+    })
+  } catch(e) {
+    document.getElementById('shopGrid').innerHTML = `<div class="empty-state"><i class="ph ph-package"></i><p>Could not load products.</p></div>`
+  }
+}
+
+function renderShop(listings) {
+  const grid = document.getElementById('shopGrid')
+  if (!listings.length) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><i class="ph ph-storefront"></i><p>No products in this category yet — check back soon.</p></div>`
+    return
+  }
+  grid.innerHTML = listings.map(p => {
+    const waMsg = encodeURIComponent(`Hi Rena Farm, I'm interested in ${p.name}. Is it available?`)
+    return `
+    <div class="pl-card">
+      <div class="pl-card-img">
+        ${p.cover_image_url
+          ? `<img src="${escHtml(p.cover_image_url)}" alt="${escHtml(p.name)}" loading="lazy"/>`
+          : `<div class="pl-no-img"><i class="ph ph-package"></i></div>`}
+        <span class="pl-avail ${p.availability}">${AVAIL_LABELS[p.availability] ?? p.availability}</span>
+        <span class="pl-cat-badge">${CAT_LABELS[p.category] ?? p.category}</span>
+      </div>
+      <div class="pl-body">
+        <div class="pl-name">${escHtml(p.name)}</div>
+        ${p.description ? `<div class="pl-desc">${escHtml(p.description)}</div>` : ''}
+        ${p.price_per_unit
+          ? `<div class="pl-price">KSh ${Number(p.price_per_unit).toLocaleString()} <span>/ ${escHtml(p.unit ?? 'unit')}</span></div>`
+          : `<div class="pl-price" style="font-size:0.82rem;color:var(--gray-400);">Price on request</div>`}
+        ${p.min_order ? `<div style="font-size:0.72rem;color:var(--gray-400);margin-top:0.2rem;">Min: ${escHtml(p.min_order)}</div>` : ''}
+        <a href="contact.html?interest=${encodeURIComponent(p.name)}" class="pl-enquire">Enquire About ${escHtml(p.name)}</a>
+      </div>
+    </div>`
+  }).join('')
+}
+
+initShop()
 
 async function initListings() {
   try {
