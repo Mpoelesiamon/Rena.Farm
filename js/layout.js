@@ -332,10 +332,10 @@ if (typeof db !== 'undefined') {
 
       initial.textContent = displayName.charAt(0).toUpperCase()
 
-      // Update pill account icon — show initial in small badge
+      // Update pill account icon when logged in (brighter, no active bg — page determines that)
       if (mobPillAccount) {
-        mobPillAccount.classList.add('active')
         mobPillAccount.querySelector('i').className = 'ph ph-user-circle-check'
+        mobPillAccount.style.color = 'rgba(255,255,255,0.75)'
       }
 
       dropdown.innerHTML = `
