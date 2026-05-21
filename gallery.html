@@ -258,46 +258,51 @@
       .photos-grid-skel { grid-template-columns: repeat(6, 1fr); grid-auto-rows: 95px; }
     }
 
-    /* ── Mobile (≤768px): stacked, albums become 2-column card grid at top ── */
+    /* ── Mobile (≤768px): narrow sticky sidebar + photos grid (mirrors desktop) ── */
     @media (max-width: 768px) {
+      /* Keep side-by-side, narrow the sidebar */
       .gallery-body {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr;
+        grid-template-columns: 72px 1fr;
       }
 
-      /* Left panel: 2-col album grid strip */
+      /* Sidebar: sticky, height accounts for floating header + bottom tab bar */
       .gallery-albums-panel {
-        position: static;
-        height: auto;
-        overflow-y: visible;
-        border-right: none;
-        border-bottom: 1px solid var(--f100);
+        position: sticky;
+        top: 92px;
+        height: calc(100vh - 92px - 90px);
+        overflow-y: auto;
+        border-right: 1px solid var(--f100);
+        border-bottom: none;
       }
-      .albums-panel-inner {
-        padding: 0.6rem 0.5rem;
-      }
+      .albums-panel-inner { padding: 0.3rem 0.25rem 1rem; }
 
-      /* 2-column grid for album cards on mobile */
-      #albumsList {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0.35rem;
-      }
-      /* All Photos spans full width above the grid */
+      /* Album list: single column of thumbnail chips */
+      #albumsList  { display: block; }
+      #albumsSkel  { display: block; }
+      .panel-skel-row { padding: 0.2rem; margin-bottom: 0.15rem; }
+
+      /* Album cards: thumbnail only, no text labels */
+      .album-row { padding: 0.2rem; margin-bottom: 0.15rem; border-radius: 8px; }
+      .album-row-thumb { margin-bottom: 0; }
+      .album-row-name, .album-row-count { display: none; }
+      .album-row.active { background: transparent; }
+      .album-row.active .album-row-thumb { box-shadow: 0 0 0 2px var(--f600); border-radius: 7px; }
+
+      /* All Photos chip: icon only, centred */
       .all-photos-row {
-        grid-column: 1 / -1;
-        margin-bottom: 0.25rem;
+        justify-content: center;
+        padding: 0.45rem 0.2rem;
+        margin-bottom: 0.3rem;
         border-bottom: 1px solid var(--f100);
         padding-bottom: 0.5rem;
+        grid-column: unset;
       }
+      .ap-name, .ap-count { display: none; }
+      .all-photos-icon { font-size: 1.25rem; }
 
-      /* Skeleton on mobile: 2 col */
-      #albumsSkel { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; }
-      .panel-skel-row { padding: 0.25rem; margin-bottom: 0; }
-
-      /* Smaller grid on mobile */
-      .photos-grid { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 80px; }
-      .photos-grid-skel { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 80px; }
+      /* Photos grid: 3 columns on phone */
+      .photos-grid { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 80px; }
+      .photos-grid-skel { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 80px; }
 
       .lb-nav { display: none; }
     }
