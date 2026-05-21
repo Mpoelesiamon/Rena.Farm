@@ -121,8 +121,10 @@
       .tl-col-text-right { grid-column: 2; grid-row: 1; text-align: left; padding-left: 1rem; }
       .tl-empty { display: none; }
       .tl-badge { font-size: 0.68rem; padding: 0.25rem 0.6rem; }
-      .founders-grid { grid-template-columns: 1fr; }
       .founder-card img { aspect-ratio: 4 / 3; max-height: 360px; }
+    }
+    @media (max-width: 600px) {
+      .founders-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 480px) {
       .stat-block-num { font-size: 2rem; }
