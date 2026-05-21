@@ -21,13 +21,16 @@
     .cta-section { background:linear-gradient(135deg,var(--f950),var(--f900)); padding:80px 0; text-align:center; }
     .cta-section h2 { color:var(--white); margin-bottom:1rem; }
     .cta-section p  { color:var(--f200); max-width:480px; margin:0 auto 2rem; }
+    .field-error input, .field-error select, .field-error textarea { border-color:#ef4444 !important; background:#fff5f5; }
+    .field-error-msg { color:#ef4444; font-size:0.75rem; margin-top:0.3rem; display:none; }
+    .field-error .field-error-msg { display:block; }
   </style>
 </head>
 <body>
 
 <div id="rf-header"></div>
 
-<section class="page-hero" style="min-height:60vh;background-image:linear-gradient(rgba(7,30,7,0.4),rgba(7,30,7,0.65)),url('https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-01.jpg');background-size:cover;background-position:center 50%;">
+<section class="page-hero" style="min-height:60vh;background-image:linear-gradient(rgba(7,30,7,0.4),rgba(7,30,7,0.65)),url('https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-01.jpg');background-size:160%;background-position:center 55%;">
   <div class="container">
     <div class="breadcrumb"><a href="index.html">Home</a> <span class="sep">/</span> <span>Contact</span></div>
     <h1>Get In Touch</h1>
@@ -148,30 +151,105 @@
 <script src="js/supabase-client.js"></script>
 <script src="js/layout.js"></script>
 <script>
-document.getElementById('contactForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const btn = this.querySelector('button[type="submit"]');
-  btn.textContent = 'Sending…'; btn.disabled = true;
-  const data = new FormData(this);
-  const ok = await submitEnquiry({
-    first_name: data.get('firstName'),
-    last_name:  data.get('lastName'),
-    email:      data.get('email'),
-    phone:      data.get('phone') || null,
-    interest:   data.get('interest'),
-    quantity:   data.get('quantity') || null,
-    message:    data.get('message'),
-  });
-  if (ok) {
-    document.getElementById('successBanner').classList.add('show');
-    this.reset();
-    this.scrollIntoView({ behavior:'smooth', block:'start' });
-  } else {
-    btn.textContent = 'Error — try WhatsApp instead';
-    btn.style.background = '#ef4444';
+(function () {
+  const FARM_WA = '254724980372';
+
+  const INTEREST_LABELS = {
+    'dairy-cattle':'Dairy Cows','sahiwaal':'Sahiwaal Cattle','beef-cattle':'Beef Cattle',
+    'dorper-sheep':'Dorper Sheep','dorper-rams':'Pure Dorper Rams','gala-goats':'Gala Goats',
+    'kienyeji-chicken':'Kienyeji Improved Chicken','milk':'Fresh Farm Milk','silage':'Silage',
+    'boma-rhodes-hay':'Boma Rhodes Hay','napier':'Napier Grass','pellets':'Pellets',
+    'chicken-feeds':'Chicken Feeds','lucerne':'Lucerne (Alfalfa)','farm-visit':'Farm Visit','other':'Other Enquiry'
+  };
+
+  /* ── Validation helpers ── */
+  function markField(input, valid, msg) {
+    const grp = input.closest('.form-group');
+    grp.classList.toggle('field-error', !valid);
+    let errEl = grp.querySelector('.field-error-msg');
+    if (!errEl) { errEl = document.createElement('span'); errEl.className = 'field-error-msg'; grp.appendChild(errEl); }
+    errEl.textContent = msg || 'This field is required.';
   }
-  setTimeout(() => { btn.textContent = 'Send Message'; btn.disabled = false; btn.style.background = ''; }, 4000);
-});
+
+  function validate(data) {
+    let ok = true;
+    const form = document.getElementById('contactForm');
+
+    const fn = form.querySelector('[name=firstName]');
+    const valid_fn = fn.value.trim().length > 0;
+    markField(fn, valid_fn, 'First name is required.'); if (!valid_fn) ok = false;
+
+    const ln = form.querySelector('[name=lastName]');
+    const valid_ln = ln.value.trim().length > 0;
+    markField(ln, valid_ln, 'Last name is required.'); if (!valid_ln) ok = false;
+
+    const em = form.querySelector('[name=email]');
+    const valid_em = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim());
+    markField(em, valid_em, 'A valid email address is required.'); if (!valid_em) ok = false;
+
+    const int = form.querySelector('[name=interest]');
+    const valid_int = int.value !== '';
+    markField(int, valid_int, 'Please select an interest.'); if (!valid_int) ok = false;
+
+    const msg = form.querySelector('[name=message]');
+    const valid_msg = msg.value.trim().length > 5;
+    markField(msg, valid_msg, 'Please write a message (at least 6 characters).'); if (!valid_msg) ok = false;
+
+    return ok;
+  }
+
+  /* ── Build WhatsApp message ── */
+  function buildWAText(d) {
+    const interest = INTEREST_LABELS[d.interest] || d.interest;
+    let text = `*New Enquiry — Rena Farm Website*\n\n`;
+    text += `*Name:* ${d.firstName} ${d.lastName}\n`;
+    text += `*Email:* ${d.email}\n`;
+    if (d.phone) text += `*Phone/WhatsApp:* ${d.phone}\n`;
+    text += `*Interested in:* ${interest}\n`;
+    if (d.quantity) text += `*Quantity:* ${d.quantity}\n`;
+    text += `*Message:*\n${d.message}`;
+    return encodeURIComponent(text);
+  }
+
+  document.getElementById('contactForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const form = this;
+    const data = Object.fromEntries(new FormData(form));
+
+    if (!validate(new FormData(form))) return;
+
+    const btn = form.querySelector('button[type="submit"]');
+    btn.textContent = 'Sending…'; btn.disabled = true;
+
+    /* Save to Supabase for records */
+    await submitEnquiry({
+      first_name: data.firstName,
+      last_name:  data.lastName,
+      email:      data.email,
+      phone:      data.phone || null,
+      interest:   data.interest,
+      quantity:   data.quantity || null,
+      message:    data.message,
+    });
+
+    /* Open WhatsApp with pre-filled message */
+    window.open(`https://wa.me/${FARM_WA}?text=${buildWAText(data)}`, '_blank');
+
+    /* Show success */
+    document.getElementById('successBanner').classList.add('show');
+    form.reset();
+    /* Clear any error styles */
+    form.querySelectorAll('.form-group').forEach(g => g.classList.remove('field-error'));
+    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    btn.textContent = 'Send Message'; btn.disabled = false;
+  });
+
+  /* Live clear error on input */
+  document.getElementById('contactForm').querySelectorAll('input,select,textarea').forEach(el => {
+    el.addEventListener('input', () => el.closest('.form-group')?.classList.remove('field-error'));
+  });
+})();
 </script>
 </body>
 </html>
