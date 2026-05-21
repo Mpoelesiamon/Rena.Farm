@@ -143,6 +143,7 @@
 </nav>
 
 <div class="mob-sub-panel" id="mobProductsPanel">
+  <a href="products.html" class="mob-sub-item"><i class="ph ph-squares-four"></i><span>All</span></a>
   <a href="livestock.html" class="mob-sub-item"><i class="ph ph-cow"></i><span>Livestock</span></a>
   <a href="fodder.html" class="mob-sub-item"><i class="ph ph-leaf"></i><span>Fodder</span></a>
   <a href="products.html#dairy" class="mob-sub-item"><i class="ph ph-drop-half"></i><span>Dairy</span></a>

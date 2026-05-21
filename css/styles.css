@@ -1154,6 +1154,13 @@ header.scrolled {
   color: rgba(255,255,255,0.38);
   transition: color 0.2s ease, background 0.2s ease;
   flex: 1;
+  /* Reset button defaults */
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  -webkit-appearance: none;
+  appearance: none;
 }
 .mob-pill-item i { font-size: 1.3rem; line-height: 1; }
 .mob-pill-item span {
@@ -1190,17 +1197,15 @@ header.scrolled {
   .whatsapp-float { display: none; }
 }
 
-/* Tablet: constrain tab bar + sub-panels to phone-like width, centred */
+/* Tablet: constrain tab bar + sub-panels to phone-like width, centred.
+   Use margin-left (not transform) so animation transforms don't conflict. */
 @media (min-width: 601px) and (max-width: 1024px) {
   .mob-pill-nav,
   .mob-sub-panel {
     left: 50%;
     right: auto;
     width: 420px;
-    transform: translateX(-50%);
-  }
-  .mob-pill-nav.pill-hidden {
-    transform: translateX(-50%) translateY(calc(100% + 20px));
+    margin-left: -210px; /* half of 420px — centers without touching transform */
   }
 }
 
