@@ -128,7 +128,7 @@
   <a href="about.html" class="mob-pill-item" data-page="about.html">
     <i class="ph ph-info"></i><span>About</span>
   </a>
-  <a href="products.html" class="mob-pill-item" data-page="products.html">
+  <a href="products.html" class="mob-pill-item" data-page="products.html" id="mobPillProducts">
     <i class="ph ph-storefront"></i><span>Products</span>
   </a>
   <a href="gallery.html" class="mob-pill-item" data-page="gallery.html">
@@ -137,10 +137,19 @@
   <a href="contact.html" class="mob-pill-item" data-page="contact.html">
     <i class="ph ph-phone"></i><span>Contact</span>
   </a>
-  <a href="portal.html" class="mob-pill-item" id="mobPillAccount">
+  <button class="mob-pill-item" id="mobPillAccount">
     <i class="ph ph-user-circle"></i><span>Account</span>
-  </a>
-</nav>`;
+  </button>
+</nav>
+
+<div class="mob-sub-panel" id="mobProductsPanel">
+  <a href="livestock.html" class="mob-sub-item"><i class="ph ph-cow"></i><span>Livestock</span></a>
+  <a href="fodder.html" class="mob-sub-item"><i class="ph ph-leaf"></i><span>Fodder</span></a>
+  <a href="products.html#dairy" class="mob-sub-item"><i class="ph ph-drop-half"></i><span>Dairy</span></a>
+  <a href="products.html#poultry" class="mob-sub-item"><i class="ph ph-bird"></i><span>Poultry</span></a>
+</div>
+
+<div class="mob-sub-panel mob-sub-panel--list" id="mobAccountPanel"></div>`;
 
   /* ── INJECT HEADER ── */
   const headerSlot = document.getElementById('rf-header');
@@ -209,6 +218,40 @@
     }
   });
 
+  /* ── MOBILE SUB-PANELS ── */
+  const mobProductsPanel = document.getElementById('mobProductsPanel');
+  const mobAccountPanel  = document.getElementById('mobAccountPanel');
+
+  document.getElementById('mobPillProducts')?.addEventListener('click', e => {
+    if (window.innerWidth > 1024) return;
+    e.preventDefault();
+    const opening = !mobProductsPanel.classList.contains('open');
+    mobProductsPanel.classList.toggle('open');
+    if (opening) mobAccountPanel?.classList.remove('open');
+  });
+
+  document.getElementById('mobPillAccount')?.addEventListener('click', e => {
+    if (window.innerWidth > 1024) return;
+    e.preventDefault();
+    if (mobAccountPanel?.innerHTML.trim()) {
+      const opening = !mobAccountPanel.classList.contains('open');
+      mobAccountPanel.classList.toggle('open');
+      if (opening) mobProductsPanel?.classList.remove('open');
+    } else {
+      window.location.href = `login.html?return=${encodeURIComponent(window.location.href)}`;
+    }
+  });
+
+  /* Close sub-panels on outside tap */
+  document.addEventListener('click', e => {
+    if (!e.target.closest('#mobPillProducts') && !e.target.closest('#mobProductsPanel')) {
+      mobProductsPanel?.classList.remove('open');
+    }
+    if (!e.target.closest('#mobPillAccount') && !e.target.closest('#mobAccountPanel')) {
+      mobAccountPanel?.classList.remove('open');
+    }
+  });
+
   /* ── SCROLL: header shadow, back-to-top, pill hide/show ── */
   const siteHeader = document.getElementById('site-header');
   const backToTop  = document.getElementById('rfBackTop');
@@ -223,10 +266,10 @@
 
     if (mobPill) {
       if (currentY > lastScrollY && currentY > 80) {
-        // Scrolling down — hide pill
         mobPill.classList.add('pill-hidden');
+        document.getElementById('mobProductsPanel')?.classList.remove('open');
+        document.getElementById('mobAccountPanel')?.classList.remove('open');
       } else {
-        // Scrolling up — show pill
         mobPill.classList.remove('pill-hidden');
       }
     }
@@ -332,10 +375,28 @@ if (typeof db !== 'undefined') {
 
       initial.textContent = displayName.charAt(0).toUpperCase()
 
-      // Update pill account icon when logged in (brighter, no active bg — page determines that)
-      if (mobPillAccount) {
-        mobPillAccount.querySelector('i').className = 'ph ph-user-circle-check'
-        mobPillAccount.style.color = 'rgba(255,255,255,0.75)'
+      // Pill account: brighter icon when logged in + populate sub-panel
+      const mobPillAccountBtn = document.getElementById('mobPillAccount')
+      if (mobPillAccountBtn) {
+        mobPillAccountBtn.querySelector('i').className = 'ph ph-user-circle-check'
+        mobPillAccountBtn.style.color = 'rgba(255,255,255,0.8)'
+      }
+      const mobAccPanel = document.getElementById('mobAccountPanel')
+      if (mobAccPanel) {
+        mobAccPanel.innerHTML = `
+          <div class="mob-sub-acct-header">
+            <div class="mob-sub-acct-name">${displayName}</div>
+            <div class="mob-sub-acct-email">${session.user.email ?? ''}</div>
+          </div>
+          <div class="mob-sub-divider"></div>
+          <a href="portal.html" class="mob-sub-item"><i class="ph ph-squares-four"></i><span>Overview</span></a>
+          <a href="portal.html?tab=enquiries" class="mob-sub-item"><i class="ph ph-chat-circle-dots"></i><span>My Enquiries</span></a>
+          <a href="portal.html?tab=messages" class="mob-sub-item"><i class="ph ph-envelope-simple"></i><span>Messages</span></a>
+          <a href="portal.html?tab=profile" class="mob-sub-item"><i class="ph ph-user"></i><span>My Profile</span></a>
+          <div class="mob-sub-divider"></div>
+          <button class="mob-sub-item mob-sub-signout" onclick="(async()=>{await db.auth.signOut();window.location.href='index.html'})()">
+            <i class="ph ph-sign-out"></i><span>Sign Out</span>
+          </button>`
       }
 
       dropdown.innerHTML = `

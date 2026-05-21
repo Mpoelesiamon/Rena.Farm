@@ -794,7 +794,7 @@ section { padding: 96px 0; }
 .review-track {
   display: flex; gap: 1.4rem;
   width: max-content;
-  animation: slideLeft 55s linear infinite;
+  animation: slideLeft 28s linear infinite;
 }
 .review-track:hover { animation-play-state: paused; }
 @keyframes slideLeft {
@@ -1055,6 +1055,7 @@ header.scrolled {
 
   /* Review cards */
   .review-card { width: 280px; }
+  .review-track { animation-duration: 18s; }
 
   /* Page hero */
   .page-hero { padding-bottom: 2rem; min-height: 36vh; padding-top: 92px; }
@@ -1187,4 +1188,92 @@ header.scrolled {
   .mob-pill-nav { display: flex; }
   .nav-wa-mob   { display: flex; }
   .whatsapp-float { display: none; }
+}
+
+/* Tablet: constrain tab bar + sub-panels to phone-like width, centred */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .mob-pill-nav,
+  .mob-sub-panel {
+    left: 50%;
+    right: auto;
+    width: 420px;
+    transform: translateX(-50%);
+  }
+  .mob-pill-nav.pill-hidden {
+    transform: translateX(-50%) translateY(calc(100% + 20px));
+  }
+}
+
+/* ── MOBILE SUB-PANELS (Products & Account) ── */
+.mob-sub-panel {
+  display: none;
+  position: fixed;
+  bottom: 96px;   /* sits just above the tab bar */
+  left: 12px;
+  right: 12px;
+  background: var(--f950);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 8px;
+  box-shadow: 0 -2px 32px rgba(0,0,0,0.5);
+  z-index: 1499;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: stretch;
+}
+.mob-sub-panel.open {
+  display: flex;
+  animation: mobSubIn 0.22s cubic-bezier(0.34,1.56,0.64,1);
+}
+/* Account panel is a vertical list */
+.mob-sub-panel--list {
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 2px;
+  padding: 6px;
+}
+/* Products: icon-grid items */
+.mob-sub-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 6px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.75rem;
+  font-weight: 600;
+  flex: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, color 0.15s;
+}
+.mob-sub-item i { font-size: 1.4rem; line-height: 1; }
+.mob-sub-item:hover, .mob-sub-item:active { background: rgba(255,255,255,0.08); color: var(--white); }
+/* Account list items: horizontal row */
+.mob-sub-panel--list .mob-sub-item {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.78rem 1rem;
+  font-size: 0.88rem;
+  text-align: left;
+  flex: none;
+  justify-content: flex-start;
+  border-radius: 12px;
+}
+.mob-sub-panel--list .mob-sub-item i { font-size: 1.1rem; min-width: 20px; }
+/* Account header + divider */
+.mob-sub-acct-header { padding: 0.8rem 1rem 0.5rem; }
+.mob-sub-acct-name  { color: var(--white); font-weight: 700; font-size: 0.9rem; }
+.mob-sub-acct-email { color: var(--f400); font-size: 0.74rem; margin-top: 0.15rem; }
+.mob-sub-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 4px 8px; }
+.mob-sub-signout { color: #f87171 !important; }
+@keyframes mobSubIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
