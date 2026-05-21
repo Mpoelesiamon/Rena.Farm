@@ -1197,15 +1197,20 @@ header.scrolled {
   .whatsapp-float { display: none; }
 }
 
-/* Tablet: constrain tab bar + sub-panels to phone-like width, centred.
-   Use margin-left (not transform) so animation transforms don't conflict. */
+/* Phone (≤600px): sub-panels span nearly full width */
+@media (max-width: 600px) {
+  .mob-sub-panel { left: 12px; right: 12px; }
+}
+
+/* Tablet (601–1024px): constrain to phone-like width, centred.
+   calc(50% - 210px) avoids touching transform and avoids margin quirks
+   on fixed elements (translateX conflicts with the slide animation). */
 @media (min-width: 601px) and (max-width: 1024px) {
   .mob-pill-nav,
   .mob-sub-panel {
-    left: 50%;
+    left: calc(50% - 210px);
     right: auto;
     width: 420px;
-    margin-left: -210px; /* half of 420px — centers without touching transform */
   }
 }
 
@@ -1214,8 +1219,7 @@ header.scrolled {
   display: none;
   position: fixed;
   bottom: 96px;   /* sits just above the tab bar */
-  left: 12px;
-  right: 12px;
+  /* left/right set per breakpoint below */
   background: var(--f950);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 20px;
