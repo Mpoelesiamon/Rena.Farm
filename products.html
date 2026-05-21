@@ -394,7 +394,7 @@ function renderShop(listings) {
         <div class="pl-name">${escHtml(p.name)}</div>
         ${p.description ? `<div class="pl-desc">${escHtml(p.description)}</div>` : ''}
         ${p.price_per_unit
-          ? `<div class="pl-price">KSh ${Number(p.price_per_unit).toLocaleString()} <span>/ ${escHtml(p.unit ?? 'unit')}</span></div>`
+          ? `<div class="pl-price">KSh ${Number(p.price_per_unit).toLocaleString()} <span>/ ${escHtml(p.unit ?? 'unit')}</span>${p.stock_quantity > 1 ? `<span style="font-size:0.7rem;color:var(--f500);font-weight:600;margin-left:0.3rem;">${p.stock_quantity} available</span>` : ''}</div>`
           : `<div class="pl-price" style="font-size:0.82rem;color:var(--gray-400);">Price on request</div>`}
         ${p.min_order ? `<div style="font-size:0.72rem;color:var(--gray-400);margin-top:0.2rem;">Min: ${escHtml(p.min_order)}</div>` : ''}
         <a href="contact.html?interest=${encodeURIComponent(p.name)}" class="pl-enquire">Enquire About ${escHtml(p.name)}</a>
