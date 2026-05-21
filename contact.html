@@ -30,7 +30,7 @@
 
 <div id="rf-header"></div>
 
-<section class="page-hero" style="min-height:60vh;background-image:linear-gradient(rgba(7,30,7,0.4),rgba(7,30,7,0.65)),url('https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-01.jpg');background-size:160%;background-position:center 55%;">
+<section class="page-hero" style="min-height:60vh;background-image:linear-gradient(rgba(7,30,7,0.4),rgba(7,30,7,0.65)),url('https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-01.jpg');background-size:cover;background-position:center 25%;">
   <div class="container">
     <div class="breadcrumb"><a href="index.html">Home</a> <span class="sep">/</span> <span>Contact</span></div>
     <h1>Get In Touch</h1>
@@ -153,6 +153,51 @@
 <script>
 (function () {
   const FARM_WA = '254724980372';
+
+  /* ── Auto-fill form if user is logged in ── */
+  async function prefillFromSession() {
+    try {
+      const session = await getClientSession();
+      if (!session) return;
+
+      const form = document.getElementById('contactForm');
+
+      /* Try profile first for full name + phone */
+      let firstName = '', lastName = '', phone = '';
+      const profile = await getClientProfile();
+      if (profile?.full_name) {
+        const parts = profile.full_name.trim().split(' ');
+        firstName = parts[0] || '';
+        lastName  = parts.slice(1).join(' ') || '';
+      }
+      if (profile?.phone) phone = profile.phone;
+
+      /* Fallback to auth metadata */
+      if (!firstName && session.user.user_metadata?.full_name) {
+        const parts = session.user.user_metadata.full_name.trim().split(' ');
+        firstName = parts[0] || '';
+        lastName  = parts.slice(1).join(' ') || '';
+      }
+
+      /* Fill fields */
+      const fill = (name, val) => {
+        const el = form.querySelector(`[name="${name}"]`);
+        if (el && val) { el.value = val; el.style.background = 'var(--f50)'; }
+      };
+      fill('firstName', firstName);
+      fill('lastName',  lastName);
+      fill('email',     session.user.email);
+      fill('phone',     phone);
+
+      /* Show a subtle note */
+      const note = document.createElement('p');
+      note.style.cssText = 'font-size:0.75rem;color:var(--f500);margin-bottom:1rem;display:flex;align-items:center;gap:0.4rem;';
+      note.innerHTML = '<i class="ph ph-user-circle-check"></i> Some fields have been filled from your account. You can edit them freely.';
+      form.insertBefore(note, form.firstChild);
+    } catch(e) {}
+  }
+
+  prefillFromSession();
 
   const INTEREST_LABELS = {
     'dairy-cattle':'Dairy Cows','sahiwaal':'Sahiwaal Cattle','beef-cattle':'Beef Cattle',
