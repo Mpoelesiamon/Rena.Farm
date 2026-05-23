@@ -46,8 +46,14 @@
   </nav>
 </header>
 
-<!-- ── NAV OVERLAY — 75% floating panel ── -->
+<!-- ── NAV OVERLAY — floats from navbar position ── -->
 <div class="rf-nav-overlay" id="rfNavOverlay" aria-hidden="true">
+  <div class="rf-overlay-top-bar">
+    <button class="rf-overlay-close" id="rfOverlayClose" aria-label="Close menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <span>Close</span>
+    </button>
+  </div>
   <div class="rf-overlay-inner">
 
     <!-- Left: navigation -->
@@ -214,6 +220,8 @@
   const overlay   = document.getElementById('rfNavOverlay');
   let overlayOpen = false;
 
+  const siteHeaderEl = document.getElementById('site-header');
+
   function openOverlay() {
     overlayOpen = true;
     overlay?.classList.add('open');
@@ -221,6 +229,7 @@
     menuBtn?.classList.add('open');
     menuBtn?.setAttribute('aria-expanded', 'true');
     if (menuLabel) menuLabel.textContent = 'Close';
+    siteHeaderEl?.classList.add('nav-hidden');
   }
   function closeOverlay() {
     overlayOpen = false;
@@ -229,9 +238,11 @@
     menuBtn?.classList.remove('open');
     menuBtn?.setAttribute('aria-expanded', 'false');
     if (menuLabel) menuLabel.textContent = 'Menu';
+    siteHeaderEl?.classList.remove('nav-hidden');
   }
 
   menuBtn?.addEventListener('click', () => overlayOpen ? closeOverlay() : openOverlay());
+  document.getElementById('rfOverlayClose')?.addEventListener('click', closeOverlay);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlayOpen) closeOverlay(); });
   overlay?.addEventListener('click', e => { if (e.target === overlay) closeOverlay(); });
 
