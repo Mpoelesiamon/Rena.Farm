@@ -278,6 +278,23 @@ nav.container {
   position: relative;
 }
 
+/* ── MENU BACKDROP (blurs page content behind overlay) ── */
+.rf-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.rf-menu-backdrop.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
 /* ── NAV OVERLAY — floats from navbar position ── */
 .rf-nav-overlay {
   position: fixed;
@@ -286,7 +303,7 @@ nav.container {
   width: calc(75vw - 18px);
   bottom: 14px;
   z-index: 1001;
-  background: rgba(255,255,255,0.97);
+  background: rgba(7,30,7,0.97);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-radius: 14px;
@@ -298,7 +315,7 @@ nav.container {
   transform-origin: top left;
   transition: opacity 0.35s cubic-bezier(0.4,0,0.2,1), transform 0.35s cubic-bezier(0.4,0,0.2,1);
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.14), 0 0 0 1px rgba(0,0,0,0.07);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06);
 }
 .rf-nav-overlay.open {
   opacity: 1;
@@ -313,7 +330,7 @@ nav.container {
   display: flex;
   align-items: center;
   padding: 0 0.5rem;
-  border-bottom: 1px solid rgba(0,0,0,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 .rf-overlay-close {
   display: flex;
@@ -323,7 +340,7 @@ nav.container {
   border: none;
   cursor: pointer;
   padding: 0.4rem 0.7rem;
-  color: rgba(0,0,0,0.55);
+  color: rgba(255,255,255,0.6);
   border-radius: 8px;
   transition: background 0.2s ease, color 0.2s;
   font-family: inherit;
@@ -332,7 +349,7 @@ nav.container {
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
-.rf-overlay-close:hover { background: rgba(0,0,0,0.05); color: var(--f800); }
+.rf-overlay-close:hover { background: rgba(255,255,255,0.1); color: var(--white); }
 
 /* ── CONTENT ROW ── */
 .rf-overlay-inner {
@@ -349,7 +366,7 @@ nav.container {
   flex-direction: column;
   gap: 1.8rem;
   overflow-y: auto;
-  border-right: 1px solid rgba(0,0,0,0.07);
+  border-right: 1px solid rgba(255,255,255,0.08);
 }
 .rf-ol-group { display: flex; flex-direction: column; }
 .rf-ol-label {
@@ -357,21 +374,21 @@ nav.container {
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--f700);
+  color: var(--f300);
   margin-bottom: 0.6rem;
 }
 .rf-ol-group a {
   font-size: 0.92rem;
-  color: rgba(0,0,0,0.65);
+  color: rgba(255,255,255,0.72);
   text-decoration: none;
   padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
   transition: color 0.2s, padding-left 0.2s;
   display: block;
 }
-.rf-ol-group a:first-of-type { border-top: 1px solid rgba(0,0,0,0.06); }
-.rf-ol-group a:hover { color: var(--f800); padding-left: 0.4rem; }
-.rf-ol-group a.active { color: var(--f700); font-weight: 600; }
+.rf-ol-group a:first-of-type { border-top: 1px solid rgba(255,255,255,0.08); }
+.rf-ol-group a:hover { color: var(--white); padding-left: 0.4rem; }
+.rf-ol-group a.active { color: var(--f300); font-weight: 600; }
 
 /* Action buttons */
 .rf-ol-actions { display: flex; flex-direction: column; gap: 0.6rem; }
@@ -379,18 +396,18 @@ nav.container {
   display: inline-flex;
   align-items: center;
   padding: 0.55rem 1rem;
-  border: 1.5px solid var(--f700);
+  border: 1.5px solid rgba(255,255,255,0.45);
   border-radius: 6px;
-  color: var(--f700);
+  color: var(--white);
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   text-decoration: none;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, border-color 0.2s;
   width: fit-content;
 }
-.rf-ol-action-btn:hover { background: var(--f700); color: var(--white); }
+.rf-ol-action-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.7); }
 
 /* Sign In at bottom */
 .rf-ol-signin {
@@ -399,12 +416,12 @@ nav.container {
   align-items: center;
   gap: 0.45rem;
   font-size: 0.83rem;
-  color: rgba(0,0,0,0.38);
+  color: rgba(255,255,255,0.38);
   text-decoration: none;
   padding: 0.3rem 0;
   transition: color 0.2s;
 }
-.rf-ol-signin:hover { color: var(--f700); }
+.rf-ol-signin:hover { color: var(--white); }
 
 /* ── RIGHT: image cards panel ── */
 .rf-overlay-cards {

@@ -46,6 +46,9 @@
   </nav>
 </header>
 
+<!-- ── MENU BACKDROP ── -->
+<div id="rfMenuBackdrop" class="rf-menu-backdrop"></div>
+
 <!-- ── NAV OVERLAY — floats from navbar position ── -->
 <div class="rf-nav-overlay" id="rfNavOverlay" aria-hidden="true">
   <div class="rf-overlay-top-bar">
@@ -221,6 +224,7 @@
   let overlayOpen = false;
 
   const siteHeaderEl = document.getElementById('site-header');
+  const backdrop     = document.getElementById('rfMenuBackdrop');
 
   function openOverlay() {
     overlayOpen = true;
@@ -230,6 +234,7 @@
     menuBtn?.setAttribute('aria-expanded', 'true');
     if (menuLabel) menuLabel.textContent = 'Close';
     siteHeaderEl?.classList.add('nav-hidden');
+    backdrop?.classList.add('open');
   }
   function closeOverlay() {
     overlayOpen = false;
@@ -239,16 +244,13 @@
     menuBtn?.setAttribute('aria-expanded', 'false');
     if (menuLabel) menuLabel.textContent = 'Menu';
     siteHeaderEl?.classList.remove('nav-hidden');
+    backdrop?.classList.remove('open');
   }
 
   menuBtn?.addEventListener('click', () => overlayOpen ? closeOverlay() : openOverlay());
   document.getElementById('rfOverlayClose')?.addEventListener('click', closeOverlay);
+  backdrop?.addEventListener('click', closeOverlay);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlayOpen) closeOverlay(); });
-  document.addEventListener('click', e => {
-    if (overlayOpen && !e.target.closest('#rfNavOverlay') && !e.target.closest('#rfMenuBtn')) {
-      closeOverlay();
-    }
-  });
 
   /* ── MOBILE SUB-PANELS ── */
   const mobProductsPanel = document.getElementById('mobProductsPanel');
