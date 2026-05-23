@@ -360,7 +360,7 @@ nav.container {
 
 /* ── LEFT: navigation panel ── */
 .rf-overlay-nav {
-  flex: 0 0 260px;
+  flex: 0 0 210px;
   padding: 2rem;
   display: flex;
   flex-direction: column;
@@ -435,7 +435,7 @@ nav.container {
 .rf-ol-card {
   position: relative;
   flex-shrink: 0;
-  height: 210px;
+  height: 250px;
   border-radius: 10px;
   overflow: hidden;
   text-decoration: none;
