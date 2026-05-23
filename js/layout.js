@@ -91,7 +91,7 @@
         <a href="livestock.html#sheep">Dorper Sheep</a>
         <a href="livestock.html#goats">Gala Goats</a>
         <a href="fodder.html" data-page="fodder.html">Fodder &amp; Feeds</a>
-        <a href="products.html#dairy">Dairy &amp; Milk</a>
+        <a href="products.html#dairy">Dairy</a>
         <a href="products.html#poultry">Poultry</a>
         <a href="products.html" class="rf-sub-view-all" data-page="products.html">All Products &rarr;</a>
       </div>
@@ -104,7 +104,7 @@
         <div class="rf-ol-card-label">Cattle</div>
       </a>
       <a href="livestock.html#sheep" class="rf-ol-card">
-        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-ewes/dorper-ewe-10.jpg" alt="Dorper sheep at Rena Farm" loading="lazy"/>
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-rams/dorper-ram-57.jpg" alt="Dorper rams at Rena Farm" loading="lazy"/>
         <div class="rf-ol-card-label">Dorpers</div>
       </a>
       <a href="livestock.html#goats" class="rf-ol-card">
@@ -112,7 +112,7 @@
         <div class="rf-ol-card-label">Goats</div>
       </a>
       <a href="fodder.html" class="rf-ol-card">
-        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-03.jpg" alt="Fodder fields at Rena Farm" loading="lazy"/>
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-corn.jpg" alt="Maize plantation at Rena Farm" loading="lazy"/>
         <div class="rf-ol-card-label">Fodder &amp; Feeds</div>
       </a>
     </div>
