@@ -261,11 +261,17 @@ nav.container {
 .rf-nav-right a:hover { color: var(--white); }
 .rf-nav-right .rf-nav-wa {
   display: flex; align-items: center; justify-content: center;
-  opacity: 0.72;
-  transition: opacity 0.2s;
   color: var(--white);
+  opacity: 0.72;
+  padding: 0.4rem 0.5rem;
+  border-radius: 8px;
+  transition: background 0.2s ease, opacity 0.2s, color 0.2s;
 }
-.rf-nav-right .rf-nav-wa:hover { opacity: 1; }
+.rf-nav-right .rf-nav-wa:hover {
+  background: rgba(255,255,255,0.55);
+  opacity: 1;
+  color: var(--f800);
+}
 .rf-nav-right .rf-nav-wa svg { flex-shrink: 0; }
 
 /* Group WA + account icons with tighter spacing */
@@ -568,10 +574,14 @@ nav.container {
   color: rgba(255,255,255,0.72);
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  transition: color 0.2s;
-  padding: 2px;
+  padding: 0.4rem 0.5rem;
+  border-radius: 8px;
+  transition: background 0.2s ease, color 0.2s;
 }
-.nav-account-btn:hover { background: none; color: var(--white); }
+.nav-account-btn:hover {
+  background: rgba(255,255,255,0.55);
+  color: var(--f800);
+}
 .nav-account-btn.logged-in { color: var(--white); }
 .nav-account-dropdown {
   display: none;
