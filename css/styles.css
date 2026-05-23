@@ -261,10 +261,10 @@ nav.container {
 .rf-nav-right a:hover { color: var(--white); }
 .rf-nav-right .rf-nav-wa {
   display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
   color: var(--white);
   opacity: 0.72;
-  padding: 0.4rem 0.5rem;
-  border-radius: 8px;
+  border-radius: 10px;
   transition: background 0.2s ease, opacity 0.2s, color 0.2s;
 }
 .rf-nav-right .rf-nav-wa:hover {
@@ -574,8 +574,9 @@ nav.container {
   color: rgba(255,255,255,0.72);
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  padding: 0.4rem 0.5rem;
-  border-radius: 8px;
+  width: 36px; height: 36px;
+  padding: 0;
+  border-radius: 10px;
   transition: background 0.2s ease, color 0.2s;
 }
 .nav-account-btn:hover {
