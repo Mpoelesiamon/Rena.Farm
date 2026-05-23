@@ -582,6 +582,8 @@ nav.container {
   background: rgba(255,255,255,0.55);
   color: var(--f800);
 }
+.nav-account-btn svg { stroke: currentColor; transition: stroke 0.2s; }
+.nav-account-btn:hover svg { stroke: var(--f800); }
 .nav-account-btn.logged-in { color: var(--white); }
 .nav-account-dropdown {
   display: none;
