@@ -529,7 +529,7 @@ nav.container {
   line-height: 1;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 640px) {
   .rf-nav-overlay { width: calc(100vw - 36px); }
   .rf-overlay-cards { display: none; }
   .rf-overlay-nav { flex: 1; }
