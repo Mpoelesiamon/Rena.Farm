@@ -288,8 +288,8 @@
           <div id="prodModalPriceNote" style="font-size:0.72rem;color:var(--gray-400);"></div>
         </div>
       </div>
-      <div id="prodModalMeta" style="background:var(--f50);border-radius:var(--radius);padding:1rem;margin-bottom:1rem;display:grid;grid-template-columns:1fr 1fr;gap:0.6rem 1rem;"></div>
-      <div id="prodModalDesc" style="font-size:0.88rem;color:var(--gray-600);line-height:1.75;margin-bottom:1rem;"></div>
+      <div id="prodModalMeta" style="background:var(--f50);border-radius:var(--radius-lg);padding:1.2rem;margin-bottom:1rem;display:grid;grid-template-columns:1fr 1fr;gap:0.75rem 1rem;"></div>
+      <div id="prodModalDesc" style="background:var(--f50);border-radius:var(--radius-lg);padding:1.2rem;margin-bottom:1rem;"></div>
       <div id="prodModalTags" style="margin-bottom:1rem;"></div>
       <div class="prod-modal-actions" id="prodModalActions"></div>
     </div>
@@ -396,11 +396,15 @@ async function openProductModal(productId) {
   const metaEl = document.getElementById('prodModalMeta')
   if (metaItems.length) {
     metaEl.innerHTML = metaItems.map(m=>`<div><div class="detail-label">${escHtml(m.label)}</div><div class="detail-value">${escHtml(String(m.value))}</div></div>`).join('')
+    metaEl.style.gridTemplateColumns = metaItems.length === 1 ? '1fr' : '1fr 1fr'
     metaEl.style.display='grid'
   } else { metaEl.style.display='none' }
 
   const descEl = document.getElementById('prodModalDesc')
-  descEl.textContent=p.description??''; descEl.style.display=p.description?'block':'none'
+  if (p.description) {
+    descEl.innerHTML = `<div class="detail-label" style="margin-bottom:0.5rem;">Description</div><div style="font-size:0.88rem;color:var(--gray-600);line-height:1.75;">${escHtml(p.description)}</div>`
+    descEl.style.display='block'
+  } else { descEl.style.display='none' }
 
   const tagsEl = document.getElementById('prodModalTags')
   const publicTags = (p.tags??[]).filter(t=>!t.startsWith('species:')&&!t.startsWith('breed:')&&!t.startsWith('gender:')&&!t.startsWith('qty:'))
