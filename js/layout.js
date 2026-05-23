@@ -66,7 +66,7 @@
         <div class="rf-ol-label">Navigate</div>
         <a href="index.html" data-page="index.html">Home</a>
         <a href="about.html" data-page="about.html">About</a>
-        <a href="products.html" data-page="products.html">Products</a>
+        <a href="products.html" data-page="products.html" class="rf-ol-has-sub" id="rfProductsLink">Products <svg class="rf-ol-sub-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
         <a href="livestock.html" data-page="livestock.html">Livestock</a>
         <a href="fodder.html" data-page="fodder.html">Fodder &amp; Feeds</a>
         <a href="gallery.html" data-page="gallery.html">Gallery</a>
@@ -82,6 +82,20 @@
         Sign In
       </a>
     </nav>
+
+    <!-- Products sub-nav (slides in beside main links) -->
+    <div class="rf-overlay-sub" id="rfOverlaySub">
+      <div class="rf-overlay-sub-inner">
+        <div class="rf-ol-label">Products</div>
+        <a href="livestock.html" data-page="livestock.html">Cattle</a>
+        <a href="livestock.html#sheep">Dorper Sheep</a>
+        <a href="livestock.html#goats">Gala Goats</a>
+        <a href="fodder.html" data-page="fodder.html">Fodder &amp; Feeds</a>
+        <a href="products.html#dairy">Dairy &amp; Milk</a>
+        <a href="products.html#poultry">Poultry</a>
+        <a href="products.html" class="rf-sub-view-all" data-page="products.html">All Products &rarr;</a>
+      </div>
+    </div>
 
     <!-- Right: scrollable image cards -->
     <div class="rf-overlay-cards">
@@ -227,8 +241,10 @@
   const overlay   = document.getElementById('rfNavOverlay');
   let overlayOpen = false;
 
-  const siteHeaderEl = document.getElementById('site-header');
-  const backdrop     = document.getElementById('rfMenuBackdrop');
+  const siteHeaderEl  = document.getElementById('site-header');
+  const backdrop      = document.getElementById('rfMenuBackdrop');
+  const productsLink  = document.getElementById('rfProductsLink');
+  const overlaySub    = document.getElementById('rfOverlaySub');
 
   function openOverlay() {
     overlayOpen = true;
@@ -251,12 +267,22 @@
     siteHeaderEl?.classList.remove('nav-hidden');
     backdrop?.classList.remove('open');
     document.body.style.overflow = '';
+    productsLink?.classList.remove('sub-open');
+    overlaySub?.classList.remove('open');
   }
 
   menuBtn?.addEventListener('click', () => overlayOpen ? closeOverlay() : openOverlay());
   document.getElementById('rfOverlayClose')?.addEventListener('click', closeOverlay);
   backdrop?.addEventListener('click', closeOverlay);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlayOpen) closeOverlay(); });
+
+  /* ── PRODUCTS SUB-MENU TOGGLE ── */
+  productsLink?.addEventListener('click', e => {
+    e.preventDefault();
+    const isOpen = productsLink.classList.contains('sub-open');
+    productsLink.classList.toggle('sub-open', !isOpen);
+    overlaySub?.classList.toggle('open', !isOpen);
+  });
 
   /* ── MOBILE SUB-PANELS ── */
   const mobProductsPanel = document.getElementById('mobProductsPanel');
