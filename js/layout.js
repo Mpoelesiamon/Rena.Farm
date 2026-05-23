@@ -46,48 +46,35 @@
   </nav>
 </header>
 
-<!-- ── FULL-SCREEN NAV OVERLAY ── -->
+<!-- ── NAV OVERLAY — 75% floating panel ── -->
 <div class="rf-nav-overlay" id="rfNavOverlay" aria-hidden="true">
-  <button class="rf-overlay-close" id="rfOverlayClose" aria-label="Close menu">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    <span>Close</span>
-  </button>
   <div class="rf-overlay-inner">
 
-    <!-- Left: grouped navigation panel -->
+    <!-- Left: navigation -->
     <nav class="rf-overlay-nav" id="rfOverlayLinks">
 
       <div class="rf-ol-group">
         <div class="rf-ol-label">Navigate</div>
         <a href="index.html" data-page="index.html">Home</a>
-        <a href="about.html" data-page="about.html">About Us</a>
+        <a href="about.html" data-page="about.html">About</a>
+        <a href="products.html" data-page="products.html">Products</a>
+        <a href="livestock.html" data-page="livestock.html">Livestock</a>
+        <a href="fodder.html" data-page="fodder.html">Fodder &amp; Feeds</a>
         <a href="gallery.html" data-page="gallery.html">Gallery</a>
-        <a href="contact.html" data-page="contact.html">Contact</a>
       </div>
 
-      <div class="rf-ol-group">
-        <div class="rf-ol-label">Products</div>
-        <a href="livestock.html" class="rf-ol-primary" data-page="livestock.html">Livestock <span class="rf-ol-arrow">›</span></a>
-        <a href="fodder.html" class="rf-ol-primary" data-page="fodder.html">Fodder &amp; Feeds <span class="rf-ol-arrow">›</span></a>
-        <a href="products.html#dairy" data-page="products.html">Dairy &mdash; Milk</a>
-        <a href="products.html#poultry" data-page="products.html">Poultry</a>
+      <div class="rf-ol-actions">
+        <a href="contact.html" class="rf-ol-action-btn" data-page="contact.html">Contact Us</a>
+        <a href="location.html" class="rf-ol-action-btn">Locate Us</a>
       </div>
 
-      <div class="rf-ol-group">
-        <div class="rf-ol-label">Connect</div>
-        <a href="tel:+254724980372">+254 724 980 372</a>
-        <a href="mailto:therenafarm@gmail.com">therenafarm@gmail.com</a>
-        <a href="location.html">Kajiado Central, Kenya</a>
-      </div>
-
-      <div class="rf-ol-socials">
-        <a href="https://www.tiktok.com/@the.renafarm" target="_blank" rel="noopener" title="TikTok">${SVG_TIKTOK}</a>
-        <a href="https://www.instagram.com/the.renafarm" target="_blank" rel="noopener" title="Instagram">${SVG_INSTAGRAM}</a>
-        <a href="https://wa.me/254724980372" target="_blank" rel="noopener" title="WhatsApp">${SVG_WHATSAPP_SM}</a>
-      </div>
+      <a href="login.html" class="rf-ol-signin">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        Sign In
+      </a>
     </nav>
 
-    <!-- Right: image cards panel -->
+    <!-- Right: scrollable image cards -->
     <div class="rf-overlay-cards">
       <a href="livestock.html" class="rf-ol-card">
         <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-rams/dorper-ram-57.jpg" alt="Livestock at Rena Farm" loading="lazy"/>
@@ -234,8 +221,6 @@
     menuBtn?.classList.add('open');
     menuBtn?.setAttribute('aria-expanded', 'true');
     if (menuLabel) menuLabel.textContent = 'Close';
-    document.body.style.overflow = 'hidden';
-    document.getElementById('site-header')?.classList.add('nav-hidden');
   }
   function closeOverlay() {
     overlayOpen = false;
@@ -244,12 +229,9 @@
     menuBtn?.classList.remove('open');
     menuBtn?.setAttribute('aria-expanded', 'false');
     if (menuLabel) menuLabel.textContent = 'Menu';
-    document.body.style.overflow = '';
-    document.getElementById('site-header')?.classList.remove('nav-hidden');
   }
 
   menuBtn?.addEventListener('click', () => overlayOpen ? closeOverlay() : openOverlay());
-  document.getElementById('rfOverlayClose')?.addEventListener('click', closeOverlay);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlayOpen) closeOverlay(); });
   overlay?.addEventListener('click', e => { if (e.target === overlay) closeOverlay(); });
 
