@@ -10,18 +10,7 @@
   <style>
     :root { --nav-h: 70px; }
 
-    /* ── Hero — left-aligned, scrolls behind fixed navbar naturally ── */
-    .gallery-hero {
-      padding: calc(var(--nav-h) + 2.5rem) 0 2.5rem;
-      min-height: 60vh;
-      display: flex;
-      align-items: flex-end;
-      background-size: cover;
-      background-position: center 55%;
-      color: var(--white);
-    }
-    .gallery-hero h1 { color: var(--white); margin-bottom: 0.3rem; font-size: 2.2rem; }
-    .gallery-hero p  { color: var(--f300); font-size: 0.93rem; margin: 0; }
+    /* gallery-hero is now .page-hero from styles.css */
 
     /* ── Two-panel split ── */
     .gallery-body {
@@ -307,12 +296,6 @@
       .lb-nav { display: none; }
     }
 
-    @media (max-width: 768px) {
-      .gallery-hero { min-height: 36vh; }
-    }
-    @media (max-width: 420px) {
-      .gallery-hero h1 { font-size: 1.7rem; }
-    }
   </style>
 </head>
 <body>
@@ -320,11 +303,15 @@
 <div id="rf-header"></div>
 
 <!-- Hero — left-aligned, scrolls behind fixed navbar as user scrolls down -->
-<section class="gallery-hero" style="background-image:linear-gradient(rgba(7,30,7,0.4),rgba(7,30,7,0.65)),url('https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-11.jpg');">
-  <div class="container">
+<section class="page-hero">
+  <div class="ph-img-panel">
+    <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-ewes/dorper-ewe-10.jpg" alt="Dorper ewes at Rena Farm" style="object-position:center 25%;"/>
+    <div class="ph-img-fade"></div>
+  </div>
+  <div class="container" style="position:relative;z-index:2;">
     <div class="breadcrumb"><a href="index.html">Home</a> <span class="sep">/</span> <span>Gallery</span></div>
     <h1>Gallery</h1>
-    <p>Life at Rena Farm — animals, crops, people &amp; the land</p>
+    <p>Life at Rena Farm &mdash; animals, crops, people &amp; the land</p>
   </div>
 </section>
 

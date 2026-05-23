@@ -20,7 +20,7 @@
 <header id="site-header">
   <nav class="container">
     <button class="rf-menu-btn" id="rfMenuBtn" aria-label="Open menu" aria-expanded="false">
-      <div class="rf-menu-lines"><span></span><span></span><span></span></div>
+      <div class="rf-menu-lines"><span></span><span></span></div>
       <span class="rf-menu-label" id="rfMenuLabel">Menu</span>
     </button>
     <a href="index.html" class="nav-brand">
@@ -47,6 +47,8 @@
 <!-- ── FULL-SCREEN NAV OVERLAY ── -->
 <div class="rf-nav-overlay" id="rfNavOverlay" aria-hidden="true">
   <div class="rf-overlay-inner">
+
+    <!-- Left: main nav links -->
     <nav class="rf-overlay-links" id="rfOverlayLinks">
       <a href="index.html" data-page="index.html">Home</a>
       <a href="about.html" data-page="about.html">About</a>
@@ -56,6 +58,15 @@
       <a href="gallery.html" data-page="gallery.html">Gallery</a>
       <a href="contact.html" data-page="contact.html">Contact</a>
     </nav>
+
+    <!-- Center: farm images -->
+    <div class="rf-overlay-images">
+      <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-rams/dorper-ram-57.jpg" alt="Dorper rams at Rena Farm" loading="lazy"/>
+      <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/dairy-cows/dairy-cow-08.jpg" alt="Dairy cattle at Rena Farm" loading="lazy"/>
+      <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-03.jpg" alt="Fodder fields at Rena Farm" loading="lazy"/>
+    </div>
+
+    <!-- Right: sub-links + contact + socials -->
     <aside class="rf-overlay-right">
       <div class="rf-overlay-cat">Products</div>
       <a href="livestock.html">Cattle &amp; Sheep</a>
@@ -135,7 +146,6 @@
   </div>
 </footer>
 
-<a href="https://wa.me/254724980372" target="_blank" rel="noopener" class="whatsapp-float" title="Chat on WhatsApp">${SVG_WHATSAPP}</a>
 <button class="back-to-top" id="rfBackTop" title="Back to top" aria-label="Back to top">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>
 </button>
