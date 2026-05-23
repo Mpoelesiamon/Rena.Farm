@@ -8,13 +8,6 @@
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
   <style>
-    /* ── STATS STRIP ── */
-    .stat-strip { display:grid; grid-template-columns:repeat(4,1fr); background:var(--f950); }
-    .stat-item { padding:1.8rem 1.5rem; border-right:1px solid rgba(255,255,255,0.08); text-align:center; }
-    .stat-item:last-child { border-right:none; }
-    .stat-num { font-size:2.2rem; font-weight:800; color:var(--white); line-height:1; }
-    .stat-lbl { font-size:0.7rem; color:var(--f300); text-transform:uppercase; letter-spacing:0.07em; margin-top:0.4rem; }
-    @media(max-width:768px) { .stat-strip { grid-template-columns:repeat(2,1fr); } .stat-item { border-bottom:1px solid rgba(255,255,255,0.08); } }
 
     /* ── EDITORIAL FODDER SECTIONS ── */
     .fodder-section { display:grid; grid-template-columns:55% 1fr; grid-template-areas:'img txt'; gap:4rem; padding:4.5rem 0; border-bottom:1px solid var(--f100); align-items:start; }
@@ -110,7 +103,7 @@
 <!-- ── HERO ── -->
 <section class="page-hero">
   <div class="ph-img-panel">
-    <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-03.jpg" alt="Fodder fields at Rena Farm" style="object-position:center 40%;"/>
+    <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-corn.jpg" alt="Corn plantation at Rena Farm" style="object-position:center 40%;"/>
     <div class="ph-img-fade"></div>
   </div>
   <div class="container" style="position:relative;z-index:2;">
@@ -120,13 +113,6 @@
   </div>
 </section>
 
-<!-- ── STATS STRIP ── -->
-<div class="stat-strip">
-  <div class="stat-item"><div class="stat-num">40</div><div class="stat-lbl">Acres of Fodder</div></div>
-  <div class="stat-item"><div class="stat-num">7</div><div class="stat-lbl">Varieties Grown</div></div>
-  <div class="stat-item"><div class="stat-num">6</div><div class="stat-lbl">Irrigated Acres</div></div>
-  <div class="stat-item"><div class="stat-num">365</div><div class="stat-lbl">Days Supply</div></div>
-</div>
 
 <!-- ── INTRO ── -->
 <section class="section-white" style="padding-top:4rem;padding-bottom:0;">
@@ -153,16 +139,17 @@
         <div class="fs-cat-label">Fermented Fodder</div>
         <h2>Rena Farm Silage</h2>
         <div class="fs-sub"><i class="ph ph-flask"></i> 5-ingredient blend &middot; Pit-fermented &middot; Year-round</div>
-        <p>Our silage is a precisely formulated, high-energy fermented fodder blend designed for maximum nutritional value. Fermented in large sealed pits using carefully controlled ingredient ratios, it delivers consistent quality throughout the dry season when fresh grass is scarce.</p>
+        <p>Our silage is a precisely formulated, high-energy fermented fodder blend. Each ingredient is harvested and prepared at its optimal stage before being mixed at controlled ratios and packed for fermentation. Stored in pit-fermented silage (recommended) or big plastic sacks.</p>
         <p>Ideal for dairy cows, beef cattle, sheep, and goats &mdash; ensuring optimal growth, sustained milk production, and body condition all year round.</p>
         <div class="comp-box">
           <h4><i class="ph ph-flask"></i> Silage Composition</h4>
-          <div class="comp-item"><strong>Young yellow maize stalks</strong> &mdash; high energy, excellent fermentation base</div>
-          <div class="comp-item"><strong>Lucerne (Alfalfa)</strong> &mdash; boosts protein content significantly</div>
-          <div class="comp-item"><strong>Bean stalks</strong> (ground to dust) &mdash; added fibre and minerals</div>
-          <div class="comp-item"><strong>Pakchong 1 Napier Grass</strong> &mdash; high biomass, structural fibre</div>
-          <div class="comp-item"><strong>Molasses</strong> &mdash; fermentation aid, energy boost, improves palatability</div>
+          <div class="comp-item"><strong>Young green/yellow maize stalks with cobs</strong> &mdash; harvested while still green and almost mature for peak energy content</div>
+          <div class="comp-item"><strong>Super Napier — Pakchong 1</strong> &mdash; harvested young before stalks form, when nutrients are most concentrated in the leaves</div>
+          <div class="comp-item"><strong>Lucern (Alfalfa)</strong> &mdash; dried for 5–7 days then ground to near-fine powder for high protein content</div>
+          <div class="comp-item"><strong>Beans stalks</strong> (dry, ground to near-fine powder) &mdash; added fibre and minerals</div>
+          <div class="comp-item"><strong>Molasses</strong> (mixed with water to a runny liquid) &mdash; fermentation aid, energy boost, improves palatability</div>
         </div>
+        <p style="font-size:0.85rem;color:var(--gray-500);margin-top:0.8rem;"><i class="ph ph-info"></i> All ingredients are mixed at specific ratios before packaging for fermentation. <a href="contact.html?interest=silage" style="color:var(--f700);">Contact us</a> for mixture proportions.</p>
         <div style="margin-bottom:1.4rem;"><span class="fodder-tag">High Energy</span><span class="fodder-tag">High Protein</span><span class="fodder-tag">All-Season</span><span class="fodder-tag">Pit Fermented</span></div>
         <a href="contact.html?interest=silage" class="btn btn-primary">Enquire About Silage</a>
       </div>
@@ -179,24 +166,29 @@
       </div>
       <div class="fs-txt">
         <div class="fs-cat-label">Hay</div>
-        <h2>Boma Rhodes &amp; Lucerne Hay</h2>
-        <div class="fs-sub"><i class="ph ph-plant"></i> 32 acres total &middot; Machine baled &middot; Delivery available</div>
-        <p>We produce two types of premium hay, both harvested at the optimal growth stage for maximum nutritional value and palatability.</p>
+        <h2>Hay Varieties</h2>
+        <div class="fs-sub"><i class="ph ph-plant"></i> Machine baled &middot; Delivery available</div>
+        <p>We produce four types of hay, all harvested at the optimal growth stage for maximum nutritional value and palatability.</p>
 
         <div class="variety-block">
           <h4>Boma Rhodes Grass Hay</h4>
-          <p>Grown on 30 rain-fed acres, Boma Rhodes is widely regarded as East Africa's finest perennial pasture grass &mdash; prized for high dry matter yield, excellent palatability, and suitability for baling. Our automatic baling machine produces consistent, tightly bound bales, and our 12-tonne lorry is available for bulk deliveries.</p>
+          <p>Widely regarded as East Africa's finest perennial pasture grass &mdash; prized for high dry matter yield, excellent palatability, and suitability for baling. Our automatic baling machine produces consistent, tightly bound bales, and our 12-tonne lorry is available for bulk deliveries.</p>
+        </div>
+        <div class="variety-block">
+          <h4>Beans Stalk Hay</h4>
+          <p>Dried bean stalks baled into hay &mdash; a good source of fibre and minerals, commonly used as a supplement alongside other feeds.</p>
+        </div>
+        <div class="variety-block">
+          <h4>Natural Grass Hay</h4>
+          <p>Harvested from natural pastures and sun-dried to produce palatable, affordable hay suitable for a wide range of livestock.</p>
         </div>
         <div class="variety-block" style="margin-bottom:1.2rem;">
-          <h4>Lucerne (Alfalfa) Hay</h4>
-          <p>The highest-protein hay available. Grown on 2 drip-irrigated acres, our Lucerne produces year-round and is ideal as a supplement for high-yielding dairy cows, breeding stock, and performance horses. Limited stock &mdash; enquire early.</p>
+          <h4>Brachiaria Grass Hay</h4>
+          <p>High-yielding and nutritious, Brachiaria is well-adapted to the Kajiado climate and produces quality hay bales with good palatability and dry matter content.</p>
         </div>
 
-        <div style="margin-bottom:1.4rem;"><span class="fodder-tag">Large Bales</span><span class="fodder-tag">High Protein</span><span class="fodder-tag">Palatable</span><span class="fodder-tag">Year-Round</span><span class="fodder-tag">Delivery Available</span></div>
-        <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
-          <a href="contact.html?interest=boma-rhodes-hay" class="btn btn-primary">Enquire About Hay</a>
-          <a href="contact.html?interest=lucerne" class="btn btn-outline-green">Enquire About Lucerne</a>
-        </div>
+        <div style="margin-bottom:1.4rem;"><span class="fodder-tag">Large Bales</span><span class="fodder-tag">4 Varieties</span><span class="fodder-tag">Palatable</span><span class="fodder-tag">Delivery Available</span></div>
+        <a href="contact.html?interest=boma-rhodes-hay" class="btn btn-primary">Enquire About Hay</a>
       </div>
     </div>
 
@@ -316,7 +308,7 @@
       <div class="process-step">
         <div class="step-num">5</div>
         <div class="step-title">Silage Making</div>
-        <div class="step-desc">Maize, Napier, Lucerne, bean stalks, and molasses are blended in precise ratios and packed into sealed pits for fermentation.</div>
+        <div class="step-desc">Ingredients are individually prepared — maize harvested green with cobs, Napier cut young, Lucerne dried and ground, bean stalks ground to powder, molasses diluted with water — then blended at set ratios and packed into pits or plastic sacks for fermentation.</div>
       </div>
     </div>
 
