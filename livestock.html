@@ -9,114 +9,57 @@
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
   <style>
     /* ── CATEGORY DIVIDER ── */
-    .category-divider { display:flex; align-items:center; gap:1rem; margin:3rem 0 1.5rem; }
+    .category-divider { display:flex; align-items:center; gap:1rem; margin:3rem 0 2rem; }
     .category-divider h2 { font-size:1.4rem; color:var(--f950); white-space:nowrap; display:flex; align-items:center; gap:0.5rem; }
     .category-divider h2 i { color:var(--f500); }
     .category-divider::before, .category-divider::after { content:''; flex:1; height:2px; background:var(--f100); }
 
-    /* ── FILTER TABS ── */
-    .filter-tabs { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:2rem; }
-    .filter-tab { padding:0.45rem 1.1rem; border-radius:50px; border:1.5px solid var(--f200); background:var(--white); color:var(--f700); font-size:0.82rem; font-weight:600; cursor:pointer; transition:all 0.2s; font-family:'Inter',sans-serif; }
-    .filter-tab:hover { border-color:var(--f500); color:var(--f900); }
-    .filter-tab.active { background:var(--f900); border-color:var(--f900); color:var(--white); }
+    /* ── BREED SECTIONS ── */
+    .breed-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: 'imgs content';
+      gap: 3.5rem;
+      padding: 2.5rem 0 3.5rem;
+      border-bottom: 1px solid var(--f100);
+      align-items: center;
+    }
+    .breed-section:last-of-type { border-bottom: none; padding-bottom: 0; }
+    .breed-section.reverse { grid-template-areas: 'content imgs'; }
+    .breed-imgs { grid-area: imgs; display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .breed-imgs img { width: 100%; height: 270px; object-fit: cover; border-radius: var(--radius-lg); display: block; }
+    .breed-content { grid-area: content; }
+    .breed-content h3 { font-size: 1.6rem; font-weight: 800; color: var(--f950); margin: 0.3rem 0 0.8rem; line-height: 1.2; }
+    .breed-content > p { font-size: 0.9rem; color: var(--gray-600); line-height: 1.75; margin-bottom: 1.2rem; }
 
-    /* ── ANIMAL CARDS ── */
-    .animal-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.5rem; }
-    .animal-card { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); overflow:hidden; cursor:pointer; transition:all var(--transition); }
-    .animal-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-lg); border-color:var(--f300); }
-    .animal-card-img { height:220px; position:relative; background:var(--f50); overflow:hidden; }
-    .animal-card-img img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease; }
-    .animal-card:hover .animal-card-img img { transform:scale(1.05); }
-    .animal-card-img .no-img { width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:var(--f200); font-size:4rem; }
-    .status-badge { position:absolute; top:10px; left:10px; font-size:0.7rem; font-weight:700; padding:0.25rem 0.7rem; border-radius:50px; letter-spacing:0.04em; text-transform:uppercase; }
-    .status-on_sale  { background:#d1fae5; color:#065f46; }
-    .status-booked   { background:#fef3c7; color:#92400e; }
-    .status-sold     { background:#f3f4f6; color:#6b7280; }
-    .animal-card-body { padding:1.2rem 1.4rem 1.4rem; }
-    .animal-name { font-size:1.05rem; font-weight:800; color:var(--f950); margin-bottom:0.2rem; }
-    .animal-tag  { font-size:0.75rem; color:var(--gray-400); font-family:monospace; margin-bottom:0.5rem; }
-    .animal-meta { font-size:0.82rem; color:var(--gray-500); margin-bottom:0.8rem; }
-    .animal-price { font-size:1.1rem; font-weight:800; color:var(--f900); }
-    .animal-price span { font-size:0.75rem; font-weight:500; color:var(--gray-400); }
-    .animal-enquire-btn { width:100%; text-align:center; justify-content:center; margin-top:0.8rem; font-size:0.85rem; padding:0.6rem 1rem; }
-
-    /* ── SKELETON LOADER ── */
-    .skeleton-card { border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--f100); }
-    .skeleton-img  { height:220px; background:linear-gradient(90deg,var(--f50) 25%,var(--f100) 50%,var(--f50) 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; }
-    .skeleton-body { padding:1.2rem 1.4rem; }
-    .skeleton-line { height:12px; border-radius:6px; background:linear-gradient(90deg,var(--f50) 25%,var(--f100) 50%,var(--f50) 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; margin-bottom:0.6rem; }
-    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-
-    /* ── EMPTY STATE ── */
-    .empty-state { text-align:center; padding:4rem 2rem; color:var(--gray-400); }
-    .empty-state i { font-size:3.5rem; color:var(--f100); display:block; margin-bottom:1rem; }
-
-    /* ── STATIC INFO CARDS ── */
-    .livestock-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.8rem; }
-    .livestock-card { border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--f100); transition:all var(--transition); background:var(--white); }
-    .livestock-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-lg); }
-    .livestock-card-img { height:220px; background:linear-gradient(135deg,var(--f900),var(--f700)); display:flex; align-items:center; justify-content:center; position:relative; color:rgba(255,255,255,0.5); font-size:5rem; }
-    .livestock-card-img img { width:100%; height:100%; object-fit:cover; position:absolute; inset:0; }
-    .livestock-card-body { padding:1.8rem; }
-    .livestock-card-body h3 { color:var(--f950); font-size:1.15rem; margin-bottom:0.5rem; }
-    .livestock-card-body p  { font-size:0.88rem; margin-bottom:1.2rem; }
+    /* ── BADGES & SPECS ── */
     .breed-badge { display:inline-block; background:var(--f50); color:var(--f700); font-size:0.72rem; font-weight:700; padding:0.2rem 0.65rem; border-radius:50px; margin:0.1rem; border:1px solid var(--f100); }
-    .spec-list { display:flex; flex-direction:column; gap:0.4rem; margin-bottom:1.2rem; }
-    .spec-item { display:flex; align-items:flex-start; gap:0.5rem; font-size:0.84rem; color:var(--gray-500); }
+    .spec-list { display:flex; flex-direction:column; gap:0.4rem; margin-bottom:1.4rem; }
+    .spec-item { display:flex; align-items:flex-start; gap:0.5rem; font-size:0.88rem; color:var(--gray-500); }
     .spec-item::before { content:'✓'; color:var(--f500); font-weight:700; flex-shrink:0; }
-    .health-banner { background:linear-gradient(135deg,var(--f950),var(--f900)); border-radius:var(--radius-lg); padding:2.5rem; margin-top:3.5rem; }
+
+    /* ── HEALTH BANNER ── */
+    .health-banner { background:linear-gradient(135deg,var(--f950),var(--f900)); border-radius:var(--radius-lg); padding:2.5rem; margin-top:3rem; }
     .health-banner h3 { color:var(--white); margin-bottom:0.8rem; }
-    .health-banner p   { color:var(--f200); font-size:0.9rem; }
+    .health-banner p { color:var(--f200); font-size:0.9rem; }
     .health-tag { background:rgba(255,255,255,0.1); color:var(--f200); font-size:0.78rem; font-weight:600; padding:0.3rem 0.8rem; border-radius:50px; border:1px solid rgba(255,255,255,0.15); display:inline-block; margin:0.2rem; }
     .cta-bg { background:var(--f50); padding:80px 0; text-align:center; }
     .cta-buttons { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:2rem; }
 
-    /* ── ANIMAL DETAIL MODAL ── */
-    .animal-modal-overlay { display:none; position:fixed; inset:0; z-index:2000; background:rgba(7,30,7,0.75); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:1rem; }
-    .animal-modal-overlay.open { display:flex; }
-    .animal-modal { background:var(--white); border-radius:var(--radius-lg); width:100%; max-width:1060px; height:88vh; max-height:700px; overflow:hidden; display:flex; flex-direction:row; animation:modalSlide 0.25s ease; box-shadow:0 32px 80px rgba(0,0,0,0.4); position:relative; }
-    @keyframes modalSlide { from{opacity:0;transform:scale(0.97)} to{opacity:1;transform:scale(1)} }
-
-    /* Left — gallery panel */
-    .modal-gallery { position:relative; flex:0 0 55%; overflow:hidden; background:#000; }
-    .modal-gallery img.main-img { width:100%; height:100%; object-fit:cover; display:block; }
-    .modal-gallery .no-img-placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:var(--f700); font-size:6rem; }
-    .gallery-thumbs-strip { position:absolute; bottom:0; left:0; right:0; display:flex; gap:6px; padding:10px 14px; background:linear-gradient(transparent,rgba(0,0,0,0.6)); overflow-x:auto; scrollbar-width:none; z-index:4; }
-    .gallery-thumbs-strip::-webkit-scrollbar { display:none; }
-    .gallery-thumb { width:52px; height:40px; border-radius:5px; overflow:hidden; cursor:pointer; border:2px solid transparent; transition:all 0.2s; flex-shrink:0; opacity:0.6; }
-    .gallery-thumb.active { border-color:var(--white); opacity:1; }
-    .gallery-thumb img { width:100%; height:100%; object-fit:cover; }
-    .gallery-nav { position:absolute; top:50%; transform:translateY(-50%); width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,0.2); backdrop-filter:blur(4px); border:1.5px solid rgba(255,255,255,0.4); color:white; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.2rem; transition:all 0.2s; z-index:5; }
-    .gallery-nav:hover { background:rgba(255,255,255,0.35); }
-    .gallery-nav.prev { left:12px; }
-    .gallery-nav.next { right:12px; }
-
-    /* Close button */
-    .modal-close-btn { position:absolute; top:12px; right:12px; width:34px; height:34px; border-radius:50%; background:rgba(0,0,0,0.45); backdrop-filter:blur(4px); border:1.5px solid rgba(255,255,255,0.2); color:white; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.1rem; transition:all 0.2s; z-index:20; }
-    .modal-close-btn:hover { background:rgba(0,0,0,0.7); }
-
-    /* Right — content panel */
-    .modal-body { flex:1; overflow-y:auto; padding:2rem; display:flex; flex-direction:column; }
-    .modal-header-row { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; margin-bottom:1.2rem; }
-    .modal-animal-name { font-size:2rem; font-weight:800; color:var(--f950); line-height:1.15; }
-    .modal-animal-tag  { font-size:0.82rem; color:var(--gray-400); font-family:monospace; margin-top:0.3rem; }
-    .modal-status-price { text-align:right; flex-shrink:0; }
-    .modal-price { font-size:1.6rem; font-weight:800; color:var(--f900); white-space:nowrap; }
-    .modal-price-note { font-size:0.75rem; color:var(--gray-400); }
-    .modal-details-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem 1rem; margin:0 0 1.2rem; background:var(--f50); border-radius:var(--radius-lg); padding:1.2rem; }
-    .detail-label { font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--f400); margin-bottom:0.2rem; }
-    .detail-value { font-size:0.9rem; font-weight:600; color:var(--f950); }
-    .modal-description { font-size:0.88rem; color:var(--gray-600); line-height:1.75; margin-bottom:1.2rem; }
-    .modal-actions { display:flex; gap:0.8rem; margin-top:auto; padding-top:1rem; }
-    .modal-actions .btn { flex:1; justify-content:center; text-align:center; padding:0.85rem 1rem; white-space:nowrap; }
-
-    /* Mobile: stack vertically */
-    @media (max-width:720px) {
-      .animal-modal { flex-direction:column; height:92vh; max-height:none; }
-      .modal-gallery { flex:0 0 42%; }
-      .modal-animal-name { font-size:1.4rem; }
-      .modal-details-grid { grid-template-columns:1fr 1fr; }
-      .modal-actions { flex-direction:column; }
+    /* ── RESPONSIVE ── */
+    @media (max-width:768px) {
+      .breed-section, .breed-section.reverse {
+        grid-template-columns: 1fr;
+        grid-template-areas: 'imgs' 'content';
+        gap: 1.5rem;
+        padding: 2rem 0;
+      }
+      .breed-imgs img { height: 200px; }
+    }
+    @media (max-width:480px) {
+      .breed-imgs { grid-template-columns: 1fr; }
+      .breed-imgs img { height: 240px; }
+      .breed-content h3 { font-size: 1.3rem; }
     }
   </style>
 </head>
@@ -124,7 +67,7 @@
 
 <div id="rf-header"></div>
 
-<section class="page-hero" style="min-height:60vh;background-image:linear-gradient(rgba(7,30,7,0.4),rgba(7,30,7,0.65)),url('https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-02.jpg');background-size:cover;background-position:center 50%;">
+<section class="page-hero" style="min-height:60vh;background-image:linear-gradient(rgba(7,30,7,0.35),rgba(7,30,7,0.6)),url('https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/beef-cattle/beef-cattle-01.jpg');background-size:cover;background-position:center 65%;">
   <div class="container">
     <div class="breadcrumb"><a href="index.html">Home</a> <span class="sep">/</span> <a href="products.html">Products</a> <span class="sep">/</span> <span>Livestock</span></div>
     <h1>Livestock</h1>
@@ -132,142 +75,119 @@
   </div>
 </section>
 
-<!-- ── DYNAMIC FOR SALE SECTION ── -->
-<section class="section-white" id="for-sale">
-  <div class="container">
-    <div class="text-center" style="margin-bottom:2rem;">
-      <p class="section-label">Available Now</p>
-      <h2 class="section-title">Animals For Sale</h2>
-      <p class="section-subtitle">Browse individual animals available for purchase — click any card for full details, history, and photos.</p>
-    </div>
-
-    <!-- Filter tabs -->
-    <div class="filter-tabs" id="listingTabs">
-      <button class="filter-tab active" data-status="all">All Listed</button>
-      <button class="filter-tab" data-status="on_sale">On Sale</button>
-      <button class="filter-tab" data-status="booked">Booked</button>
-      <button class="filter-tab" data-status="sold">Past Sales</button>
-    </div>
-
-    <!-- Grid -->
-    <div id="animalGrid" class="animal-grid">
-      <!-- Skeleton loaders -->
-      <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line" style="width:60%"></div><div class="skeleton-line" style="width:40%"></div><div class="skeleton-line" style="width:80%"></div></div></div>
-      <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line" style="width:55%"></div><div class="skeleton-line" style="width:35%"></div><div class="skeleton-line" style="width:75%"></div></div></div>
-      <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line" style="width:65%"></div><div class="skeleton-line" style="width:45%"></div><div class="skeleton-line" style="width:70%"></div></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ── STATIC BREED SECTIONS ── -->
+<!-- ── BREED SECTIONS ── -->
 <section class="section-light">
   <div class="container">
 
     <div class="category-divider" id="cattle">
       <h2><i class="ph ph-cow"></i> Cattle</h2>
     </div>
-    <div class="livestock-grid">
-      <div class="livestock-card">
-        <div class="livestock-card-img">
-          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/dairy-cows/dairy-cow-03.jpg" alt="Dairy cows at Rena Farm" loading="lazy" / loading="lazy">
-          <i class="ph ph-cow"></i>
-        </div>
-        <div class="livestock-card-body">
-          <h3>Dairy Cows</h3>
-          <div style="margin-bottom:0.8rem;"><span class="breed-badge">High-Yield Dairy</span><span class="breed-badge">Sahiwaal</span></div>
-          <p>Selected for high milk yields and suitability to Kenya's climate. Both exotic high-yield breeds and the local Sahiwaal &mdash; heat-tolerant and productive in arid conditions.</p>
-          <div class="spec-list">
-            <div class="spec-item">Naturally adapted to hot, dry climates</div>
-            <div class="spec-item">High milk production per lactation</div>
-            <div class="spec-item">Healthy, vaccinated, and dewormed</div>
-            <div class="spec-item">Available as dairy cows and heifers</div>
-          </div>
-          <a href="contact.html?interest=dairy-cattle" class="btn btn-primary" style="width:100%;justify-content:center;">Enquire Now</a>
-        </div>
+
+    <!-- Dairy Cows -->
+    <div class="breed-section">
+      <div class="breed-imgs">
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/dairy-cows/dairy-cow-03.jpg" alt="Dairy cows at Rena Farm" loading="lazy"/>
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/dairy-cows/dairy-cow-07.jpg" alt="Dairy cows at Rena Farm" loading="lazy"/>
       </div>
-      <div class="livestock-card">
-        <div class="livestock-card-img" style="background:linear-gradient(135deg,#2d531a,#4a7a2a);">
-          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/beef-cattle/beef-cattle-02.jpg" alt="Beef cattle at Rena Farm" loading="lazy" / loading="lazy">
-          <i class="ph ph-cow"></i>
+      <div class="breed-content">
+        <div style="margin-bottom:0.6rem;"><span class="breed-badge">High-Yield Dairy</span><span class="breed-badge">Sahiwaal</span></div>
+        <h3>Dairy Cows</h3>
+        <p>Selected for high milk yields and suitability to Kenya's climate. Both exotic high-yield breeds and the local Sahiwaal &mdash; heat-tolerant and productive in arid conditions.</p>
+        <div class="spec-list">
+          <div class="spec-item">Naturally adapted to hot, dry climates</div>
+          <div class="spec-item">High milk production per lactation</div>
+          <div class="spec-item">Healthy, vaccinated, and dewormed</div>
+          <div class="spec-item">Available as dairy cows and heifers</div>
         </div>
-        <div class="livestock-card-body">
-          <h3>Beef Cattle</h3>
-          <div style="margin-bottom:0.8rem;"><span class="breed-badge">Beef Breeds</span><span class="breed-badge">Quality Carcass</span></div>
-          <p>Reared on our fodder-rich feeding system, managed for optimal growth rates and carcass quality &mdash; suitable for local butcheries and individual buyers.</p>
-          <div class="spec-list">
-            <div class="spec-item">Reared on farm-grown fodder and balanced rations</div>
-            <div class="spec-item">Regular health programs — vaccination &amp; deworming</div>
-            <div class="spec-item">Suitable for slaughter or live purchase</div>
-            <div class="spec-item">Delivery available for bulk purchases</div>
-          </div>
-          <a href="contact.html?interest=beef-cattle" class="btn btn-primary" style="width:100%;justify-content:center;">Enquire Now</a>
+        <a href="contact.html?interest=dairy-cattle" class="btn btn-primary">Enquire Now</a>
+      </div>
+    </div>
+
+    <!-- Beef Cattle -->
+    <div class="breed-section reverse">
+      <div class="breed-imgs">
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/beef-cattle/beef-cattle-01.jpg" alt="Beef cattle at Rena Farm" loading="lazy"/>
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/beef-cattle/beef-cattle-02.jpg" alt="Beef cattle at Rena Farm" loading="lazy"/>
+      </div>
+      <div class="breed-content">
+        <div style="margin-bottom:0.6rem;"><span class="breed-badge">Beef Breeds</span><span class="breed-badge">Quality Carcass</span></div>
+        <h3>Beef Cattle</h3>
+        <p>Reared on our fodder-rich feeding system, managed for optimal growth rates and carcass quality &mdash; suitable for local butcheries and individual buyers.</p>
+        <div class="spec-list">
+          <div class="spec-item">Reared on farm-grown fodder and balanced rations</div>
+          <div class="spec-item">Regular health programs &mdash; vaccination &amp; deworming</div>
+          <div class="spec-item">Suitable for slaughter or live purchase</div>
+          <div class="spec-item">Delivery available for bulk purchases</div>
         </div>
+        <a href="contact.html?interest=beef-cattle" class="btn btn-primary">Enquire Now</a>
       </div>
     </div>
 
     <div class="category-divider" id="sheep">
       <h2><i class="ph ph-farm"></i> Sheep</h2>
     </div>
-    <div class="livestock-grid">
-      <div class="livestock-card">
-        <div class="livestock-card-img" style="background:linear-gradient(135deg,var(--f900),#1a3d5c);">
-          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-ewes/dorper-ewe-05.jpg" alt="Pure Dorper sheep at Rena Farm" loading="lazy" / loading="lazy">
-          <i class="ph ph-farm"></i>
-        </div>
-        <div class="livestock-card-body">
-          <h3>Pure Dorper Sheep</h3>
-          <div style="margin-bottom:0.8rem;"><span class="breed-badge">Pure Breed</span><span class="breed-badge">Export Grade</span><span class="breed-badge">Fast Growth</span></div>
-          <p>One of the world's premier meat breeds — managed under strict health protocols with flushing and steaming programs to maximise lambing rates and lamb quality.</p>
-          <div class="spec-list">
-            <div class="spec-item">Superior genetics &amp; rapid weight gain</div>
-            <div class="spec-item">Heat-tolerant and disease-resistant</div>
-            <div class="spec-item">Available: ewes, lambs, fattened mutton</div>
-            <div class="spec-item">Export-ready and local butchery supply</div>
-          </div>
-          <a href="contact.html?interest=dorper-sheep" class="btn btn-primary" style="width:100%;justify-content:center;">Enquire Now</a>
-        </div>
+
+    <!-- Pure Dorper Sheep -->
+    <div class="breed-section">
+      <div class="breed-imgs">
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-ewes/dorper-ewe-05.jpg" alt="Pure Dorper sheep at Rena Farm" loading="lazy"/>
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-ewes/dorper-ewe-10.jpg" alt="Dorper sheep at Rena Farm" loading="lazy"/>
       </div>
-      <div class="livestock-card">
-        <div class="livestock-card-img" style="background:linear-gradient(135deg,#1a3a5c,#2e6da4);">
-          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-rams/dorper-ram-05.jpg" alt="Pure Dorper rams at Rena Farm" loading="lazy" / loading="lazy">
-          <i class="ph ph-farm"></i>
+      <div class="breed-content">
+        <div style="margin-bottom:0.6rem;"><span class="breed-badge">Pure Breed</span><span class="breed-badge">Export Grade</span><span class="breed-badge">Fast Growth</span></div>
+        <h3>Pure Dorper Sheep</h3>
+        <p>One of the world's premier meat breeds &mdash; managed under strict health protocols with flushing and steaming programs to maximise lambing rates and lamb quality.</p>
+        <div class="spec-list">
+          <div class="spec-item">Superior genetics &amp; rapid weight gain</div>
+          <div class="spec-item">Heat-tolerant and disease-resistant</div>
+          <div class="spec-item">Available: ewes, lambs, fattened mutton</div>
+          <div class="spec-item">Export-ready and local butchery supply</div>
         </div>
-        <div class="livestock-card-body">
-          <h3>Pure Dorper Rams</h3>
-          <div style="margin-bottom:0.8rem;"><span class="breed-badge">Pure Breed</span><span class="breed-badge">Top Genetics</span><span class="breed-badge">Breeding Stock</span></div>
-          <p>Carefully selected for superior genetics, body conformation, and breeding performance. Ideal for establishing or upgrading Dorper sheep flocks.</p>
-          <div class="spec-list">
-            <div class="spec-item">Selected from best-performing bloodlines</div>
-            <div class="spec-item">Proven fertility and breeding performance</div>
-            <div class="spec-item">Health certificates available on request</div>
-            <div class="spec-item">Full vaccination and deworming records</div>
-          </div>
-          <a href="contact.html?interest=dorper-rams" class="btn btn-primary" style="width:100%;justify-content:center;">Enquire Now</a>
+        <a href="contact.html?interest=dorper-sheep" class="btn btn-primary">Enquire Now</a>
+      </div>
+    </div>
+
+    <!-- Pure Dorper Rams -->
+    <div class="breed-section reverse">
+      <div class="breed-imgs">
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-rams/dorper-ram-05.jpg" alt="Pure Dorper rams at Rena Farm" loading="lazy"/>
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-rams/dorper-ram-01.jpg" alt="Dorper ram at Rena Farm" loading="lazy"/>
+      </div>
+      <div class="breed-content">
+        <div style="margin-bottom:0.6rem;"><span class="breed-badge">Pure Breed</span><span class="breed-badge">Top Genetics</span><span class="breed-badge">Breeding Stock</span></div>
+        <h3>Pure Dorper Rams</h3>
+        <p>Carefully selected for superior genetics, body conformation, and breeding performance. Ideal for establishing or upgrading Dorper sheep flocks.</p>
+        <div class="spec-list">
+          <div class="spec-item">Selected from best-performing bloodlines</div>
+          <div class="spec-item">Proven fertility and breeding performance</div>
+          <div class="spec-item">Health certificates available on request</div>
+          <div class="spec-item">Full vaccination and deworming records</div>
         </div>
+        <a href="contact.html?interest=dorper-rams" class="btn btn-primary">Enquire Now</a>
       </div>
     </div>
 
     <div class="category-divider" id="goats">
       <h2><i class="ph ph-leaf"></i> Goats</h2>
     </div>
-    <div class="livestock-grid" style="max-width:640px;">
-      <div class="livestock-card">
-        <div class="livestock-card-img" style="background:linear-gradient(135deg,#4a2c1a,#8b5e3c);">
-          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/gala-goats/gala-goat-01.jpg" alt="Gala goats at Rena Farm" loading="lazy" / loading="lazy">
-          <i class="ph ph-leaf"></i>
+
+    <!-- Gala Goats -->
+    <div class="breed-section">
+      <div class="breed-imgs">
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/gala-goats/gala-goat-01.jpg" alt="Gala goats at Rena Farm" loading="lazy"/>
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/gala-boars/gala-buck-03.jpg" alt="Gala buck at Rena Farm" loading="lazy"/>
+      </div>
+      <div class="breed-content">
+        <div style="margin-bottom:0.6rem;"><span class="breed-badge">Gala Breed</span><span class="breed-badge">Meat &amp; Dairy</span><span class="breed-badge">Hardy</span></div>
+        <h3>Gala Goats</h3>
+        <p>Hardy and productive, well-suited to the Kajiado environment. Popular for both meat and dairy purposes across Kenya.</p>
+        <div class="spec-list">
+          <div class="spec-item">Hardy and adaptable to semi-arid conditions</div>
+          <div class="spec-item">Good meat conformation and growth rate</div>
+          <div class="spec-item">Available as does, bucks, and kids</div>
+          <div class="spec-item">Vaccinated and health-managed</div>
         </div>
-        <div class="livestock-card-body">
-          <h3>Gala Goats</h3>
-          <div style="margin-bottom:0.8rem;"><span class="breed-badge">Gala Breed</span><span class="breed-badge">Meat &amp; Dairy</span><span class="breed-badge">Hardy</span></div>
-          <p>Hardy and productive, well-suited to the Kajiado environment. Popular for both meat and dairy purposes across Kenya.</p>
-          <div class="spec-list">
-            <div class="spec-item">Hardy and adaptable to semi-arid conditions</div>
-            <div class="spec-item">Good meat conformation and growth rate</div>
-            <div class="spec-item">Available as does, bucks, and kids</div>
-            <div class="spec-item">Vaccinated and health-managed</div>
-          </div>
-          <a href="contact.html?interest=gala-goats" class="btn btn-primary" style="width:100%;justify-content:center;">Enquire Now</a>
-        </div>
+        <a href="contact.html?interest=gala-goats" class="btn btn-primary">Enquire Now</a>
       </div>
     </div>
 
@@ -302,268 +222,7 @@
   </div>
 </section>
 
-<!-- ── ANIMAL DETAIL MODAL ── -->
-<div class="animal-modal-overlay" id="animalModal" onclick="handleModalBgClick(event)">
-  <div class="animal-modal" id="animalModalInner">
-
-    <!-- LEFT — Gallery -->
-    <div class="modal-gallery" id="modalGallery">
-      <img class="main-img" id="modalMainImg" src="" alt="" />
-      <div class="no-img-placeholder" id="modalNoImg" style="display:none;">
-        <i class="ph ph-image"></i>
-      </div>
-      <button class="gallery-nav prev" id="galleryPrev" onclick="shiftGallery(-1)">&#8249;</button>
-      <button class="gallery-nav next" id="galleryNext" onclick="shiftGallery(1)">&#8250;</button>
-      <div class="gallery-thumbs-strip" id="galleryThumbs"></div>
-    </div>
-
-    <!-- RIGHT — Content -->
-    <div class="modal-body">
-      <button class="modal-close-btn" onclick="closeAnimalModal()" aria-label="Close">&times;</button>
-
-      <div class="modal-header-row">
-        <div>
-          <div class="modal-animal-name" id="modalName">—</div>
-          <div class="modal-animal-tag" id="modalTag">—</div>
-        </div>
-        <div class="modal-status-price">
-          <div id="modalStatusBadge"></div>
-          <div class="modal-price" id="modalPrice"></div>
-          <div class="modal-price-note" id="modalPriceNote"></div>
-        </div>
-      </div>
-
-      <div class="modal-details-grid" id="modalDetails"></div>
-      <div class="modal-description" id="modalDescription"></div>
-      <div class="modal-actions" id="modalActions"></div>
-    </div>
-
-  </div>
-</div>
-
 <div id="rf-footer"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="js/supabase-client.js"></script>
 <script src="js/layout.js"></script>
-<script>
-// ── State ──────────────────────────────────────────
-let allAnimals    = []
-let currentFilter = 'all'
-let currentImages = []
-let currentImgIdx = 0
-
-const SPECIES_LABELS = {
-  dorper_sheep:     'Dorper Sheep',
-  gala_goat:        'Gala Goat',
-  dairy_cow:        'Dairy Cow',
-  beef_cattle:      'Beef Cattle',
-  sahiwal:          'Sahiwal',
-  kienyeji_chicken: 'Kienyeji Chicken',
-  other:            'Other',
-}
-
-const STATUS_LABELS = { on_sale:'On Sale', booked:'Booked', sold:'Sold' }
-const STATUS_CLS    = { on_sale:'status-on_sale', booked:'status-booked', sold:'status-sold' }
-
-// ── Init ───────────────────────────────────────────
-async function initListings() {
-  try {
-    allAnimals = await loadListedAnimals()
-    renderGrid(allAnimals)
-    setupTabs()
-  } catch (err) {
-    document.getElementById('animalGrid').innerHTML =
-      `<div class="empty-state" style="grid-column:1/-1;"><i class="ph ph-warning"></i><p>Could not load listings. Please refresh the page.</p></div>`
-    console.error('Listings load error:', err)
-  }
-}
-
-initListings()
-
-function setupTabs() {
-  document.querySelectorAll('.filter-tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'))
-      btn.classList.add('active')
-      currentFilter = btn.dataset.status
-      const filtered = currentFilter === 'all'
-        ? allAnimals
-        : allAnimals.filter(a => a.listing_status === currentFilter)
-      renderGrid(filtered)
-    })
-  })
-}
-
-// ── Render grid ────────────────────────────────────
-function renderGrid(animals) {
-  const grid = document.getElementById('animalGrid')
-
-  if (!animals.length) {
-    grid.innerHTML = `
-      <div class="empty-state" style="grid-column:1/-1;">
-        <i class="ph ph-cow"></i>
-        <p style="font-size:1rem;color:var(--gray-500);margin-bottom:0.5rem;">No animals listed in this category yet.</p>
-        <p style="font-size:0.85rem;">Check back soon or contact us directly.</p>
-      </div>`
-    return
-  }
-
-  grid.innerHTML = animals.map(a => `
-    <div class="animal-card" onclick="openAnimalModal('${a.id}')">
-      <div class="animal-card-img">
-        ${a.cover_image_url
-          ? `<img src="${a.cover_image_url}" alt="${escHtml(a.name ?? a.tag_number)}" loading="lazy" />`
-          : `<div class="no-img"><i class="ph ph-cow"></i></div>`
-        }
-        <span class="status-badge ${STATUS_CLS[a.listing_status]}">${STATUS_LABELS[a.listing_status]}</span>
-      </div>
-      <div class="animal-card-body">
-        <div class="animal-name">${escHtml(a.name ?? '(Unnamed)')}</div>
-        <div class="animal-tag">#${escHtml(a.tag_number)}</div>
-        <div class="animal-meta">
-          ${a.species ? SPECIES_LABELS[a.species] : (a.breed ?? '')}
-          ${a.gender ? ' &middot; ' + cap(a.gender) : ''}
-          ${a.date_of_birth ? ' &middot; ' + calcAge(a.date_of_birth) : ''}
-        </div>
-        ${a.asking_price
-          ? `<div class="animal-price">KSh ${Number(a.asking_price).toLocaleString()} <span>asking price</span></div>`
-          : a.listing_status !== 'sold' ? `<div class="animal-price" style="font-size:0.85rem;color:var(--gray-400);">Price on request</div>` : ''
-        }
-      </div>
-    </div>`).join('')
-}
-
-// ── Modal ──────────────────────────────────────────
-async function openAnimalModal(animalId) {
-  const animal = allAnimals.find(a => a.id === animalId)
-  if (!animal) return
-
-  // Load images
-  currentImages = await loadAnimalImages(animalId)
-  currentImgIdx = 0
-
-  // Gallery
-  const mainImg  = document.getElementById('modalMainImg')
-  const noImg    = document.getElementById('modalNoImg')
-  const thumbs   = document.getElementById('galleryThumbs')
-  const prevBtn  = document.getElementById('galleryPrev')
-  const nextBtn  = document.getElementById('galleryNext')
-  const imgWrap  = document.getElementById('modalImgWrap')
-
-  if (currentImages.length > 0) {
-    mainImg.style.display = 'block'
-    noImg.style.display   = 'none'
-    setGalleryImage(0)
-    thumbs.innerHTML = currentImages.map((img, i) => `
-      <div class="gallery-thumb${i===0?' active':''}" onclick="setGalleryImage(${i})">
-        <img src="${img.image_url}" alt="${escHtml(img.caption??'')}" loading="lazy" />
-      </div>`).join('')
-    prevBtn.style.display = currentImages.length > 1 ? 'flex' : 'none'
-    nextBtn.style.display = currentImages.length > 1 ? 'flex' : 'none'
-  } else if (animal.cover_image_url) {
-    mainImg.src           = animal.cover_image_url
-    mainImg.style.display = 'block'
-    noImg.style.display   = 'none'
-    thumbs.innerHTML      = ''
-    prevBtn.style.display = 'none'
-    nextBtn.style.display = 'none'
-  } else {
-    mainImg.style.display = 'none'
-    noImg.style.display   = 'flex'
-    thumbs.innerHTML      = ''
-    prevBtn.style.display = 'none'
-    nextBtn.style.display = 'none'
-  }
-
-  // Name & tag
-  document.getElementById('modalName').textContent = animal.name ?? '(Unnamed)'
-  document.getElementById('modalTag').textContent  = `Tag: #${animal.tag_number}`
-
-  // Status & price
-  document.getElementById('modalStatusBadge').innerHTML =
-    `<span class="status-badge ${STATUS_CLS[animal.listing_status]}" style="position:static;display:inline-block;margin-bottom:0.4rem;">${STATUS_LABELS[animal.listing_status]}</span>`
-
-  const priceEl     = document.getElementById('modalPrice')
-  const priceNoteEl = document.getElementById('modalPriceNote')
-  if (animal.asking_price) {
-    priceEl.textContent     = `KSh ${Number(animal.asking_price).toLocaleString()}`
-    priceNoteEl.textContent = 'Asking price'
-  } else if (animal.listing_status === 'sold') {
-    priceEl.textContent     = 'Sold'
-    priceNoteEl.textContent = animal.sale_date ? `${fmtDate(animal.sale_date)}` : ''
-  } else {
-    priceEl.textContent     = 'Price on request'
-    priceNoteEl.textContent = ''
-  }
-
-  // Details grid
-  const details = [
-    { label:'Species',  value: animal.species ? SPECIES_LABELS[animal.species] : null },
-    { label:'Breed',    value: animal.breed },
-    { label:'Gender',   value: animal.gender ? cap(animal.gender) : null },
-    { label:'Color',    value: animal.color },
-    { label:'Date of Birth', value: animal.date_of_birth ? fmtDate(animal.date_of_birth) : null },
-    { label:'Age',      value: calcAge(animal.date_of_birth) },
-    { label:'Weight',   value: animal.current_weight ? `${animal.current_weight} kg` : null },
-  ].filter(d => d.value)
-
-  document.getElementById('modalDetails').innerHTML = details.map(d => `
-    <div class="detail-item">
-      <div class="detail-label">${d.label}</div>
-      <div class="detail-value">${escHtml(String(d.value))}</div>
-    </div>`).join('')
-
-  // Description
-  const desc = document.getElementById('modalDescription')
-  desc.textContent = animal.description ?? ''
-  desc.style.display = animal.description ? 'block' : 'none'
-
-  // Actions
-  const name    = animal.name ?? animal.tag_number
-  const waMsg   = encodeURIComponent(`Hi Rena Farm, I'm interested in ${name} (Tag: #${animal.tag_number}). Is it still available?`)
-  const ctaLink = animal.listing_status !== 'sold'
-    ? `<a href="enquire.html?animal=${animal.id}&name=${encodeURIComponent(name)}&type=animal" class="btn btn-primary">Enquire About ${escHtml(name)}</a><a href="https://wa.me/254724980372?text=${waMsg}" target="_blank" rel="noopener" class="btn btn-outline-green"><i class="ph ph-whatsapp-logo"></i> WhatsApp</a>`
-    : `<a href="enquire.html?type=livestock" class="btn btn-outline-green" style="width:100%;">Enquire About Similar Animals</a>`
-
-  document.getElementById('modalActions').innerHTML = ctaLink
-
-  // Show modal
-  document.getElementById('animalModal').classList.add('open')
-  document.body.style.overflow = 'hidden'
-}
-
-function setGalleryImage(idx) {
-  if (!currentImages.length) return
-  currentImgIdx = idx
-  const img = currentImages[idx]
-  document.getElementById('modalMainImg').src = img.image_url
-  document.querySelectorAll('.gallery-thumb').forEach((el, i) => {
-    el.classList.toggle('active', i === idx)
-  })
-}
-
-function shiftGallery(dir) {
-  if (!currentImages.length) return
-  const next = (currentImgIdx + dir + currentImages.length) % currentImages.length
-  setGalleryImage(next)
-}
-
-function closeAnimalModal() {
-  document.getElementById('animalModal').classList.remove('open')
-  document.body.style.overflow = ''
-}
-
-function handleModalBgClick(e) {
-  if (e.target === document.getElementById('animalModal')) closeAnimalModal()
-}
-
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAnimalModal() })
-
-// ── Helpers ────────────────────────────────────────
-function escHtml(str) {
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
-}
-function cap(str) { return str ? str.charAt(0).toUpperCase() + str.slice(1) : '' }
-</script>
 </body>
 </html>

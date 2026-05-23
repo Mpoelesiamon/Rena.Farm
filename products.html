@@ -10,16 +10,20 @@
   <style>
     .product-hub-card { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); overflow:hidden; transition:all var(--transition); text-decoration:none; display:block; }
     .product-hub-card:hover { transform:translateY(-6px); box-shadow:var(--shadow-lg); border-color:var(--f300); }
-    .product-hub-header { padding:2.5rem; text-align:center; position:relative; }
-    .product-hub-header .icon { font-size:3.5rem; display:block; margin-bottom:0.8rem; color:rgba(255,255,255,0.7); }
-    .product-hub-header h3 { color:var(--white); font-size:1.2rem; margin-bottom:0.2rem; }
-    .product-hub-header p  { color:rgba(255,255,255,0.8); font-size:0.82rem; margin:0; }
+    .product-hub-img { position:relative; height:200px; overflow:hidden; }
+    .product-hub-img img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s ease; }
+    .product-hub-card:hover .product-hub-img img { transform:scale(1.04); }
+    .product-hub-cat { position:absolute; bottom:0.7rem; left:0.7rem; font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; padding:0.2rem 0.7rem; border-radius:50px; background:rgba(7,30,7,0.65); color:rgba(255,255,255,0.95); backdrop-filter:blur(4px); }
     .product-hub-body { padding:1.5rem; }
+    .product-hub-body h3 { color:var(--f950); font-size:1.1rem; font-weight:700; margin:0 0 0.3rem; }
+    .product-hub-body > p { font-size:0.8rem; color:var(--gray-400); margin:0 0 0.8rem; }
     .product-hub-body ul { list-style:none; margin:0 0 1.2rem; padding:0; }
-    .product-hub-body ul li { font-size:0.88rem; color:var(--gray-700); padding:0.3rem 0; display:flex; align-items:center; gap:0.5rem; border-bottom:1px solid var(--f50); }
+    .product-hub-body ul li { font-size:0.85rem; color:var(--gray-600); padding:0.3rem 0; display:flex; align-items:center; gap:0.5rem; border-bottom:1px solid var(--f50); }
     .product-hub-body ul li:last-child { border:none; }
     .product-hub-body ul li::before { content:'→'; color:var(--f500); font-weight:700; }
-    .product-hub-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.8rem; }
+    .product-hub-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; }
+    @media (max-width:960px) { .product-hub-grid { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:480px) { .product-hub-grid { grid-template-columns:1fr; } }
     .inline-product { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); padding:2rem; transition:all var(--transition); }
     .inline-product:hover { box-shadow:var(--shadow-md); border-color:var(--f300); }
     .inline-product h3 { color:var(--f950); margin-bottom:0.5rem; font-size:1.05rem; }
@@ -120,52 +124,52 @@
     <div class="product-hub-grid" style="margin-top:3rem;">
 
       <a href="livestock.html" class="product-hub-card">
-        <div class="product-hub-header" style="background:linear-gradient(135deg,var(--f950),var(--f800));position:relative;overflow:hidden;">
-          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/beef-cattle/beef-cattle-01.jpg" alt="Cattle at Rena Farm" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.3;" loading="lazy" />
-          <i class="ph ph-cow icon"></i>
-          <h3>Cattle</h3>
-          <p>Dairy, Sahiwaal &amp; Beef breeds</p>
+        <div class="product-hub-img">
+          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/beef-cattle/beef-cattle-01.jpg" alt="Cattle at Rena Farm" loading="lazy"/>
+          <span class="product-hub-cat">Livestock</span>
         </div>
         <div class="product-hub-body">
+          <h3>Cattle</h3>
+          <p>Dairy, Sahiwaal &amp; Beef breeds</p>
           <ul><li>High-yield dairy cows</li><li>Sahiwaal cattle</li><li>Beef cattle</li></ul>
           <span class="btn btn-outline-green" style="width:100%;text-align:center;justify-content:center;display:flex;">View Cattle &rarr;</span>
         </div>
       </a>
 
       <a href="livestock.html#sheep" class="product-hub-card">
-        <div class="product-hub-header" style="background:linear-gradient(135deg,var(--f900),var(--f700));position:relative;overflow:hidden;">
-          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-ewes/dorper-ewe-10.jpg" alt="Dorper sheep at Rena Farm" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.3;" loading="lazy" />
-          <i class="ph ph-farm icon"></i>
-          <h3>Sheep</h3>
-          <p>Pure Dorper genetics</p>
+        <div class="product-hub-img">
+          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-ewes/dorper-ewe-10.jpg" alt="Dorper sheep at Rena Farm" loading="lazy"/>
+          <span class="product-hub-cat">Livestock</span>
         </div>
         <div class="product-hub-body">
+          <h3>Sheep</h3>
+          <p>Pure Dorper genetics</p>
           <ul><li>Pure Dorper sheep</li><li>Pure Dorper rams</li><li>Fattened mutton (export &amp; local)</li></ul>
           <span class="btn btn-outline-green" style="width:100%;text-align:center;justify-content:center;display:flex;">View Sheep &rarr;</span>
         </div>
       </a>
 
       <a href="livestock.html#goats" class="product-hub-card">
-        <div class="product-hub-header" style="background:linear-gradient(135deg,#2d531a,#4a7a2a);position:relative;overflow:hidden;">
-          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/gala-boars/gala-buck-03.jpg" alt="Gala goats at Rena Farm" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.3;" loading="lazy" />
-          <i class="ph ph-leaf icon"></i>
-          <h3>Goats</h3>
-          <p>Gala goats</p>
+        <div class="product-hub-img">
+          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/gala-boars/gala-buck-03.jpg" alt="Gala goats at Rena Farm" loading="lazy"/>
+          <span class="product-hub-cat">Livestock</span>
         </div>
         <div class="product-hub-body">
+          <h3>Goats</h3>
+          <p>Gala goats</p>
           <ul><li>Gala goats — does, bucks &amp; kids</li><li>Hardy &amp; productive</li><li>Meat &amp; dairy purpose</li></ul>
           <span class="btn btn-outline-green" style="width:100%;text-align:center;justify-content:center;display:flex;">View Goats &rarr;</span>
         </div>
       </a>
 
       <a href="fodder.html" class="product-hub-card">
-        <div class="product-hub-header" style="background:linear-gradient(135deg,#1a3d12,#2d531a);position:relative;overflow:hidden;">
-          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-03.jpg" alt="Fodder fields at Rena Farm" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.3;" loading="lazy" />
-          <i class="ph ph-plant icon"></i>
-          <h3>Fodder &amp; Feeds</h3>
-          <p>7 varieties from 40 acres</p>
+        <div class="product-hub-img">
+          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-03.jpg" alt="Fodder fields at Rena Farm" loading="lazy"/>
+          <span class="product-hub-cat">Fodder &amp; Feeds</span>
         </div>
         <div class="product-hub-body">
+          <h3>Fodder &amp; Feeds</h3>
+          <p>7 varieties from 40 acres</p>
           <ul><li>Silage (5-ingredient blend)</li><li>Boma Rhodes hay</li><li>Napier grass (Pakchong1 &amp; Jancao)</li><li>Lucerne (Alfalfa)</li><li>Bracharia grass</li><li>Livestock &amp; chicken pellets</li></ul>
           <span class="btn btn-outline-green" style="width:100%;text-align:center;justify-content:center;display:flex;">View Fodder &rarr;</span>
         </div>
