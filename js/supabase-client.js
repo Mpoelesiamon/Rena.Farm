@@ -83,6 +83,12 @@ async function loadAnimalById(id) {
   return data ?? null
 }
 
+// ── Fetch images for a product listing ──
+async function loadProductImages(listingId) {
+  const { data } = await db.from('product_listing_images').select('*').eq('listing_id', listingId).order('display_order')
+  return data ?? []
+}
+
 // ── Fetch active product listings ──
 async function loadActiveProductListings() {
   const { data } = await db.from('product_listings').select('*').eq('listing_status', 'active').order('created_at', { ascending: false })

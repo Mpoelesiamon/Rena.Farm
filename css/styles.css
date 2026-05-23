@@ -680,7 +680,7 @@ section { padding: 96px 0; }
 .timeline-year p  { font-size: 0.85rem; margin: 0; }
 
 /* ── PRODUCTS ── */
-.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.8rem; margin-top: 3rem; }
+.products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; margin-top: 3rem; }
 
 .product-card {
   background: var(--white);
