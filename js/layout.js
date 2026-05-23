@@ -31,11 +31,11 @@
       <a href="products.html">Products &rarr;</a>
       <a href="contact.html">Contact &rarr;</a>
       <a href="https://wa.me/254724980372" target="_blank" rel="noopener" class="rf-nav-wa" aria-label="WhatsApp">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
       </a>
       <div class="nav-account-wrap" id="accountWrap">
         <button class="nav-account-btn" id="accountBtn" aria-label="Account menu">
-          <svg id="accountIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <svg id="accountIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
           <span id="accountInitial" style="display:none;"></span>
         </button>
         <div class="nav-account-dropdown" id="accountDropdown"></div>
@@ -48,44 +48,51 @@
 <div class="rf-nav-overlay" id="rfNavOverlay" aria-hidden="true">
   <div class="rf-overlay-inner">
 
-    <!-- Left: main nav links -->
-    <nav class="rf-overlay-links" id="rfOverlayLinks">
-      <a href="index.html" data-page="index.html">Home</a>
-      <a href="about.html" data-page="about.html">About</a>
-      <a href="products.html" data-page="products.html">Products</a>
-      <a href="livestock.html" data-page="livestock.html">Livestock</a>
-      <a href="fodder.html" data-page="fodder.html">Fodder &amp; Feeds</a>
-      <a href="gallery.html" data-page="gallery.html">Gallery</a>
-      <a href="contact.html" data-page="contact.html">Contact</a>
-    </nav>
+    <!-- Left: grouped navigation panel -->
+    <nav class="rf-overlay-nav" id="rfOverlayLinks">
 
-    <!-- Center: farm images -->
-    <div class="rf-overlay-images">
-      <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-rams/dorper-ram-57.jpg" alt="Dorper rams at Rena Farm" loading="lazy"/>
-      <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/dairy-cows/dairy-cow-08.jpg" alt="Dairy cattle at Rena Farm" loading="lazy"/>
-      <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-03.jpg" alt="Fodder fields at Rena Farm" loading="lazy"/>
-    </div>
+      <div class="rf-ol-group">
+        <div class="rf-ol-label">Navigate</div>
+        <a href="index.html" data-page="index.html">Home</a>
+        <a href="about.html" data-page="about.html">About Us</a>
+        <a href="gallery.html" data-page="gallery.html">Gallery</a>
+        <a href="contact.html" data-page="contact.html">Contact</a>
+      </div>
 
-    <!-- Right: sub-links + contact + socials -->
-    <aside class="rf-overlay-right">
-      <div class="rf-overlay-cat">Products</div>
-      <a href="livestock.html">Cattle &amp; Sheep</a>
-      <a href="livestock.html#goats">Gala Goats</a>
-      <a href="fodder.html">Fodder &amp; Feeds</a>
-      <a href="products.html#dairy">Dairy &mdash; Milk</a>
-      <a href="products.html#poultry">Poultry</a>
-      <div class="rf-overlay-divider"></div>
-      <div class="rf-overlay-cat">Contact</div>
-      <a href="tel:+254724980372">+254 724 980 372</a>
-      <a href="mailto:therenafarm@gmail.com">therenafarm@gmail.com</a>
-      <a href="location.html">Kajiado Central, Kenya</a>
-      <div class="rf-overlay-divider"></div>
-      <div class="rf-overlay-socials">
+      <div class="rf-ol-group">
+        <div class="rf-ol-label">Products</div>
+        <a href="livestock.html" class="rf-ol-primary" data-page="livestock.html">Livestock <span class="rf-ol-arrow">›</span></a>
+        <a href="fodder.html" class="rf-ol-primary" data-page="fodder.html">Fodder &amp; Feeds <span class="rf-ol-arrow">›</span></a>
+        <a href="products.html#dairy" data-page="products.html">Dairy &mdash; Milk</a>
+        <a href="products.html#poultry" data-page="products.html">Poultry</a>
+      </div>
+
+      <div class="rf-ol-group">
+        <div class="rf-ol-label">Connect</div>
+        <a href="tel:+254724980372">+254 724 980 372</a>
+        <a href="mailto:therenafarm@gmail.com">therenafarm@gmail.com</a>
+        <a href="location.html">Kajiado Central, Kenya</a>
+      </div>
+
+      <div class="rf-ol-socials">
         <a href="https://www.tiktok.com/@the.renafarm" target="_blank" rel="noopener" title="TikTok">${SVG_TIKTOK}</a>
         <a href="https://www.instagram.com/the.renafarm" target="_blank" rel="noopener" title="Instagram">${SVG_INSTAGRAM}</a>
         <a href="https://wa.me/254724980372" target="_blank" rel="noopener" title="WhatsApp">${SVG_WHATSAPP_SM}</a>
       </div>
-    </aside>
+    </nav>
+
+    <!-- Right: image cards panel -->
+    <div class="rf-overlay-cards">
+      <a href="livestock.html" class="rf-ol-card">
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-rams/dorper-ram-57.jpg" alt="Livestock at Rena Farm" loading="lazy"/>
+        <div class="rf-ol-card-label">Livestock</div>
+      </a>
+      <a href="fodder.html" class="rf-ol-card">
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-03.jpg" alt="Fodder fields at Rena Farm" loading="lazy"/>
+        <div class="rf-ol-card-label">Fodder &amp; Feeds</div>
+      </a>
+    </div>
+
   </div>
 </div>`;
 
@@ -376,10 +383,10 @@ if (typeof db !== 'undefined') {
     const mobPillAccount = document.getElementById('mobPillAccount')
 
     if (session) {
-      // Logged in state
+      // Logged in state — always show person icon, not initial
       btn.classList.add('logged-in')
-      icon.style.display    = 'none'
-      initial.style.display = 'block'
+      icon.style.display    = 'block'
+      initial.style.display = 'none'
 
       // Get profile name
       let displayName = session.user.email ?? 'Client'

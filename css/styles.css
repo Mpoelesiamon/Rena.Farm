@@ -242,13 +242,12 @@ nav {
 }
 .rf-nav-right a:hover { color: var(--white); }
 .rf-nav-right .rf-nav-wa {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255,255,255,0.25);
   display: flex; align-items: center; justify-content: center;
-  transition: border-color 0.2s, background 0.2s;
+  opacity: 0.72;
+  transition: opacity 0.2s;
+  color: var(--white);
 }
-.rf-nav-right .rf-nav-wa:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.08); }
+.rf-nav-right .rf-nav-wa:hover { opacity: 1; }
 .rf-nav-right .rf-nav-wa svg { flex-shrink: 0; }
 
 /* Keep .nav-account-wrap working */
@@ -274,109 +273,122 @@ nav {
   pointer-events: all;
 }
 .rf-overlay-inner {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
-  align-items: center;
-  gap: 3.5rem;
-  padding: 90px 0 50px;
+  align-items: stretch;
+  width: 100%;
+  height: 100%;
 }
-.rf-overlay-links {
-  flex: 1;
+
+/* ── LEFT: navigation panel ── */
+.rf-overlay-nav {
+  flex: 0 0 340px;
+  padding: 110px 3rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  overflow-y: auto;
+  border-right: 1px solid rgba(255,255,255,0.07);
+}
+.rf-ol-group {
   display: flex;
   flex-direction: column;
 }
-.rf-overlay-links::before {
-  content: 'Pages';
+.rf-ol-label {
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--f500);
-  margin-bottom: 1.2rem;
-  display: block;
+  margin-bottom: 0.7rem;
 }
-.rf-overlay-links a {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(1.3rem, 1.8vw, 2rem);
-  font-weight: 700;
-  color: rgba(255,255,255,0.55);
+.rf-ol-group a {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.45);
   text-decoration: none;
-  padding: 0.45rem 0;
+  padding: 0.52rem 0;
   border-bottom: 1px solid rgba(255,255,255,0.05);
   transition: color 0.2s, padding-left 0.2s;
-  line-height: 1.2;
-}
-.rf-overlay-links a:first-child { border-top: 1px solid rgba(255,255,255,0.05); }
-.rf-overlay-links a:hover { color: var(--white); padding-left: 0.8rem; }
-.rf-overlay-links a.active { color: var(--f300); }
-/* ── OVERLAY IMAGES ── */
-.rf-overlay-images {
-  flex: 0 0 280px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-  align-self: center;
-}
-.rf-overlay-images img {
-  width: 100%;
-  height: 110px;
-  object-fit: cover;
-  border-radius: 8px;
-  display: block;
-  opacity: 0.72;
-  transition: opacity 0.3s;
-}
-.rf-overlay-images img:last-child {
-  grid-column: 1 / -1;
-  height: 90px;
-}
-.rf-overlay-images img:hover { opacity: 1; }
-@media (max-width: 900px) { .rf-overlay-images { display: none; } }
-
-.rf-overlay-right {
-  flex: 0 0 220px;
   display: flex;
-  flex-direction: column;
-  gap: 0;
-  padding-top: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
 }
-.rf-overlay-cat {
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--f500);
-  margin-bottom: 1rem;
-  margin-top: 1.8rem;
+.rf-ol-group a:first-of-type { border-top: 1px solid rgba(255,255,255,0.05); }
+.rf-ol-group a:hover { color: var(--white); padding-left: 0.5rem; }
+.rf-ol-group a.active { color: var(--f300); }
+.rf-ol-primary {
+  font-size: 1.05rem !important;
+  color: rgba(255,255,255,0.78) !important;
+  font-weight: 600;
 }
-.rf-overlay-cat:first-child { margin-top: 0; }
-.rf-overlay-right a {
-  font-size: 0.88rem;
-  color: rgba(255,255,255,0.5);
-  text-decoration: none;
-  padding: 0.3rem 0;
-  transition: color 0.2s;
-  display: block;
+.rf-ol-primary:hover { color: var(--white) !important; }
+.rf-ol-arrow { opacity: 0.4; font-style: normal; }
+
+/* Socials row at bottom of left panel */
+.rf-ol-socials {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 1.5rem;
 }
-.rf-overlay-right a:hover { color: var(--white); }
-.rf-overlay-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 1.5rem 0; }
-.rf-overlay-socials { display: flex; gap: 0.8rem; margin-top: 0.5rem; }
-.rf-overlay-socials a {
+.rf-ol-socials a {
   width: 30px; height: 30px;
   border-radius: 50%;
   border: 1px solid rgba(255,255,255,0.15);
   display: flex; align-items: center; justify-content: center;
   color: rgba(255,255,255,0.5);
   transition: all 0.2s;
-  padding: 0;
 }
-.rf-overlay-socials a:hover { border-color: rgba(255,255,255,0.4); color: var(--white); }
-@media (max-width: 768px) {
-  .rf-overlay-right { display: none; }
-  .rf-overlay-inner { gap: 0; padding: 90px 1.5rem 50px; }
-  .rf-overlay-links a { font-size: clamp(1.2rem, 6vw, 1.7rem); }
+.rf-ol-socials a:hover { border-color: rgba(255,255,255,0.4); color: var(--white); }
+
+/* ── RIGHT: image cards panel ── */
+.rf-overlay-cards {
+  flex: 1;
+  padding: 100px 3rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+}
+.rf-ol-card {
+  position: relative;
+  flex: 1;
+  min-height: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+}
+.rf-ol-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+.rf-ol-card:hover img { transform: scale(1.04); }
+.rf-ol-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.12) 55%, rgba(0,0,0,0) 100%);
+  pointer-events: none;
+}
+.rf-ol-card-label {
+  position: absolute;
+  bottom: 1.4rem;
+  left: 1.5rem;
+  z-index: 1;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 900px) {
+  .rf-overlay-cards { display: none; }
+  .rf-overlay-nav { flex: 1; padding: 100px 2rem 3rem; }
 }
 
 /* Mobile: hide mobile WhatsApp & old hamburger — handled by pill nav */
@@ -389,21 +401,16 @@ nav {
   margin-left: 0.6rem;
 }
 .nav-account-btn {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.25);
-  background: rgba(255,255,255,0.08);
-  color: var(--white);
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.72);
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-  font-weight: 700; font-size: 0.85rem; font-family: 'Inter', sans-serif;
+  transition: color 0.2s;
+  padding: 2px;
 }
-.nav-account-btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.5); }
-.nav-account-btn.logged-in {
-  background: var(--f600);
-  border-color: var(--f400);
-}
+.nav-account-btn:hover { background: none; color: var(--white); }
+.nav-account-btn.logged-in { color: var(--white); }
 .nav-account-dropdown {
   display: none;
   position: absolute;
