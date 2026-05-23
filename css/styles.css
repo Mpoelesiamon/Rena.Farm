@@ -850,7 +850,7 @@ nav.container {
 .ph-img-fade { position:absolute; inset:0; background:linear-gradient(to right, var(--f950) 0%, rgba(7,30,7,0.6) 50%, rgba(7,30,7,0) 100%); }
 @media (max-width:768px) {
   .ph-img-panel { display:block; width:75%; }
-  .ph-img-fade { background: linear-gradient(to right, var(--f950) 0%, var(--f950) 5%, rgba(7,30,7,0.55) 32%, rgba(7,30,7,0) 58%); }
+  .ph-img-fade { background: linear-gradient(to right, var(--f950) 0%, var(--f950) 5%, rgba(7,30,7,0.55) 32%, rgba(7,30,7,0.38) 58%, rgba(7,30,7,0.38) 100%); }
 }
 
 .breadcrumb {
