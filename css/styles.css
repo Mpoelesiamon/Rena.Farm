@@ -144,7 +144,12 @@ header {
   -webkit-backdrop-filter: blur(14px);
   border-radius: 14px;
   border: 1px solid rgba(255,255,255,0.08);
-  transition: background 0.4s ease, border-color 0.4s ease;
+  transition: background 0.4s ease, border-color 0.4s ease, opacity 0.25s ease, transform 0.25s ease;
+}
+#site-header.nav-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
 }
 header.scrolled {
   background: rgba(7, 30, 7, 0.97);
@@ -250,7 +255,12 @@ nav {
 .rf-nav-right .rf-nav-wa:hover { opacity: 1; }
 .rf-nav-right .rf-nav-wa svg { flex-shrink: 0; }
 
-/* Keep .nav-account-wrap working */
+/* Group WA + account icons with tighter spacing */
+.rf-nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
 .nav-account-wrap {
   position: relative;
 }
@@ -258,9 +268,10 @@ nav {
 /* ── FULL-SCREEN NAV OVERLAY ── */
 .rf-nav-overlay {
   position: fixed;
-  inset: 0;
-  z-index: 999;
+  top: 8px; left: 8px; right: 8px; bottom: 8px;
+  z-index: 1001;
   background: var(--f950);
+  border-radius: 16px;
   display: flex;
   align-items: stretch;
   opacity: 0;
@@ -268,6 +279,28 @@ nav {
   transition: opacity 0.4s ease;
   overflow: hidden;
 }
+/* Close button inside overlay */
+.rf-overlay-close {
+  position: absolute;
+  top: 1.6rem;
+  left: 3rem;
+  z-index: 10;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+  transition: color 0.2s;
+  padding: 0;
+}
+.rf-overlay-close:hover { color: var(--white); }
 .rf-nav-overlay.open {
   opacity: 1;
   pointer-events: all;
@@ -351,8 +384,8 @@ nav {
 }
 .rf-ol-card {
   position: relative;
-  flex: 1;
-  min-height: 200px;
+  flex-shrink: 0;
+  height: 270px;
   border-radius: 10px;
   overflow: hidden;
   text-decoration: none;
