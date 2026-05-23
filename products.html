@@ -8,20 +8,23 @@
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
   <style>
-    .product-hub-card { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); overflow:hidden; transition:all var(--transition); text-decoration:none; display:block; }
+    .product-hub-card { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); overflow:hidden; transition:all var(--transition); text-decoration:none; display:flex; flex-direction:column; }
     .product-hub-card:hover { transform:translateY(-6px); box-shadow:var(--shadow-lg); border-color:var(--f300); }
-    .product-hub-img { position:relative; height:200px; overflow:hidden; }
+    .product-hub-img { position:relative; height:200px; overflow:hidden; flex-shrink:0; }
     .product-hub-img img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s ease; }
     .product-hub-card:hover .product-hub-img img { transform:scale(1.04); }
     .product-hub-cat { position:absolute; bottom:0.7rem; left:0.7rem; font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; padding:0.2rem 0.7rem; border-radius:50px; background:rgba(7,30,7,0.65); color:rgba(255,255,255,0.95); backdrop-filter:blur(4px); }
-    .product-hub-body { padding:1.5rem; }
+    .product-hub-body { padding:1.5rem; flex:1; display:flex; flex-direction:column; }
     .product-hub-body h3 { color:var(--f950); font-size:1.1rem; font-weight:700; margin:0 0 0.3rem; }
     .product-hub-body > p { font-size:0.8rem; color:var(--gray-400); margin:0 0 0.8rem; }
-    .product-hub-body ul { list-style:none; margin:0 0 1.2rem; padding:0; }
+    .product-hub-body ul { list-style:none; margin:0 0 0.5rem; padding:0; }
     .product-hub-body ul li { font-size:0.85rem; color:var(--gray-600); padding:0.3rem 0; display:flex; align-items:center; gap:0.5rem; border-bottom:1px solid var(--f50); }
     .product-hub-body ul li:last-child { border:none; }
     .product-hub-body ul li::before { content:'→'; color:var(--f500); font-weight:700; }
-    .product-hub-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; }
+    .hub-show-more { background:none; border:none; padding:0.2rem 0; font-size:0.78rem; font-weight:600; color:var(--f500); cursor:pointer; font-family:inherit; display:block; margin-bottom:0.7rem; }
+    .hub-show-more:hover { color:var(--f900); }
+    .product-hub-body .hub-cta { margin-top:auto; }
+    .product-hub-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; align-items:stretch; }
     @media (max-width:960px) { .product-hub-grid { grid-template-columns:repeat(2,1fr); } }
     @media (max-width:480px) { .product-hub-grid { grid-template-columns:1fr; } }
     .inline-product { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); padding:2rem; transition:all var(--transition); }
@@ -132,7 +135,7 @@
           <h3>Cattle</h3>
           <p>Dairy, Sahiwaal &amp; Beef breeds</p>
           <ul><li>High-yield dairy cows</li><li>Sahiwaal cattle</li><li>Beef cattle</li></ul>
-          <span class="btn btn-outline-green" style="width:100%;text-align:center;justify-content:center;display:flex;">View Cattle &rarr;</span>
+          <span class="btn btn-outline-green hub-cta" style="width:100%;text-align:center;justify-content:center;display:flex;">View Cattle &rarr;</span>
         </div>
       </a>
 
@@ -145,7 +148,7 @@
           <h3>Sheep</h3>
           <p>Pure Dorper genetics</p>
           <ul><li>Pure Dorper sheep</li><li>Pure Dorper rams</li><li>Fattened mutton (export &amp; local)</li></ul>
-          <span class="btn btn-outline-green" style="width:100%;text-align:center;justify-content:center;display:flex;">View Sheep &rarr;</span>
+          <span class="btn btn-outline-green hub-cta" style="width:100%;text-align:center;justify-content:center;display:flex;">View Sheep &rarr;</span>
         </div>
       </a>
 
@@ -158,7 +161,7 @@
           <h3>Goats</h3>
           <p>Gala goats</p>
           <ul><li>Gala goats — does, bucks &amp; kids</li><li>Hardy &amp; productive</li><li>Meat &amp; dairy purpose</li></ul>
-          <span class="btn btn-outline-green" style="width:100%;text-align:center;justify-content:center;display:flex;">View Goats &rarr;</span>
+          <span class="btn btn-outline-green hub-cta" style="width:100%;text-align:center;justify-content:center;display:flex;">View Goats &rarr;</span>
         </div>
       </a>
 
@@ -171,7 +174,7 @@
           <h3>Fodder &amp; Feeds</h3>
           <p>7 varieties from 40 acres</p>
           <ul><li>Silage (5-ingredient blend)</li><li>Boma Rhodes hay</li><li>Napier grass (Pakchong1 &amp; Jancao)</li><li>Lucerne (Alfalfa)</li><li>Bracharia grass</li><li>Livestock &amp; chicken pellets</li></ul>
-          <span class="btn btn-outline-green" style="width:100%;text-align:center;justify-content:center;display:flex;">View Fodder &rarr;</span>
+          <span class="btn btn-outline-green hub-cta" style="width:100%;text-align:center;justify-content:center;display:flex;">View Fodder &rarr;</span>
         </div>
       </a>
 
@@ -442,6 +445,25 @@ initShop().then(() => {
     document.getElementById('shop')?.scrollIntoView({ behavior:'smooth' })
     setTimeout(() => openProductModal(productId), 350)
   }
+})
+
+/* ── Hub card Show More toggle ── */
+document.querySelectorAll('.product-hub-body ul').forEach(ul => {
+  const items = ul.querySelectorAll('li')
+  const LIMIT = 3
+  if (items.length <= LIMIT) return
+  items.forEach((li, i) => { if (i >= LIMIT) li.style.display = 'none' })
+  const btn = document.createElement('button')
+  btn.className = 'hub-show-more'
+  btn.textContent = `+ ${items.length - LIMIT} more`
+  let expanded = false
+  btn.addEventListener('click', e => {
+    e.preventDefault()
+    expanded = !expanded
+    items.forEach((li, i) => { if (i >= LIMIT) li.style.display = expanded ? 'flex' : 'none' })
+    btn.textContent = expanded ? 'Show less' : `+ ${items.length - LIMIT} more`
+  })
+  ul.after(btn)
 })
 </script>
 </body>

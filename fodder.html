@@ -4,197 +4,351 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fodder &amp; Feeds — Rena Farm</title>
-  <meta name="description" content="High-quality silage, Boma Rhodes hay, Napier grass, pellets, chicken feeds, Lucerne, and Bracharia from Rena Farm — Kajiado, Kenya." />
+  <meta name="description" content="High-quality silage, Boma Rhodes hay, Napier grass, pellets, Lucerne, and Bracharia from Rena Farm — 40 acres in Kajiado, Kenya." />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
   <style>
-    .fodder-card { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); overflow:hidden; transition:all var(--transition); }
-    .fodder-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-lg); border-color:var(--f300); }
-    .fodder-card-header { padding:1.5rem; display:flex; align-items:center; gap:1.2rem; border-bottom:1px solid var(--f50); }
-    .fodder-icon { width:52px; height:52px; border-radius:14px; background:var(--f50); display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--f700); font-size:1.5rem; }
-    .fodder-card-header h3 { color:var(--f950); margin-bottom:0.2rem; font-size:1.05rem; }
-    .fodder-card-header p  { font-size:0.82rem; margin:0; color:var(--f500); font-weight:600; }
-    .fodder-card-body { padding:1.5rem; }
-    .fodder-card-body p { font-size:0.88rem; margin-bottom:1rem; }
+    /* ── STATS STRIP ── */
+    .stat-strip { display:grid; grid-template-columns:repeat(4,1fr); background:var(--f950); }
+    .stat-item { padding:1.8rem 1.5rem; border-right:1px solid rgba(255,255,255,0.08); text-align:center; }
+    .stat-item:last-child { border-right:none; }
+    .stat-num { font-size:2.2rem; font-weight:800; color:var(--white); line-height:1; }
+    .stat-lbl { font-size:0.7rem; color:var(--f300); text-transform:uppercase; letter-spacing:0.07em; margin-top:0.4rem; }
+    @media(max-width:768px) { .stat-strip { grid-template-columns:repeat(2,1fr); } .stat-item { border-bottom:1px solid rgba(255,255,255,0.08); } }
+
+    /* ── EDITORIAL FODDER SECTIONS ── */
+    .fodder-section { display:grid; grid-template-columns:55% 1fr; grid-template-areas:'img txt'; gap:4rem; padding:4.5rem 0; border-bottom:1px solid var(--f100); align-items:start; }
+    .fodder-section.reverse { grid-template-columns:1fr 55%; grid-template-areas:'txt img'; }
+    .fodder-section:last-of-type { border-bottom:none; }
+    .fs-img { grid-area:img; }
+    .fs-txt { grid-area:txt; }
+
+    .fs-cat-label { font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--f500); margin-bottom:0.5rem; }
+    .fs-txt h2 { font-size:1.75rem; font-weight:800; color:var(--f950); margin:0.2rem 0 0.8rem; line-height:1.2; }
+    .fs-sub { font-size:0.82rem; color:var(--f500); font-weight:600; display:flex; align-items:center; gap:0.4rem; margin-bottom:1rem; }
+    .fs-txt > p { font-size:0.9rem; color:var(--gray-600); line-height:1.75; margin-bottom:1rem; }
+
+    /* images */
+    .fs-img .main-img { width:100%; height:420px; object-fit:cover; border-radius:var(--radius-lg); display:block; }
+    .fs-img .img-pair { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; }
+    .fs-img .img-pair img { width:100%; height:260px; object-fit:cover; border-radius:var(--radius-lg); display:block; }
+    .img-caption { font-size:0.73rem; color:var(--gray-400); margin-top:0.55rem; text-align:center; line-height:1.4; }
+
+    /* composition box */
+    .comp-box { background:var(--f50); border:1px solid var(--f100); border-radius:var(--radius-lg); padding:1.2rem 1.4rem; margin:1.2rem 0; }
+    .comp-box h4 { font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.09em; color:var(--f700); margin:0 0 0.8rem; display:flex; align-items:center; gap:0.4rem; }
+    .comp-item { display:flex; align-items:flex-start; gap:0.55rem; font-size:0.85rem; color:var(--gray-600); padding:0.35rem 0; border-bottom:1px solid var(--f100); line-height:1.5; }
+    .comp-item:last-child { border-bottom:none; padding-bottom:0; }
+    .comp-item::before { content:'✓'; color:var(--f500); font-weight:700; flex-shrink:0; margin-top:0.1rem; }
+    .comp-item strong { color:var(--f900); font-weight:600; }
+
+    /* spec list */
+    .spec-list { display:flex; flex-direction:column; gap:0.4rem; margin:0.5rem 0 1rem; }
+    .spec-item { display:flex; align-items:flex-start; gap:0.5rem; font-size:0.88rem; color:var(--gray-500); }
+    .spec-item::before { content:'✓'; color:var(--f500); font-weight:700; flex-shrink:0; }
+
+    /* variety mini-block */
+    .variety-block { background:var(--f50); border-radius:var(--radius); padding:1rem 1.2rem; margin-bottom:0.8rem; border-left:3px solid var(--f300); }
+    .variety-block h4 { font-size:0.88rem; font-weight:700; color:var(--f950); margin:0 0 0.3rem; }
+    .variety-block p { font-size:0.82rem; color:var(--gray-600); margin:0; line-height:1.5; }
+
+    /* tags */
     .fodder-tag { display:inline-block; background:var(--f50); color:var(--f700); font-size:0.7rem; font-weight:700; padding:0.2rem 0.6rem; border-radius:50px; margin:0.1rem; border:1px solid var(--f100); }
-    .fodder-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1.8rem; }
-    .silage-comp { background:var(--f50); border:1px solid var(--f100); border-radius:var(--radius); padding:1.2rem; margin:1rem 0; }
-    .silage-comp h4 { font-size:0.82rem; font-weight:700; color:var(--f950); margin-bottom:0.6rem; text-transform:uppercase; letter-spacing:0.08em; display:flex; align-items:center; gap:0.4rem; }
-    .silage-ing { display:flex; align-items:flex-start; gap:0.5rem; font-size:0.82rem; color:var(--gray-500); margin-bottom:0.3rem; }
-    .silage-ing::before { content:'✓'; color:var(--f500); font-weight:700; flex-shrink:0; }
-    .category-divider { display:flex; align-items:center; gap:1rem; margin:3rem 0 1.5rem; }
-    .category-divider h2 { font-size:1.3rem; color:var(--f950); white-space:nowrap; display:flex; align-items:center; gap:0.5rem; }
-    .category-divider h2 i { color:var(--f500); }
-    .category-divider::before, .category-divider::after { content:''; flex:1; height:2px; background:var(--f100); }
-    .info-banner { background:linear-gradient(135deg,var(--f950),var(--f900)); border-radius:var(--radius-lg); padding:2.5rem; margin-top:3.5rem; }
-    .info-banner h3 { color:var(--white); margin-bottom:0.8rem; }
-    .info-banner p   { color:var(--f200); font-size:0.88rem; }
-    .info-tag { background:rgba(255,255,255,0.1); color:var(--f200); font-size:0.78rem; font-weight:600; padding:0.3rem 0.8rem; border-radius:50px; border:1px solid rgba(255,255,255,0.15); display:inline-block; margin:0.2rem; }
+
+    /* ── PROCESSED FEEDS ── */
+    .feeds-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; max-width:820px; margin:2.5rem auto 0; }
+    .feed-card { background:var(--white); border:1px solid var(--f100); border-radius:var(--radius-lg); padding:2rem; }
+    .feed-card-icon { width:52px; height:52px; background:var(--f50); border-radius:14px; display:flex; align-items:center; justify-content:center; color:var(--f700); font-size:1.5rem; margin-bottom:1rem; }
+    .feed-card h3 { font-size:1rem; font-weight:700; color:var(--f950); margin:0 0 0.6rem; }
+    .feed-card p { font-size:0.87rem; color:var(--gray-600); line-height:1.65; margin-bottom:1rem; }
+    @media(max-width:600px) { .feeds-grid { grid-template-columns:1fr; } }
+
+    /* ── PROCESS SECTION ── */
+    .process-section { background:var(--f950); padding:80px 0; }
+    .process-steps { display:grid; grid-template-columns:repeat(5,1fr); gap:1rem; margin-top:3rem; }
+    .process-step { text-align:center; padding:0 0.5rem; }
+    .step-num { width:46px; height:46px; border-radius:50%; background:rgba(255,255,255,0.06); border:2px solid var(--f700); color:var(--f300); font-size:1rem; font-weight:800; display:flex; align-items:center; justify-content:center; margin:0 auto 0.9rem; }
+    .step-title { font-size:0.82rem; font-weight:700; color:var(--white); margin-bottom:0.4rem; }
+    .step-desc { font-size:0.75rem; color:var(--f400); line-height:1.55; }
+
+    .machinery-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.2rem; margin-top:2.5rem; }
+    .machinery-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:var(--radius-lg); padding:1.5rem; }
+    .machinery-card i { font-size:1.8rem; color:var(--f400); margin-bottom:0.7rem; display:block; }
+    .machinery-card h4 { font-size:0.88rem; font-weight:700; color:var(--white); margin:0 0 0.3rem; }
+    .machinery-card p { font-size:0.78rem; color:var(--f500); margin:0; line-height:1.5; }
+
+    /* ── CTA ── */
     .cta-bg { background:var(--f50); padding:80px 0; text-align:center; }
     .cta-buttons { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:2rem; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px) {
+      .fodder-section, .fodder-section.reverse {
+        grid-template-columns:1fr;
+        grid-template-areas:'img' 'txt';
+        gap:1.5rem;
+        padding:2.5rem 0;
+      }
+      .fs-img .main-img { height:280px; }
+      .fs-img .img-pair img { height:180px; }
+      .fs-txt h2 { font-size:1.4rem; }
+      .process-steps { grid-template-columns:repeat(2,1fr); gap:1.5rem; }
+      .machinery-grid { grid-template-columns:repeat(2,1fr); }
+    }
+    @media(max-width:480px) {
+      .fs-img .img-pair { grid-template-columns:1fr; }
+      .fs-img .img-pair img { height:200px; }
+      .process-steps { grid-template-columns:1fr; }
+      .machinery-grid { grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body>
 
 <div id="rf-header"></div>
 
-<section class="page-hero" style="min-height:60vh;background-image:linear-gradient(rgba(7,30,7,0.4),rgba(7,30,7,0.65)),url('https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-05.jpg');background-size:cover;background-position:center 50%;">
+<!-- ── HERO ── -->
+<section class="page-hero" style="min-height:65vh;background-image:linear-gradient(rgba(7,30,7,0.25),rgba(7,30,7,0.65)),url('https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-03.jpg');background-size:cover;background-position:center 40%;">
   <div class="container">
     <div class="breadcrumb"><a href="index.html">Home</a> <span class="sep">/</span> <a href="products.html">Products</a> <span class="sep">/</span> <span>Fodder &amp; Feeds</span></div>
     <h1>Fodder &amp; Feeds</h1>
-    <p>Premium quality fodder, silage, hay, pellets, and animal feeds &mdash; grown and processed on our 40-acre fodder farm in Kajiado.</p>
+    <p>Premium silage, hay, fresh grass, and processed feeds &mdash; grown and made on our 40-acre farm in Kajiado.</p>
   </div>
 </section>
 
+<!-- ── STATS STRIP ── -->
+<div class="stat-strip">
+  <div class="stat-item"><div class="stat-num">40</div><div class="stat-lbl">Acres of Fodder</div></div>
+  <div class="stat-item"><div class="stat-num">7</div><div class="stat-lbl">Varieties Grown</div></div>
+  <div class="stat-item"><div class="stat-num">6</div><div class="stat-lbl">Irrigated Acres</div></div>
+  <div class="stat-item"><div class="stat-num">365</div><div class="stat-lbl">Days Supply</div></div>
+</div>
+
+<!-- ── INTRO ── -->
+<section class="section-white" style="padding-top:4rem;padding-bottom:0;">
+  <div class="container">
+    <div class="text-center" style="max-width:720px;margin:0 auto;">
+      <p class="section-label">Our Fodder Operation</p>
+      <h2 class="section-title">From Seed to Feed</h2>
+      <p style="color:var(--gray-600);font-size:0.95rem;line-height:1.8;">Rena Farm cultivates 7 different fodder varieties across 40 acres in Kajiado Central &mdash; a mix of drip-irrigated specialty crops and expansive rain-fed pastures. Every product is grown, harvested, processed, and quality-checked on-farm before reaching our animals or our customers.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── BREED SECTIONS ── -->
 <section class="section-white">
   <div class="container">
 
-    <div class="category-divider">
-      <h2><i class="ph ph-corn"></i>Silage</h2>
-    </div>
-    <div class="fodder-grid">
-      <div class="fodder-card">
-        <div class="fodder-card-header" style="position:relative;overflow:hidden;padding-bottom:0;">
-          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-02.jpg" alt="Rena Farm silage fodder field" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.18;" loading="lazy" / loading="lazy">
-          <div class="fodder-icon"><i class="ph ph-corn"></i></div>
-          <div><h3>Rena Farm Silage</h3><p>Premium fermented fodder blend</p></div>
+    <!-- SILAGE -->
+    <div class="fodder-section" id="silage">
+      <div class="fs-img">
+        <img class="main-img" src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-corn.jpg" alt="Young maize for silage at Rena Farm" loading="lazy"/>
+        <p class="img-caption">Young yellow maize &mdash; the cornerstone of our silage blend, harvested at peak sugar content</p>
+      </div>
+      <div class="fs-txt">
+        <div class="fs-cat-label">Fermented Fodder</div>
+        <h2>Rena Farm Silage</h2>
+        <div class="fs-sub"><i class="ph ph-flask"></i> 5-ingredient blend &middot; Pit-fermented &middot; Year-round</div>
+        <p>Our silage is a precisely formulated, high-energy fermented fodder blend designed for maximum nutritional value. Fermented in large sealed pits using carefully controlled ingredient ratios, it delivers consistent quality throughout the dry season when fresh grass is scarce.</p>
+        <p>Ideal for dairy cows, beef cattle, sheep, and goats &mdash; ensuring optimal growth, sustained milk production, and body condition all year round.</p>
+        <div class="comp-box">
+          <h4><i class="ph ph-flask"></i> Silage Composition</h4>
+          <div class="comp-item"><strong>Young yellow maize stalks</strong> &mdash; high energy, excellent fermentation base</div>
+          <div class="comp-item"><strong>Lucerne (Alfalfa)</strong> &mdash; boosts protein content significantly</div>
+          <div class="comp-item"><strong>Bean stalks</strong> (ground to dust) &mdash; added fibre and minerals</div>
+          <div class="comp-item"><strong>Pakchong 1 Napier Grass</strong> &mdash; high biomass, structural fibre</div>
+          <div class="comp-item"><strong>Molasses</strong> &mdash; fermentation aid, energy boost, improves palatability</div>
         </div>
-        <div class="fodder-card-body">
-          <p>Our silage is a carefully formulated, high-energy fermented fodder blend specifically designed for maximum nutritional value. Ideal for dairy cows, beef cattle, sheep, and goats &mdash; ensuring optimal growth, milk production, and body condition throughout the dry season.</p>
-          <div class="silage-comp">
-            <h4><i class="ph ph-flask"></i> Silage Composition</h4>
-            <div class="silage-ing">Young yellow maize stalks &mdash; high energy, excellent fermentation base</div>
-            <div class="silage-ing">Lucerne (Alfalfa) &mdash; high protein content</div>
-            <div class="silage-ing">Beans stalks (ground to dust) &mdash; fibre and minerals</div>
-            <div class="silage-ing">Napier Grass &mdash; Pakchong 1 variety, high biomass</div>
-            <div class="silage-ing">Molasses &mdash; fermentation aid, energy, palatability</div>
-          </div>
-          <div style="margin-bottom:1rem;"><span class="fodder-tag">High Energy</span><span class="fodder-tag">High Protein</span><span class="fodder-tag">All-Season</span><span class="fodder-tag">Fermented</span></div>
-          <a href="contact.html?interest=silage" class="btn btn-primary" style="width:100%;justify-content:center;">Enquire Now</a>
+        <div style="margin-bottom:1.4rem;"><span class="fodder-tag">High Energy</span><span class="fodder-tag">High Protein</span><span class="fodder-tag">All-Season</span><span class="fodder-tag">Pit Fermented</span></div>
+        <a href="contact.html?interest=silage" class="btn btn-primary">Enquire About Silage</a>
+      </div>
+    </div>
+
+    <!-- HAY -->
+    <div class="fodder-section reverse" id="hay">
+      <div class="fs-img">
+        <div class="img-pair">
+          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-05.jpg" alt="Boma Rhodes hay field at Rena Farm" loading="lazy"/>
+          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-08.jpg" alt="Lucerne alfalfa field at Rena Farm" loading="lazy"/>
+        </div>
+        <p class="img-caption">Left: Boma Rhodes &mdash; 30 acres rain-fed &nbsp;|&nbsp; Right: Lucerne &mdash; 2 acres drip irrigated</p>
+      </div>
+      <div class="fs-txt">
+        <div class="fs-cat-label">Hay</div>
+        <h2>Boma Rhodes &amp; Lucerne Hay</h2>
+        <div class="fs-sub"><i class="ph ph-plant"></i> 32 acres total &middot; Machine baled &middot; Delivery available</div>
+        <p>We produce two types of premium hay, both harvested at the optimal growth stage for maximum nutritional value and palatability.</p>
+
+        <div class="variety-block">
+          <h4>Boma Rhodes Grass Hay</h4>
+          <p>Grown on 30 rain-fed acres, Boma Rhodes is widely regarded as East Africa's finest perennial pasture grass &mdash; prized for high dry matter yield, excellent palatability, and suitability for baling. Our automatic baling machine produces consistent, tightly bound bales, and our 12-tonne lorry is available for bulk deliveries.</p>
+        </div>
+        <div class="variety-block" style="margin-bottom:1.2rem;">
+          <h4>Lucerne (Alfalfa) Hay</h4>
+          <p>The highest-protein hay available. Grown on 2 drip-irrigated acres, our Lucerne produces year-round and is ideal as a supplement for high-yielding dairy cows, breeding stock, and performance horses. Limited stock &mdash; enquire early.</p>
+        </div>
+
+        <div style="margin-bottom:1.4rem;"><span class="fodder-tag">Large Bales</span><span class="fodder-tag">High Protein</span><span class="fodder-tag">Palatable</span><span class="fodder-tag">Year-Round</span><span class="fodder-tag">Delivery Available</span></div>
+        <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+          <a href="contact.html?interest=boma-rhodes-hay" class="btn btn-primary">Enquire About Hay</a>
+          <a href="contact.html?interest=lucerne" class="btn btn-outline-green">Enquire About Lucerne</a>
         </div>
       </div>
     </div>
 
-    <div class="category-divider">
-      <h2><i class="ph ph-plant"></i>Hay</h2>
-    </div>
-    <div class="fodder-grid">
-      <div class="fodder-card">
-        <div class="fodder-card-header" style="position:relative;overflow:hidden;padding-bottom:0;">
-          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-05.jpg" alt="Boma Rhodes hay field at Rena Farm" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.18;" loading="lazy" / loading="lazy">
-          <div class="fodder-icon"><i class="ph ph-plant"></i></div>
-          <div><h3>Boma Rhodes Hay</h3><p>30 acres &middot; Rain-fed &middot; Machine baled</p></div>
+    <!-- NAPIER GRASS -->
+    <div class="fodder-section" id="napier">
+      <div class="fs-img">
+        <div class="img-pair">
+          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-11.jpg" alt="Pakchong1 Super Napier at Rena Farm" loading="lazy"/>
+          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-12.jpg" alt="Jancao Napier grass at Rena Farm" loading="lazy"/>
         </div>
-        <div class="fodder-card-body">
-          <p>Our Boma Rhodes grass is grown on 30 rain-fed acres and harvested at the optimal stage for maximum nutritional value. Baled using our automatic baling machine and transported using our 12-tonne FH lorry for bulk deliveries.</p>
-          <p>Boma Rhodes is widely regarded as one of the best perennial pasture grasses in East Africa &mdash; loved for its palatability, good dry matter yield, and suitability for hay-making.</p>
-          <div style="margin-bottom:1rem;"><span class="fodder-tag">Large Bales</span><span class="fodder-tag">High Yield</span><span class="fodder-tag">Palatable</span><span class="fodder-tag">Delivery Available</span></div>
-          <a href="contact.html?interest=boma-rhodes-hay" class="btn btn-primary" style="width:100%;justify-content:center;">Enquire Now</a>
-        </div>
+        <p class="img-caption">Left: Pakchong 1 Super Napier &nbsp;|&nbsp; Right: Jancao hybrid Napier</p>
       </div>
-      <div class="fodder-card">
-        <div class="fodder-card-header" style="position:relative;overflow:hidden;padding-bottom:0;">
-          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-08.jpg" alt="Lucerne alfalfa hay field at Rena Farm" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.18;" loading="lazy" / loading="lazy">
-          <div class="fodder-icon"><i class="ph ph-leaf"></i></div>
-          <div><h3>Lucerne (Alfalfa) Hay</h3><p>2 acres &middot; Drip irrigated &middot; Premium grade</p></div>
+      <div class="fs-txt">
+        <div class="fs-cat-label">Fresh Grass</div>
+        <h2>Super Napier Grass</h2>
+        <div class="fs-sub"><i class="ph ph-tree"></i> 4 acres drip irrigated &middot; Year-round cut-and-carry</div>
+        <p>We grow two elite Napier varieties &mdash; Pakchong 1 and Jancao &mdash; on 4 drip-irrigated acres. Both are high-biomass, high-protein cultivars that produce multiple cuts per year, ensuring a reliable year-round supply of fresh, nutritious fodder.</p>
+
+        <div class="variety-block">
+          <h4>Pakchong 1 &mdash; Super Napier</h4>
+          <p>A Thailand-developed super Napier variety known for exceptionally high yields, fast regrowth after cutting, and superior nutritional content. Our most productive variety per acre.</p>
         </div>
-        <div class="fodder-card-body">
-          <p>Lucerne is the queen of fodder crops &mdash; the highest-protein hay available. Our Lucerne is grown on 2 drip-irrigated acres, ensuring year-round production and consistent quality. Ideal as a supplement for high-performing dairy cows, breeding stock, and horses.</p>
-          <div style="margin-bottom:1rem;"><span class="fodder-tag">Highest Protein</span><span class="fodder-tag">Premium Grade</span><span class="fodder-tag">Year-Round</span><span class="fodder-tag">Limited Stock</span></div>
-          <a href="contact.html?interest=lucerne" class="btn btn-primary" style="width:100%;justify-content:center;">Enquire Now</a>
+        <div class="variety-block" style="margin-bottom:1.2rem;">
+          <h4>Jancao &mdash; Hybrid Napier</h4>
+          <p>A hybrid Napier bred for outstanding biomass production and very high palatability. Animals are particularly fond of Jancao's tender stems and leafy growth.</p>
         </div>
+
+        <div style="margin-bottom:1.4rem;"><span class="fodder-tag">Super Napier</span><span class="fodder-tag">High Protein</span><span class="fodder-tag">Year-Round</span><span class="fodder-tag">Cut &amp; Carry</span><span class="fodder-tag">Drip Irrigated</span></div>
+        <a href="contact.html?interest=napier" class="btn btn-primary">Enquire About Napier</a>
       </div>
     </div>
 
-    <div class="category-divider">
-      <h2><i class="ph ph-tree"></i>Fresh Grass</h2>
-    </div>
-    <div class="fodder-grid">
-      <div class="fodder-card">
-        <div class="fodder-card-header" style="position:relative;overflow:hidden;padding-bottom:0;">
-          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-11.jpg" alt="Pakchong1 Super Napier grass at Rena Farm" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.18;" loading="lazy" / loading="lazy">
-          <div class="fodder-icon"><i class="ph ph-tree"></i></div>
-          <div><h3>Pakchong1 Super Napier</h3><p>2 acres &middot; Drip irrigated &middot; Cut-and-carry</p></div>
-        </div>
-        <div class="fodder-card-body">
-          <p>Pakchong1 is a Thailand-developed super Napier variety known for exceptionally high yields, fast regrowth, and superior nutritional content. Our 2-acre drip-irrigated plot produces multiple cuts per year, providing a reliable year-round supply.</p>
-          <div style="margin-bottom:1rem;"><span class="fodder-tag">Super Napier</span><span class="fodder-tag">High Protein</span><span class="fodder-tag">Year-Round</span><span class="fodder-tag">Cut &amp; Carry</span></div>
-          <a href="contact.html?interest=napier" class="btn btn-primary" style="width:100%;justify-content:center;">Enquire Now</a>
-        </div>
+    <!-- BRACHARIA -->
+    <div class="fodder-section reverse" id="bracharia">
+      <div class="fs-img">
+        <img class="main-img" src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-14.jpg" alt="Bracharia grass at Rena Farm" loading="lazy"/>
+        <p class="img-caption">Bracharia &mdash; thriving in Kajiado's semi-arid conditions</p>
       </div>
-      <div class="fodder-card">
-        <div class="fodder-card-header" style="position:relative;overflow:hidden;padding-bottom:0;">
-          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-12.jpg" alt="Jancao Napier grass at Rena Farm" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.18;" loading="lazy" / loading="lazy">
-          <div class="fodder-icon"><i class="ph ph-plant"></i></div>
-          <div><h3>Jancao Napier</h3><p>2 acres &middot; Drip irrigated</p></div>
+      <div class="fs-txt">
+        <div class="fs-cat-label">Fresh Grass</div>
+        <h2>Bracharia Grass</h2>
+        <div class="fs-sub"><i class="ph ph-leaf"></i> 2 acres rain-fed &middot; Drought-tolerant perennial</div>
+        <p>Bracharia is a highly productive tropical grass known for its exceptional drought tolerance and persistence in semi-arid conditions &mdash; perfectly suited to Kajiado's climate. It provides a good energy base, is very palatable, and works well for both grazing and cut-and-carry systems.</p>
+        <p>As a perennial, Bracharia requires minimal replanting once established, making it one of the most cost-effective fodder options for Kenyan smallholders.</p>
+        <div class="spec-list">
+          <div class="spec-item">Drought-tolerant, persists through dry seasons</div>
+          <div class="spec-item">Good energy content and high palatability</div>
+          <div class="spec-item">Suitable for grazing and cut-and-carry systems</div>
+          <div class="spec-item">Perennial grass &mdash; minimal replanting cost</div>
+          <div class="spec-item">Well-adapted to Kajiado's semi-arid conditions</div>
         </div>
-        <div class="fodder-card-body">
-          <p>Jancao is a hybrid Napier variety bred for exceptional biomass production and high palatability. Animals love Jancao for its tender stems and leaves. Available fresh-cut from our irrigated plots.</p>
-          <div style="margin-bottom:1rem;"><span class="fodder-tag">Hybrid Napier</span><span class="fodder-tag">High Biomass</span><span class="fodder-tag">Very Palatable</span></div>
-          <a href="contact.html?interest=napier" class="btn btn-primary" style="width:100%;justify-content:center;">Enquire Now</a>
-        </div>
-      </div>
-      <div class="fodder-card">
-        <div class="fodder-card-header" style="position:relative;overflow:hidden;padding-bottom:0;">
-          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-14.jpg" alt="Bracharia grass at Rena Farm" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.18;" loading="lazy" / loading="lazy">
-          <div class="fodder-icon"><i class="ph ph-leaf"></i></div>
-          <div><h3>Bracharia Grass</h3><p>2 acres &middot; Rain-fed &middot; Tropical</p></div>
-        </div>
-        <div class="fodder-card-body">
-          <p>Bracharia is a highly productive tropical grass known for drought tolerance and persistence in semi-arid conditions. Excellent for both grazing and cut-and-carry feeding systems. Good energy content, palatable, and easy to establish.</p>
-          <div style="margin-bottom:1rem;"><span class="fodder-tag">Drought Tolerant</span><span class="fodder-tag">Perennial</span><span class="fodder-tag">Grazing &amp; Cut</span></div>
-          <a href="contact.html?interest=bracharia" class="btn btn-primary" style="width:100%;justify-content:center;">Enquire Now</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="category-divider">
-      <h2><i class="ph ph-cylinder"></i>Processed Feeds</h2>
-    </div>
-    <div class="fodder-grid">
-      <div class="fodder-card">
-        <div class="fodder-card-header">
-          <div class="fodder-icon"><i class="ph ph-cylinder"></i></div>
-          <div><h3>Livestock Pellets</h3><p>Formulated concentrate pellets</p></div>
-        </div>
-        <div class="fodder-card-body">
-          <p>Balanced, formulated pellets for sheep, goats, and cattle. Our pellets provide optimal protein, energy, and mineral balance &mdash; particularly useful for feedlot fattening and dairy supplementation.</p>
-          <div style="margin-bottom:1rem;"><span class="fodder-tag">Balanced Formula</span><span class="fodder-tag">High Protein</span><span class="fodder-tag">Feedlot Grade</span></div>
-          <a href="contact.html?interest=pellets" class="btn btn-primary" style="width:100%;justify-content:center;">Enquire Now</a>
-        </div>
-      </div>
-      <div class="fodder-card">
-        <div class="fodder-card-header" style="position:relative;overflow:hidden;padding-bottom:0;">
-          <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/poultry/poultry-05.jpg" alt="Kienyeji poultry at Rena Farm" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.18;" loading="lazy" / loading="lazy">
-          <div class="fodder-icon"><i class="ph ph-bird"></i></div>
-          <div><h3>Chicken Feeds &amp; Pellets</h3><p>Formulated for poultry</p></div>
-        </div>
-        <div class="fodder-card-body">
-          <p>Specially formulated chicken feeds and pellets for Kienyeji improved poultry. Balanced for optimal growth rates, egg production, and overall bird health. Available for local poultry farmers and buyers.</p>
-          <div style="margin-bottom:1rem;"><span class="fodder-tag">Kienyeji</span><span class="fodder-tag">Broiler</span><span class="fodder-tag">Layer</span><span class="fodder-tag">Balanced</span></div>
-          <a href="contact.html?interest=chicken-feeds" class="btn btn-primary" style="width:100%;justify-content:center;">Enquire Now</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="info-banner">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;align-items:center;">
-        <div>
-          <h3>Our Fodder Operation</h3>
-          <p>40 acres of diversified fodder crops &mdash; irrigated and rain-fed &mdash; providing year-round supply for our own livestock and surplus for sale.</p>
-        </div>
-        <div>
-          <span class="info-tag">Drip Irrigated &mdash; 6 acres</span>
-          <span class="info-tag">Rain-Fed &mdash; 34 acres</span>
-          <span class="info-tag">Automatic Baling</span>
-          <span class="info-tag">Delivery Available</span>
-        </div>
+        <div style="margin-bottom:1.4rem;"><span class="fodder-tag">Drought Tolerant</span><span class="fodder-tag">Perennial</span><span class="fodder-tag">Grazing &amp; Cut</span><span class="fodder-tag">Semi-Arid</span></div>
+        <a href="contact.html?interest=bracharia" class="btn btn-primary">Enquire About Bracharia</a>
       </div>
     </div>
 
   </div>
 </section>
 
+<!-- ── PROCESSED FEEDS ── -->
+<section class="section-light" id="processed-feeds">
+  <div class="container">
+    <div class="text-center">
+      <p class="section-label">Processed Feeds</p>
+      <h2 class="section-title">Livestock &amp; Poultry Pellets</h2>
+      <p class="section-subtitle">Formulated, balanced pellets for cattle, sheep, goats, and Kienyeji poultry.</p>
+    </div>
+    <div class="feeds-grid">
+      <div class="feed-card">
+        <div class="feed-card-icon"><i class="ph ph-cylinder"></i></div>
+        <h3>Livestock Pellets</h3>
+        <p>Balanced concentrate pellets for sheep, goats, and cattle. Formulated for optimal protein, energy, and mineral balance &mdash; particularly effective for feedlot fattening programs and dairy cow supplementation.</p>
+        <div style="margin-bottom:1.2rem;"><span class="fodder-tag">Sheep &amp; Goats</span><span class="fodder-tag">Cattle</span><span class="fodder-tag">Feedlot Grade</span><span class="fodder-tag">Balanced Formula</span></div>
+        <a href="contact.html?interest=pellets" class="btn btn-primary" style="width:100%;justify-content:center;">Enquire Now</a>
+      </div>
+      <div class="feed-card">
+        <div class="feed-card-icon"><i class="ph ph-bird"></i></div>
+        <h3>Chicken Feeds &amp; Pellets</h3>
+        <p>Specially formulated for Kienyeji improved poultry. Balanced for optimal growth rates, egg production, and overall bird health. Available for local poultry farmers and buyers looking for quality feed.</p>
+        <div style="margin-bottom:1.2rem;"><span class="fodder-tag">Kienyeji</span><span class="fodder-tag">Broiler</span><span class="fodder-tag">Layer</span><span class="fodder-tag">Balanced</span></div>
+        <a href="contact.html?interest=chicken-feeds" class="btn btn-primary" style="width:100%;justify-content:center;">Enquire Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FROM FIELD TO FEED ── -->
+<section class="process-section">
+  <div class="container">
+    <div class="text-center">
+      <p class="section-label" style="color:var(--f400);">The Process</p>
+      <h2 class="section-title" style="color:var(--white);">From Field to Feed</h2>
+      <p style="color:var(--f300);max-width:540px;margin:0.8rem auto 0;font-size:0.92rem;line-height:1.7;">Every step of our fodder production is controlled on-farm &mdash; from seed and soil preparation to harvest, processing, and delivery.</p>
+    </div>
+
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">1</div>
+        <div class="step-title">Land Preparation</div>
+        <div class="step-desc">Fields are ploughed, harrowed, and levelled. Drip irrigation lines are installed for the 6 irrigated acres of Napier and Lucerne.</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">2</div>
+        <div class="step-title">Planting &amp; Establishment</div>
+        <div class="step-desc">Seeds and cuttings planted at optimal spacing. Soil amendments and fertiliser applied for maximum yields and quality.</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">3</div>
+        <div class="step-title">Growth &amp; Monitoring</div>
+        <div class="step-desc">Crops are monitored regularly for pests, nutrient deficiency, and water stress. Irrigated plots watered on a controlled schedule.</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">4</div>
+        <div class="step-title">Harvesting</div>
+        <div class="step-desc">Cut at the optimal nutritional stage. Boma Rhodes is baled using our automatic baling machine for uniform, dry, tightly-bound bales.</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">5</div>
+        <div class="step-title">Silage Making</div>
+        <div class="step-desc">Maize, Napier, Lucerne, bean stalks, and molasses are blended in precise ratios and packed into sealed pits for fermentation.</div>
+      </div>
+    </div>
+
+    <!-- Machinery -->
+    <div style="margin-top:5rem;">
+      <div class="text-center" style="margin-bottom:2.5rem;">
+        <h3 style="color:var(--white);font-size:1.3rem;margin-bottom:0.4rem;">Our Machinery</h3>
+        <p style="color:var(--f400);font-size:0.88rem;">The equipment that powers our fodder operation</p>
+      </div>
+      <div class="machinery-grid">
+        <div class="machinery-card">
+          <i class="ph ph-tractor"></i>
+          <h4>Tractor &amp; Implements</h4>
+          <p>Used for land preparation, ploughing, harrowing, and all field operations across the 40-acre farm.</p>
+        </div>
+        <div class="machinery-card">
+          <i class="ph ph-cylinder"></i>
+          <h4>Automatic Baling Machine</h4>
+          <p>Produces consistent, tightly-bound Boma Rhodes hay bales &mdash; ready for storage or direct bulk sale.</p>
+        </div>
+        <div class="machinery-card">
+          <i class="ph ph-drop"></i>
+          <h4>Drip Irrigation System</h4>
+          <p>Installed across 6 acres of Napier and Lucerne &mdash; enabling reliable year-round production regardless of rainfall.</p>
+        </div>
+        <div class="machinery-card">
+          <i class="ph ph-truck"></i>
+          <h4>12-Tonne FH Lorry</h4>
+          <p>Our own delivery lorry for bulk hay and fodder orders &mdash; available for large purchases across the region.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
 <section class="cta-bg">
   <div class="container">
     <h2 class="section-title">Need Fodder for Your Farm?</h2>
@@ -207,8 +361,6 @@
 </section>
 
 <div id="rf-footer"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="js/supabase-client.js"></script>
 <script src="js/layout.js"></script>
 </body>
 </html>

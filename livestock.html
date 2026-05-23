@@ -8,6 +8,12 @@
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
   <style>
+    /* ── SPLIT HERO ── */
+    .lh-img-panel { position:absolute; right:0; top:0; bottom:0; width:46%; overflow:hidden; }
+    .lh-img-panel img { width:100%; height:100%; object-fit:cover; object-position:center 30%; display:block; }
+    .lh-img-fade { position:absolute; inset:0; background:linear-gradient(to right, var(--f950) 0%, rgba(7,30,7,0) 55%); }
+    @media (max-width:768px) { .lh-img-panel { display:none; } }
+
     /* ── CATEGORY DIVIDER ── */
     .category-divider { display:flex; align-items:center; gap:1rem; margin:3rem 0 2rem; }
     .category-divider h2 { font-size:1.4rem; color:var(--f950); white-space:nowrap; display:flex; align-items:center; gap:0.5rem; }
@@ -67,8 +73,12 @@
 
 <div id="rf-header"></div>
 
-<section class="page-hero" style="min-height:60vh;background-image:linear-gradient(rgba(7,30,7,0.35),rgba(7,30,7,0.6)),url('https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/beef-cattle/beef-cattle-01.jpg');background-size:cover;background-position:center 65%;">
-  <div class="container">
+<section class="page-hero" style="min-height:60vh;position:relative;background:var(--f950);overflow:hidden;">
+  <div class="lh-img-panel">
+    <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/beef-cattle/beef-cattle-01.jpg" alt="Cattle at Rena Farm"/>
+    <div class="lh-img-fade"></div>
+  </div>
+  <div class="container" style="position:relative;z-index:2;">
     <div class="breadcrumb"><a href="index.html">Home</a> <span class="sep">/</span> <a href="products.html">Products</a> <span class="sep">/</span> <span>Livestock</span></div>
     <h1>Livestock</h1>
     <p>Premium cattle, sheep, and goats &mdash; carefully bred and managed for top genetics, health, and productivity.</p>
