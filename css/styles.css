@@ -436,10 +436,7 @@ nav {
 .nav-account-dropdown .dd-divider { height: 1px; background: var(--f50); margin: 0.2rem 0; }
 .nav-account-dropdown .dd-signout { color: #dc2626; }
 .nav-account-dropdown .dd-signout:hover { background: #fef2f2; color: #dc2626; }
-/* Mobile: integrate into hamburger menu */
-@media (max-width: 1024px) {
-  .nav-account-wrap { display: none; }
-}
+/* Account wrap visible on all screen sizes */
 
 /* Hamburger */
 .hamburger {
@@ -1283,31 +1280,11 @@ header.scrolled {
   header::after { border-radius: 0 0 20px 20px; }
   header.scrolled { box-shadow: 0 6px 36px rgba(0,0,0,0.55); }
 
-  /* Body padding so content isn't hidden behind bottom bar */
-  body { padding-bottom: 90px; }
-
-  /* Show tab bar + WA button, hide hamburger + floating WA */
-  .mob-pill-nav { display: flex; }
-  .nav-wa-mob   { display: flex; }
+  /* Hide text nav links — hamburger overlay covers navigation on small screens */
+  .rf-nav-right > a { display: none; }
   .whatsapp-float { display: none; }
 }
 
-/* Phone (≤600px): sub-panels span nearly full width */
-@media (max-width: 600px) {
-  .mob-sub-panel { left: 12px; right: 12px; }
-}
-
-/* Tablet (601–1024px): constrain to phone-like width, centred.
-   calc(50% - 210px) avoids touching transform and avoids margin quirks
-   on fixed elements (translateX conflicts with the slide animation). */
-@media (min-width: 601px) and (max-width: 1024px) {
-  .mob-pill-nav,
-  .mob-sub-panel {
-    left: calc(50% - 210px);
-    right: auto;
-    width: 420px;
-  }
-}
 
 /* ── MOBILE SUB-PANELS (Products & Account) ── */
 .mob-sub-panel {
