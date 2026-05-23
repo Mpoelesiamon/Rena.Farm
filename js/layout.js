@@ -108,7 +108,7 @@
         <div class="rf-ol-card-label">Dorpers</div>
       </a>
       <a href="livestock.html#goats" class="rf-ol-card">
-        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/gala-boars/gala-buck-03.jpg" alt="Gala goats at Rena Farm" loading="lazy"/>
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/gala-boars/gala-buck-03.jpg" alt="Gala goats at Rena Farm" loading="lazy" style="object-position: center top;"/>
         <div class="rf-ol-card-label">Goats</div>
       </a>
       <a href="fodder.html" class="rf-ol-card">
