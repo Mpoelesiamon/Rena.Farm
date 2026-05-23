@@ -484,39 +484,6 @@ nav.container {
 }
 .rf-ol-signin:hover { color: var(--white); }
 
-/* Mobile overlay footer: WA + account buttons */
-.rf-ol-mob-footer {
-  display: none;
-  align-items: center;
-  gap: 0.6rem;
-  margin-top: 0.8rem;
-  padding-top: 0.8rem;
-  border-top: 1px solid rgba(255,255,255,0.08);
-}
-@media (max-width: 640px) {
-  .rf-ol-mob-footer { display: flex; }
-}
-.rf-ol-mob-wa,
-.rf-ol-mob-acct {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: rgba(255,255,255,0.55);
-  text-decoration: none;
-  background: rgba(255,255,255,0.08);
-  border: none;
-  border-radius: 6px;
-  padding: 0.4rem 0.65rem;
-  cursor: pointer;
-  font-family: inherit;
-  transition: background 0.2s, color 0.2s;
-  white-space: nowrap;
-}
-.rf-ol-mob-wa:hover,
-.rf-ol-mob-acct:hover { background: rgba(255,255,255,0.14); color: var(--white); }
 
 /* ── RIGHT: image cards panel ── */
 .rf-overlay-cards {
