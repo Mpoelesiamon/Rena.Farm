@@ -86,16 +86,20 @@
     <!-- Right: scrollable image cards -->
     <div class="rf-overlay-cards">
       <a href="livestock.html" class="rf-ol-card">
-        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-rams/dorper-ram-57.jpg" alt="Livestock at Rena Farm" loading="lazy"/>
-        <div class="rf-ol-card-label">Livestock</div>
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/beef-cattle/beef-cattle-01.jpg" alt="Cattle at Rena Farm" loading="lazy"/>
+        <div class="rf-ol-card-label">Cattle</div>
+      </a>
+      <a href="livestock.html#sheep" class="rf-ol-card">
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-ewes/dorper-ewe-10.jpg" alt="Dorper sheep at Rena Farm" loading="lazy"/>
+        <div class="rf-ol-card-label">Dorpers</div>
+      </a>
+      <a href="livestock.html#goats" class="rf-ol-card">
+        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/gala-boars/gala-buck-03.jpg" alt="Gala goats at Rena Farm" loading="lazy"/>
+        <div class="rf-ol-card-label">Goats</div>
       </a>
       <a href="fodder.html" class="rf-ol-card">
         <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-03.jpg" alt="Fodder fields at Rena Farm" loading="lazy"/>
         <div class="rf-ol-card-label">Fodder &amp; Feeds</div>
-      </a>
-      <a href="products.html#dairy" class="rf-ol-card">
-        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/dairy-cows/dairy-cow-08.jpg" alt="Dairy cattle at Rena Farm" loading="lazy"/>
-        <div class="rf-ol-card-label">Dairy &amp; Milk</div>
       </a>
     </div>
 
@@ -235,6 +239,7 @@
     if (menuLabel) menuLabel.textContent = 'Close';
     siteHeaderEl?.classList.add('nav-hidden');
     backdrop?.classList.add('open');
+    document.body.style.overflow = 'hidden';
   }
   function closeOverlay() {
     overlayOpen = false;
@@ -245,6 +250,7 @@
     if (menuLabel) menuLabel.textContent = 'Menu';
     siteHeaderEl?.classList.remove('nav-hidden');
     backdrop?.classList.remove('open');
+    document.body.style.overflow = '';
   }
 
   menuBtn?.addEventListener('click', () => overlayOpen ? closeOverlay() : openOverlay());

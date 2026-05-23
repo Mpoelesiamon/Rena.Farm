@@ -435,7 +435,7 @@ nav.container {
 .rf-ol-card {
   position: relative;
   flex-shrink: 0;
-  height: 270px;
+  height: 210px;
   border-radius: 10px;
   overflow: hidden;
   text-decoration: none;
