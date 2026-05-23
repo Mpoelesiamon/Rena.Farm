@@ -244,7 +244,11 @@
   menuBtn?.addEventListener('click', () => overlayOpen ? closeOverlay() : openOverlay());
   document.getElementById('rfOverlayClose')?.addEventListener('click', closeOverlay);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlayOpen) closeOverlay(); });
-  overlay?.addEventListener('click', e => { if (e.target === overlay) closeOverlay(); });
+  document.addEventListener('click', e => {
+    if (overlayOpen && !e.target.closest('#rfNavOverlay') && !e.target.closest('#rfMenuBtn')) {
+      closeOverlay();
+    }
+  });
 
   /* ── MOBILE SUB-PANELS ── */
   const mobProductsPanel = document.getElementById('mobProductsPanel');
