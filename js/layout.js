@@ -24,7 +24,11 @@
       <span class="rf-menu-label" id="rfMenuLabel">Menu</span>
     </button>
     <a href="index.html" class="nav-brand">
-      <img src="img/logo-wordmark.png" class="nav-logo-img" alt="Rena Farm"/>
+      <img src="img/logo-icon.png" class="nav-logo-img" alt="Rena Farm" />
+      <div class="nav-brand-text">
+        <span class="brand-name">RENA FARM</span>
+        <span class="brand-sub">Kajiado Central &middot; Est. 2018</span>
+      </div>
     </a>
     <div class="rf-nav-right">
       <div class="rf-nav-icons">
@@ -123,7 +127,8 @@
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand-col">
-        <img src="img/logo-wordmark.png" class="footer-logo-img" alt="Rena Farm"/>
+        <img src="img/logo-icon.png" class="footer-logo-img" alt="Rena Farm"/>
+        <div class="footer-brand-name">RENA FARM</div>
         <div class="footer-brand-sub">Rena Global Merchants Ltd</div>
         <p class="footer-desc">Cultivating Sustainability, Enriching Lives through Farming &mdash; Kajiado Central, Kenya. Est. 2018.</p>
         <div class="footer-follow-label">Follow Us</div>

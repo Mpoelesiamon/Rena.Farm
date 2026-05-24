@@ -218,9 +218,16 @@ nav.container {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
   text-decoration: none;
   line-height: 1;
+}
+.nav-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 .brand-name {
   font-family: 'Playfair Display', Georgia, serif;
@@ -241,9 +248,8 @@ nav.container {
   margin-top: 3px;
 }
 .nav-logo-img {
-  height: 32px;
+  height: 42px;
   display: block;
-  filter: brightness(0) invert(1);
 }
 
 /* ── RIGHT NAV LINKS ── */
@@ -560,8 +566,9 @@ nav.container {
     position: static;
     transform: none;
     left: auto;
-    text-align: right;
+    justify-content: flex-end;
   }
+  .nav-logo-img { height: 34px; }
 }
 
 /* Mobile: hide mobile WhatsApp & old hamburger — handled by pill nav */
@@ -1181,9 +1188,8 @@ footer {
   letter-spacing: 0.04em;
 }
 .footer-logo-img {
-  height: 38px;
+  height: 48px;
   display: block;
-  filter: brightness(0) invert(1);
   margin-bottom: 0.4rem;
 }
 
