@@ -48,6 +48,7 @@ and `DROP … IF EXISTS` patterns.
 | `20260524_003_rls_security_fixes.sql` | Security hardening: is_admin/is_farm_staff separation, policy cleanup | 2026-05-24 |
 | `20260524_004_admin_profiles_jwt_hook.sql` | admin_profiles table + JWT custom access token hook | 2026-05-24 |
 | `20260524_005_audit_log.sql` | audit_log table + AFTER triggers on all 13 admin-managed tables | 2026-05-24 |
+| `20260524_006_private_docs_bucket.sql` | Private storage bucket for sensitive documents + RLS policies | 2026-05-24 |
 
 ## Tools
 
