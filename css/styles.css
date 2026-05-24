@@ -228,7 +228,7 @@ nav.container {
 }
 .brand-name {
   font-family: 'Raleway', 'Inter', sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 800;
   color: var(--white);
   letter-spacing: 0.22em;
@@ -245,7 +245,7 @@ nav.container {
   margin-top: 3px;
 }
 .nav-logo-img {
-  height: 38px;
+  height: 44px;
   display: block;
 }
 
@@ -556,18 +556,18 @@ nav.container {
   .rf-overlay-nav { flex: 1; }
 }
 
-/* Mobile: strip navbar down to hamburger + right-aligned logo */
+/* Mobile: hamburger left, logo absolutely centered */
 @media (max-width: 640px) {
   .rf-nav-right { display: none; }
   .nav-brand {
-    position: static;
-    transform: none;
-    left: auto;
-    top: auto;
-    align-items: flex-end;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    align-items: center;
   }
-  .nav-logo-img { height: 30px; }
-  .brand-name { font-size: 0.65rem; letter-spacing: 0.18em; }
+  .nav-logo-img { height: 34px; }
+  .brand-name { font-size: 0.7rem; letter-spacing: 0.18em; }
 }
 
 /* Mobile: hide mobile WhatsApp & old hamburger — handled by pill nav */
