@@ -24,7 +24,8 @@
       <span class="rf-menu-label" id="rfMenuLabel">Menu</span>
     </button>
     <a href="index.html" class="nav-brand">
-      <img src="img/logo-transparent.png" class="nav-logo-img" alt="Rena Farm"/>
+      <img src="img/logo-icon.png" class="nav-logo-img" alt="Rena Farm"/>
+      <span class="brand-name">RENA FARM</span>
     </a>
     <div class="rf-nav-right">
       <div class="rf-nav-icons">
