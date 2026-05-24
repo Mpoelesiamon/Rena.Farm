@@ -47,12 +47,7 @@ and `DROP … IF EXISTS` patterns.
 | `20260524_002_check_constraints.sql` | Server-side CHECK constraints for input validation | 2026-05-24 |
 | `20260524_003_rls_security_fixes.sql` | Security hardening: is_admin/is_farm_staff separation, policy cleanup | 2026-05-24 |
 | `20260524_004_admin_profiles_jwt_hook.sql` | admin_profiles table + JWT custom access token hook | 2026-05-24 |
-
-## Upcoming migrations (planned)
-
-| File | Description |
-|------|-------------|
-| `20260601_001_audit_log.sql` | Audit log table + triggers on all admin writes (Task 14) |
+| `20260524_005_audit_log.sql` | audit_log table + AFTER triggers on all 13 admin-managed tables | 2026-05-24 |
 
 ## Tools
 
