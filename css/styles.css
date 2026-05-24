@@ -217,7 +217,8 @@ nav.container {
 .nav-brand {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -244,7 +245,7 @@ nav.container {
   margin-top: 3px;
 }
 .nav-logo-img {
-  height: 52px;
+  height: 58px;
   display: block;
 }
 
@@ -562,9 +563,10 @@ nav.container {
     position: static;
     transform: none;
     left: auto;
+    top: auto;
     align-items: flex-end;
   }
-  .nav-logo-img { height: 40px; }
+  .nav-logo-img { height: 42px; }
 }
 
 /* Mobile: hide mobile WhatsApp & old hamburger — handled by pill nav */
