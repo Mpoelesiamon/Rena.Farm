@@ -423,6 +423,7 @@ if (typeof db !== 'undefined') {
     const returnUrl = encodeURIComponent(window.location.href)
 
     const mobPillAccount = document.getElementById('mobPillAccount')
+    function esc(s) { const d = document.createElement('div'); d.textContent = String(s ?? ''); return d.innerHTML; }
 
     if (session) {
       // Logged in state — always show person icon, not initial
@@ -449,8 +450,8 @@ if (typeof db !== 'undefined') {
       if (mobAccPanel) {
         mobAccPanel.innerHTML = `
           <div class="mob-sub-acct-header">
-            <div class="mob-sub-acct-name">${displayName}</div>
-            <div class="mob-sub-acct-email">${session.user.email ?? ''}</div>
+            <div class="mob-sub-acct-name">${esc(displayName)}</div>
+            <div class="mob-sub-acct-email">${esc(session.user.email)}</div>
           </div>
           <div class="mob-sub-divider"></div>
           <a href="portal.html" class="mob-sub-item"><i class="ph ph-squares-four"></i><span>Overview</span></a>
@@ -467,12 +468,12 @@ if (typeof db !== 'undefined') {
       const overlaySignin = document.getElementById('rfOverlaySignin');
       if (overlaySignin) {
         overlaySignin.href = 'portal.html';
-        overlaySignin.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg> ${displayName.split(' ')[0]}`;
+        overlaySignin.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg> ${esc(displayName.split(' ')[0])}`;
       }
       dropdown.innerHTML = `
         <div class="dd-header">
-          <div class="dd-name">${displayName}</div>
-          <div class="dd-email">${session.user.email ?? ''}</div>
+          <div class="dd-name">${esc(displayName)}</div>
+          <div class="dd-email">${esc(session.user.email)}</div>
         </div>
         <a href="portal.html"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Overview</a>
         <a href="portal.html?tab=enquiries"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> My Enquiries</a>

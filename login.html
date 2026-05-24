@@ -255,7 +255,14 @@
 <script src="js/layout.js"></script>
 <script>
 const params     = new URLSearchParams(window.location.search)
-const returnUrl  = params.get('return') ?? 'portal.html'
+function safeReturn(raw) {
+  if (!raw) return 'portal.html';
+  try {
+    const url = new URL(raw, window.location.origin);
+    return url.origin === window.location.origin ? url.pathname + url.search + url.hash : 'portal.html';
+  } catch { return 'portal.html'; }
+}
+const returnUrl  = safeReturn(params.get('return'))
 
 if (params.get('return')) {
   document.getElementById('returnNotice').style.display = 'flex'
