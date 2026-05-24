@@ -9,12 +9,13 @@
   <style>
 
     /* ── Shell ── */
+    body { background: var(--f950); }
     .portal-shell {
       display: flex;
       flex-direction: column;
       min-height: 60vh;
       background: #f3f4ef;
-      margin-top: 72px; /* push below the fixed 72px navbar — margin keeps shell out of header's area */
+      margin-top: 84px; /* 12px navbar top-offset + 72px navbar height */
     }
     .portal-loading {
       flex: 1;
