@@ -1,0 +1,37 @@
+name: Database Backup
+
+on:
+  schedule:
+    - cron: '0 2 * * *'   # 02:00 UTC daily (05:00 EAT)
+  workflow_dispatch:        # allow manual trigger from GitHub UI
+
+jobs:
+  backup:
+    name: Backup Supabase Postgres
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q postgresql-client
+
+      - name: Dump database
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          TIMESTAMP=$(date -u +%Y%m%dT%H%M%SZ)
+          FILENAME="rena-farm-db-${TIMESTAMP}.sql.gz"
+          pg_dump "$DATABASE_URL" --no-owner --no-acl | gzip > "$FILENAME"
+          SIZE=$(du -sh "$FILENAME" | cut -f1)
+          echo "BACKUP_FILE=$FILENAME" >> $GITHUB_ENV
+          echo "Backup: $FILENAME  ($SIZE)"
+          # Fail if dump is suspiciously tiny (< 1 KB = empty/failed dump)
+          [ $(wc -c < "$FILENAME") -gt 1024 ] || { echo "ERROR: dump too small — possible connection failure"; exit 1; }
+
+      - name: Upload backup artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: db-backup-${{ github.run_id }}
+          path: ${{ env.BACKUP_FILE }}
+          retention-days: 30
