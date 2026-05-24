@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="img/favicon.png"/>
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png"/>
   <link rel="stylesheet" href="css/styles.css" />
-  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" integrity="sha384-6p9AefaqUhEVheRlj1mpAkbngHXy9mbYMrIdcIt4Jlc9lOLIablJq3bBsLOjGwZ7" crossorigin="anonymous" />
   <style>
 
     /* ── Shell ── */
@@ -307,12 +307,37 @@
       .p-banner-inner { gap: 0.8rem; padding: 0 1rem; }
       .p-content { padding: 1rem; }
     }
+    .session-warning {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      background: #92400e;
+      color: #fff;
+      padding: 0.65rem 1.5rem;
+      font-size: 0.85rem;
+      flex-wrap: wrap;
+      z-index: 10;
+    }
+    .session-warning a {
+      color: #fde68a;
+      font-weight: 700;
+      white-space: nowrap;
+      text-decoration: underline;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 <div id="rf-header"></div>
 
 <div class="portal-shell">
+
+  <!-- Session expiry warning banner -->
+  <div id="sessionWarning" class="session-warning" role="alert">
+    <span><i class="ph ph-warning"></i> Your session expires in 5 minutes — save any unsaved changes.</span>
+    <a onclick="db.auth.signOut().then(()=>window.location.href='login.html?return=portal.html')">Sign in again now</a>
+  </div>
 
   <!-- Loading -->
   <div id="loadingState" class="portal-loading">
@@ -527,7 +552,7 @@
 </div>
 
 <div id="rf-footer"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" integrity="sha384-8A8NbbMug1jd/CYs7b0nSc6FPM4L9GKg/VzKxg6hst+UgTcWTQr0ry7knxGrSOtT" crossorigin="anonymous"></script>
 <script src="js/supabase-client.js"></script>
 <script src="js/layout.js"></script>
 <script>
@@ -821,7 +846,28 @@ function showFarmTyping() {
   farmTypingTimer = setTimeout(() => { wrap.style.display = 'none' }, 3000)
 }
 
-initPortal().then(() => initRealtime())
+// Keep currentSession fresh and handle expiry/sign-out
+db.auth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_OUT') {
+    window.location.href = `login.html?return=${encodeURIComponent(window.location.pathname + window.location.search)}`
+  }
+  if (event === 'TOKEN_REFRESHED' && session) {
+    currentSession = session
+  }
+})
+
+function scheduleSessionWarning() {
+  if (!currentSession?.expires_at) return
+  const msUntilWarn = (currentSession.expires_at * 1000) - Date.now() - (5 * 60 * 1000)
+  if (msUntilWarn > 0) {
+    setTimeout(() => {
+      const banner = document.getElementById('sessionWarning')
+      if (banner) banner.style.display = 'flex'
+    }, msUntilWarn)
+  }
+}
+
+initPortal().then(() => { scheduleSessionWarning(); initRealtime(); })
 </script>
 </body>
 </html>

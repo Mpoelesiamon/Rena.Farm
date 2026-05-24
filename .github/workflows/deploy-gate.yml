@@ -1,0 +1,49 @@
+name: Deploy Gate
+
+# This workflow enforces that only validated code reaches main.
+# It re-runs the full CI suite on every PR targeting main, acting
+# as the required status check for branch protection rules.
+#
+# To activate branch protection:
+# GitHub → repo Settings → Branches → Add rule → Branch name: main
+#   ✓ Require status checks to pass before merging
+#   ✓ Require branches to be up to date before merging
+#   Status checks: "Validate Site" (from ci.yml)
+#   ✓ Restrict who can push to matching branches (add yourself)
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  gate:
+    name: Production Deploy Gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: JS syntax check
+        run: |
+          for f in js/*.js; do
+            node --check "$f" || { echo "SYNTAX ERROR in $f — merge blocked"; exit 1; }
+          done
+
+      - name: vercel.json validation
+        run: python3 -m json.tool vercel.json > /dev/null
+
+      - name: Security scan — no service_role key
+        run: |
+          if grep -r "service_role" --include="*.js" --include="*.html" --include="*.json" . 2>/dev/null | grep -v ".git"; then
+            echo "ERROR: service_role key found — merge blocked"
+            exit 1
+          fi
+
+      - name: Confirm supabase migrations directory exists
+        run: |
+          if [ ! -d "supabase/migrations" ]; then
+            echo "WARNING: supabase/migrations directory missing"
+          else
+            echo "OK: supabase/migrations present ($(ls supabase/migrations | wc -l) files)"
+          fi
