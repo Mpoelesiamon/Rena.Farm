@@ -11,7 +11,7 @@
    --f50:  #EEF6E5  (section backgrounds)
 ============================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700;800;900&family=Raleway:wght@700;800&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -227,11 +227,11 @@ nav.container {
   line-height: 1;
 }
 .brand-name {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.45rem;
-  font-weight: 700;
+  font-family: 'Raleway', 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
   color: var(--white);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   display: block;
 }
@@ -245,7 +245,7 @@ nav.container {
   margin-top: 3px;
 }
 .nav-logo-img {
-  height: 62px;
+  height: 38px;
   display: block;
 }
 
@@ -566,7 +566,8 @@ nav.container {
     top: auto;
     align-items: flex-end;
   }
-  .nav-logo-img { height: 42px; }
+  .nav-logo-img { height: 30px; }
+  .brand-name { font-size: 0.65rem; letter-spacing: 0.18em; }
 }
 
 /* Mobile: hide mobile WhatsApp & old hamburger — handled by pill nav */
