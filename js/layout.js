@@ -189,7 +189,8 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>&copy; 2025 Rena Global Merchants Ltd. All rights reserved.</span>
+      <span>&copy; 2026 Rena Global Merchants Ltd. All rights reserved.</span>
+      <a href="privacy-policy.html" style="color:inherit;text-decoration:none;opacity:0.7;font-size:0.8rem;">Privacy Policy</a>
       <span>Rena Farm &mdash; Kajiado Central, Kenya</span>
     </div>
   </div>
