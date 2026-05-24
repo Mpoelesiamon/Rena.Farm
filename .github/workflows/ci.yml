@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  validate:
+    name: Validate Site
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check all local image references exist
+        run: |
+          echo "Checking local image src references..."
+          MISSING=0
+          for html in *.html; do
+            # Extract local img src values (not http/https)
+            grep -oP 'src="(?!https?://)[^""]+"' "$html" 2>/dev/null | \
+            grep -oP '(?<=src=")[^""]+' | \
+            while read -r path; do
+              if [ ! -f "$path" ]; then
+                echo "MISSING: $html references $path"
+                MISSING=1
+              fi
+            done
+          done
+          if [ "$MISSING" -eq 1 ]; then exit 1; fi
+          echo "All local image references OK."
+
+      - name: Check all internal HTML links resolve
+        run: |
+          echo "Checking internal href links..."
+          MISSING=0
+          for html in *.html; do
+            grep -oP 'href="(?!https?://|mailto:|tel:|#)[^""]+"' "$html" 2>/dev/null | \
+            grep -oP '(?<=href=")[^""#?]+' | \
+            while read -r path; do
+              # Strip any anchor
+              file="${path%%#*}"
+              [ -z "$file" ] && continue
+              if [ ! -f "$file" ]; then
+                echo "MISSING: $html links to $file"
+                MISSING=1
+              fi
+            done
+          done
+          if [ "$MISSING" -eq 1 ]; then exit 1; fi
+          echo "All internal links OK."
+
+      - name: Check no hardcoded secrets patterns
+        run: |
+          echo "Scanning for accidentally committed secrets..."
+          # Fail if any .env file was committed (shouldn't happen but guard it)
+          if git ls-files | grep -qE '^\.env$'; then
+            echo "ERROR: .env file is tracked by git"
+            exit 1
+          fi
+          echo "No committed .env files found."
