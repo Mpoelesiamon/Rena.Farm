@@ -424,8 +424,8 @@ async function openProductModal(productId) {
 
   const waMsg = encodeURIComponent(`Hi Rena Farm, I'm interested in ${p.name}. Is it available?`)
   document.getElementById('prodModalActions').innerHTML = p.availability !== 'out_of_stock'
-    ? `<a href="contact.html?interest=${encodeURIComponent(p.name)}" class="btn btn-primary">Enquire About This</a><a href="https://wa.me/254724980372?text=${waMsg}" target="_blank" rel="noopener" class="btn btn-outline-green"><i class="ph ph-whatsapp-logo"></i> WhatsApp</a>`
-    : `<a href="contact.html?interest=${encodeURIComponent(p.name)}" class="btn btn-outline-green" style="width:100%;justify-content:center;">Notify Me When Available</a>`
+    ? `<a href="enquire.html?name=${encodeURIComponent(p.name)}&type=listing" class="btn btn-primary">Enquire About This</a><a href="https://wa.me/254724980372?text=${waMsg}" target="_blank" rel="noopener" class="btn btn-outline-green"><i class="ph ph-whatsapp-logo"></i> WhatsApp</a>`
+    : `<a href="enquire.html?name=${encodeURIComponent(p.name)}&type=listing" class="btn btn-outline-green" style="width:100%;justify-content:center;">Notify Me When Available</a>`
 
   document.getElementById('prodModal').classList.add('open'); document.body.style.overflow='hidden'
 }

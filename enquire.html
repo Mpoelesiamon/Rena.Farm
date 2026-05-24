@@ -231,11 +231,15 @@ async function initEnquirePage() {
         `Hi, I'm interested in ${animal.name ?? 'this animal'} (Tag: #${animal.tag_number}). Please let me know about availability and next steps.`
     }
   } else {
-    // Generic enquiry — update subject label
+    // Named product listing or generic enquiry
     const labelMap = { livestock:'Livestock Enquiry', fodder:'Fodder & Feeds Enquiry', dairy:'Dairy / Milk Enquiry', poultry:'Poultry Enquiry', general:'General Enquiry' }
-    document.getElementById('subjectLabel').textContent = labelMap[type] ?? 'General Enquiry'
-    document.getElementById('pcName').textContent = 'Rena Farm'
+    document.getElementById('subjectLabel').textContent = name ? `Enquiry: ${name}` : (labelMap[type] ?? 'General Enquiry')
+    document.getElementById('pcName').textContent = name ?? 'Rena Farm'
     document.getElementById('pcTag').textContent  = 'Kajiado Central, Kenya'
+    if (name) {
+      const msgEl = document.getElementById('message')
+      if (!msgEl.value) msgEl.value = `Hi, I'm interested in ${name}. Please let me know about availability and pricing.`
+    }
   }
 }
 
@@ -261,25 +265,21 @@ document.getElementById('enquireForm').addEventListener('submit', async function
   btn.disabled = true
   btn.innerHTML = '<i class="ph ph-circle-notch" style="animation:spin 0.8s linear infinite;display:inline-block;"></i> Sending…'
 
-  // Check auth — link enquiry to client account if logged in
+  // Attach client_id if logged in, but don't require it
   const session = await getClientSession()
-  if (!session) {
-    window.location.href = `login.html?return=${encodeURIComponent(window.location.href)}`
-    return
-  }
 
   const payload = {
     first_name:        document.getElementById('firstName').value.trim(),
     last_name:         document.getElementById('lastName').value.trim(),
-    email:             document.getElementById('email').value.trim() || session.user.email || null,
+    email:             document.getElementById('email').value.trim() || session?.user?.email || null,
     phone:             document.getElementById('phone').value.trim(),
     interest:          document.getElementById('hiddenProductRef').value || 'General',
     quantity:          document.getElementById('quantity').value.trim() || null,
     message:           document.getElementById('message').value.trim(),
     delivery_location: document.getElementById('location').value.trim() || null,
     status:            'new',
-    client_id:         session.user.id,
   }
+  if (session?.user?.id) payload.client_id = session.user.id
 
   const ok = await submitProductEnquiry(payload)
 
