@@ -6,20 +6,21 @@
 // ── Sentry error tracking (runs on every page via layout.js) ──
 ;(function () {
   var s = document.createElement('script')
-  s.src = 'https://js.sentry-cdn.com/6090991e46e3d4aa391e5a93c58759d1.min.js'
+  s.src = 'https://browser.sentry-cdn.com/8.38.0/bundle.min.js'
   s.crossOrigin = 'anonymous'
+  s.onload = function () {
+    Sentry.init({
+      dsn: 'https://6090991e46e3d4aa391e5a93c58759d1@o4511443477659648.ingest.de.sentry.io/4511443486048336',
+      environment: 'production',
+      tracesSampleRate: 0.1,
+      ignoreErrors: [
+        'ResizeObserver loop limit exceeded',
+        'Non-Error promise rejection',
+      ],
+    })
+  }
   document.head.appendChild(s)
 })()
-window.sentryOnLoad = function () {
-  Sentry.init({
-    environment: 'production',
-    tracesSampleRate: 0.1,  // 10% of page loads get performance traces
-    ignoreErrors: [
-      'ResizeObserver loop limit exceeded',  // benign browser noise
-      'Non-Error promise rejection',
-    ],
-  })
-}
 
 (function () {
 
