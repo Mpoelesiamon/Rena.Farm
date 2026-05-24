@@ -2,6 +2,25 @@
    RENA FARM — Shared Layout Injection
    Injects header, footer, floating buttons across all pages.
    ============================================================ */
+
+// ── Sentry error tracking (runs on every page via layout.js) ──
+;(function () {
+  var s = document.createElement('script')
+  s.src = 'https://js.sentry-cdn.com/6090991e46e3d4aa391e5a93c58759d1.min.js'
+  s.crossOrigin = 'anonymous'
+  document.head.appendChild(s)
+})()
+window.sentryOnLoad = function () {
+  Sentry.init({
+    environment: 'production',
+    tracesSampleRate: 0.1,  // 10% of page loads get performance traces
+    ignoreErrors: [
+      'ResizeObserver loop limit exceeded',  // benign browser noise
+      'Non-Error promise rejection',
+    ],
+  })
+}
+
 (function () {
 
   /* ── SVG ASSETS ── */
