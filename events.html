@@ -47,7 +47,7 @@
 
 <section class="page-hero" style="min-height:60vh;position:relative;background:var(--f950);overflow:hidden;">
   <div class="ph-img-panel">
-    <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/cultivation/fodder-field-14.jpg" alt="Rena Farm fields" style="object-position:center 50%;"/>
+    <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/render/image/public/website-media/cultivation/fodder-field-14.jpg?width=1400&quality=80" alt="Rena Farm fields" style="object-position:center 50%;"/>
     <div class="ph-img-fade"></div>
   </div>
   <div class="container" style="position:relative;z-index:2;">
@@ -124,7 +124,7 @@ function eventCard(e) {
   const labels = { expo:'EXPO', competition:'Competition', open_day:'Open Day', market:'Market', training:'Training', other:'Event' };
   return `<div class="event-card">
     <div class="event-img">
-      ${e.image_url ? `<img src="${e.image_url}" alt="${e.title}" />` : '<i class="ph ph-plant"></i>'}
+      ${e.image_url ? `<img src="${e.image_url}" alt="${e.title}" loading="lazy" decoding="async" />` : '<i class="ph ph-plant"></i>'}
       <div class="event-type-badge">${labels[e.event_type] ?? 'Event'}</div>
     </div>
     <div class="event-body">
@@ -142,7 +142,7 @@ loadAwards && loadAwards().then(data => {
   if (data.length) {
     document.getElementById('awardsGrid').innerHTML = data.map(a => `
       <div class="award-card">
-        ${a.image_url ? `<img src="${a.image_url}" alt="${a.title}" style="width:80px;height:80px;object-fit:contain;margin:0 auto 1rem;display:block;" />` : '<div class="award-icon"><i class="ph ph-trophy"></i></div>'}
+        ${a.image_url ? `<img src="${a.image_url}" alt="${a.title}" loading="lazy" decoding="async" style="width:80px;height:80px;object-fit:contain;margin:0 auto 1rem;display:block;" />` : '<div class="award-icon"><i class="ph ph-trophy"></i></div>'}
         <h3>${a.title}</h3><p>${a.description ?? ''}</p>
         <div class="award-by">${a.awarded_by ?? ''}${a.award_date ? ' &middot; ' + fmtDate(a.award_date) : ''}</div>
       </div>`).join('');

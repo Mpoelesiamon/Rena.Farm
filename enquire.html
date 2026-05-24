@@ -197,7 +197,7 @@ async function initEnquirePage() {
       // Update product card
       const imgEl = document.querySelector('.product-card-img')
       imgEl.innerHTML = animal.cover_image_url
-        ? `<img src="${animal.cover_image_url}" alt="${escH(animal.name??animal.tag_number)}" />`
+        ? `<img src="${animal.cover_image_url}" alt="${escH(animal.name??animal.tag_number)}" loading="lazy" decoding="async" />`
         : `<div class="no-img"><i class="ph ph-cow"></i></div>`
 
       document.getElementById('pcName').textContent = animal.name ?? '(Unnamed)'
