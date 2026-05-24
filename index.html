@@ -91,9 +91,10 @@
     .hlc:hover .hlc-img img { transform:scale(1.05); }
     .hlc-img .no-img { width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:var(--f200); font-size:4rem; }
     .hlc-badge { position:absolute; top:10px; left:10px; font-size:0.7rem; font-weight:700; padding:0.25rem 0.7rem; border-radius:50px; letter-spacing:0.04em; text-transform:uppercase; }
-    .badge-on_sale { background:#d1fae5; color:#065f46; }
-    .badge-booked  { background:#fef3c7; color:#92400e; }
-    .badge-sold    { background:#f3f4f6; color:#6b7280; }
+    .badge-available    { background:#d1fae5; color:#065f46; }
+    .badge-limited      { background:#fef3c7; color:#92400e; }
+    .badge-out_of_stock { background:#fee2e2; color:#991b1b; }
+    .badge-seasonal     { background:#dbeafe; color:#1e40af; }
     .hlc-body { padding:1.1rem 1.3rem 1.3rem; }
     .hlc-name  { font-size:1rem; font-weight:800; color:var(--f950); margin-bottom:0.2rem; }
     .hlc-tag   { font-size:0.75rem; color:var(--gray-400); font-family:monospace; margin-bottom:0.4rem; }
@@ -263,7 +264,7 @@
         <p class="section-label">Available Now</p>
         <h2 class="section-title" style="margin-bottom:0;">For Sale</h2>
       </div>
-      <a href="products.html#listings" class="btn btn-outline-green">View All Listings &rarr;</a>
+      <a href="products.html#shop" class="btn btn-outline-green">View All Listings &rarr;</a>
     </div>
     <div id="homeListingsContainer">
       <!-- Skeleton while loading -->
@@ -611,41 +612,39 @@
 <script src="js/supabase-client.js"></script>
 <script src="js/layout.js"></script>
 <script>
-// ── Homepage listings preview — categorised ──
+// ── Homepage listings preview — livestock & poultry from product_listings ──
 ;(async function() {
-  const SPECIES_LBL = { dorper_sheep:'Dorper Sheep', gala_goat:'Gala Goat', dairy_cow:'Dairy Cow', beef_cattle:'Beef Cattle', sahiwal:'Sahiwal', kienyeji_chicken:'Kienyeji Chicken', other:'Other' }
-  const STATUS_LBL  = { on_sale:'On Sale', booked:'Booked', sold:'Sold' }
-  const LIVESTOCK   = ['dorper_sheep','gala_goat','dairy_cow','beef_cattle','sahiwal']
-  const CATEGORIES  = [
-    { key:'livestock', label:'Livestock', icon:'ph-cow',   filter: a => LIVESTOCK.includes(a.species) },
-    { key:'poultry',   label:'Poultry',   icon:'ph-bird',  filter: a => a.species === 'kienyeji_chicken' },
-    { key:'other',     label:'Other',     icon:'ph-plant', filter: a => !a.species || a.species === 'other' },
+  const AVAIL_LBL = { available:'Available', limited:'Limited', out_of_stock:'Out of Stock', seasonal:'Seasonal' }
+  const AVAIL_CLS = { available:'badge-available', limited:'badge-limited', out_of_stock:'badge-out_of_stock', seasonal:'badge-seasonal' }
+  const CATEGORIES = [
+    { key:'livestock', label:'Livestock', icon:'ph-cow'  },
+    { key:'poultry',   label:'Poultry',   icon:'ph-bird' },
   ]
   function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-  function cap(s){return s?s.charAt(0).toUpperCase()+s.slice(1):''}
-  function card(a) {
-    const bdg = a.listing_status === 'on_sale' ? 'badge-on_sale' : a.listing_status === 'booked' ? 'badge-booked' : 'badge-sold'
-    return `<a href="products.html?animal=${a.id}#listings" class="hlc">
+  function card(p) {
+    const cls = AVAIL_CLS[p.availability] ?? 'badge-available'
+    const lbl = AVAIL_LBL[p.availability] ?? (p.availability ?? '')
+    const desc = p.description ? (p.description.length > 70 ? p.description.slice(0,70)+'…' : p.description) : null
+    return `<a href="products.html#shop" class="hlc">
       <div class="hlc-img">
-        ${a.cover_image_url?`<img src="${a.cover_image_url}" alt="${escH(a.name??a.tag_number)}" loading="lazy"/>`:'<div class="no-img"><i class="ph ph-cow"></i></div>'}
-        <span class="hlc-badge ${bdg}">${STATUS_LBL[a.listing_status]}</span>
+        ${p.cover_image_url ? `<img src="${escH(p.cover_image_url)}" alt="${escH(p.name)}" loading="lazy"/>` : '<div class="no-img"><i class="ph ph-cow"></i></div>'}
+        <span class="hlc-badge ${cls}">${escH(lbl)}</span>
       </div>
       <div class="hlc-body">
-        <div class="hlc-name">${escH(a.name??'(Unnamed)')}</div>
-        <div class="hlc-tag">#${escH(a.tag_number)}</div>
-        <div class="hlc-sub">${a.species?SPECIES_LBL[a.species]:(a.breed??'')}${a.gender?' · '+cap(a.gender):''}${a.date_of_birth?' · '+calcAge(a.date_of_birth):''}</div>
-        ${a.asking_price?`<div class="hlc-price">KSh ${Number(a.asking_price).toLocaleString()} <span>asking</span></div>`:`<div class="hlc-sub">Price on request</div>`}
+        <div class="hlc-name">${escH(p.name)}</div>
+        ${desc ? `<div class="hlc-sub">${escH(desc)}</div>` : ''}
+        ${p.price_per_unit ? `<div class="hlc-price">KSh ${Number(p.price_per_unit).toLocaleString()} <span>/ ${escH(p.unit ?? 'unit')}</span></div>` : `<div class="hlc-sub">Price on request</div>`}
       </div>
     </a>`
   }
   try {
-    const animals  = await loadListedAnimals()
-    const active   = animals.filter(a => a.listing_status === 'on_sale' || a.listing_status === 'booked')
+    const all = await loadActiveProductListings()
     const container = document.getElementById('homeListingsContainer')
-    if (!active.length) { container.innerHTML = ''; return }
+    const livestock = all.filter(p => p.category === 'livestock' || p.category === 'poultry')
+    if (!livestock.length) { container.innerHTML = ''; return }
     let html = ''
     CATEGORIES.forEach(cat => {
-      const items = active.filter(cat.filter).slice(0, 4)
+      const items = all.filter(p => p.category === cat.key).slice(0, 4)
       if (!items.length) return
       html += `<div class="home-listing-category"><i class="ph ${cat.icon}"></i>${cat.label}</div>`
       html += `<div class="home-listing-grid">${items.map(card).join('')}</div>`
