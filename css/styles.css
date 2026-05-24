@@ -240,6 +240,11 @@ nav.container {
   display: block;
   margin-top: 3px;
 }
+.nav-logo-img {
+  height: 32px;
+  display: block;
+  filter: brightness(0) invert(1);
+}
 
 /* ── RIGHT NAV LINKS ── */
 .rf-nav-right {
@@ -1174,6 +1179,12 @@ footer {
   color: var(--white);
   margin-bottom: 0.15rem;
   letter-spacing: 0.04em;
+}
+.footer-logo-img {
+  height: 38px;
+  display: block;
+  filter: brightness(0) invert(1);
+  margin-bottom: 0.4rem;
 }
 
 .footer-brand-sub {
