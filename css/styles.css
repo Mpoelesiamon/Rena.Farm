@@ -556,15 +556,15 @@ nav.container {
   .rf-overlay-nav { flex: 1; }
 }
 
-/* Mobile: hamburger left, logo absolutely centered */
+/* Mobile: hamburger left, logo right */
 @media (max-width: 640px) {
   .rf-nav-right { display: none; }
   .nav-brand {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    align-items: center;
+    position: static;
+    transform: none;
+    left: auto;
+    top: auto;
+    align-items: flex-end;
   }
   .nav-logo-img { height: 34px; }
   .brand-name { font-size: 0.7rem; letter-spacing: 0.18em; }
