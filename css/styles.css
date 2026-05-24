@@ -556,7 +556,7 @@ nav.container {
   .rf-overlay-nav { flex: 1; }
 }
 
-/* Mobile: hamburger left, logo right */
+/* Mobile: hamburger left, logo right — icon centred above text */
 @media (max-width: 640px) {
   .rf-nav-right { display: none; }
   .nav-brand {
@@ -564,7 +564,7 @@ nav.container {
     transform: none;
     left: auto;
     top: auto;
-    align-items: flex-end;
+    align-items: center;
   }
   .nav-logo-img { height: 34px; }
   .brand-name { font-size: 0.7rem; letter-spacing: 0.18em; }
