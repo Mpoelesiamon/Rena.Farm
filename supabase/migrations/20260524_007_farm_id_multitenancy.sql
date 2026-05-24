@@ -75,7 +75,7 @@ DECLARE
     'enquiries',
     'admin_profiles'
   ];
-  rena_id uuid := 'a0000001-0000-0000-0000-000000000001';
+  rena_id text := 'a0000001-0000-0000-0000-000000000001';
 BEGIN
   FOREACH tbl IN ARRAY tables LOOP
     -- Add column if missing (nullable first)
@@ -84,17 +84,17 @@ BEGIN
       tbl
     );
 
-    -- Backfill existing rows
+    -- Backfill existing rows (%L quotes the UUID as a literal)
     EXECUTE format(
-      'UPDATE public.%I SET farm_id = $1 WHERE farm_id IS NULL',
-      tbl
-    ) USING rena_id;
+      'UPDATE public.%I SET farm_id = %L WHERE farm_id IS NULL',
+      tbl, rena_id
+    );
 
-    -- Set default and NOT NULL
+    -- Set default and NOT NULL (ALTER TABLE does not support $1 params)
     EXECUTE format(
-      'ALTER TABLE public.%I ALTER COLUMN farm_id SET DEFAULT $1',
-      tbl
-    ) USING rena_id;
+      'ALTER TABLE public.%I ALTER COLUMN farm_id SET DEFAULT %L',
+      tbl, rena_id
+    );
 
     EXECUTE format(
       'ALTER TABLE public.%I ALTER COLUMN farm_id SET NOT NULL',
