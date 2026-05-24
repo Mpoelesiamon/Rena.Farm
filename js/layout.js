@@ -25,7 +25,6 @@
     </button>
     <a href="index.html" class="nav-brand">
       <img src="img/logo-transparent.png" class="nav-logo-img" alt="Rena Farm"/>
-      <span class="brand-sub">Kajiado Central &middot; Est. 2018</span>
     </a>
     <div class="rf-nav-right">
       <div class="rf-nav-icons">
