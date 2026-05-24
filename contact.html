@@ -125,6 +125,7 @@
                 <option value="napier">Napier Grass</option>
                 <option value="pellets">Pellets</option>
                 <option value="chicken-feeds">Chicken Feeds</option>
+                <option value="bracharia">Bracharia Grass</option>
                 <option value="lucerne">Lucerne (Alfalfa)</option>
                 <option value="farm-visit">Farm Visit</option>
                 <option value="other">Other Enquiry</option>
@@ -202,6 +203,30 @@
   }
 
   prefillFromSession();
+
+  /* ── Auto-select interest from URL param ── */
+  (function prefillInterest() {
+    const interest = new URLSearchParams(window.location.search).get('interest');
+    if (!interest) return;
+    const select = document.querySelector('[name="interest"]');
+    if (!select) return;
+    const match = Array.from(select.options).find(o => o.value === interest);
+    if (match) {
+      select.value = interest;
+      select.style.background = 'var(--f50)';
+    } else {
+      // Free-text product name (e.g. from dynamic listings) — pick "other" and seed the message
+      select.value = 'other';
+      const msgEl = document.querySelector('[name="message"]');
+      if (msgEl && !msgEl.value) {
+        msgEl.value = `I am interested in: ${decodeURIComponent(interest)}\n\n`;
+      }
+    }
+    // Scroll the form into view
+    setTimeout(() => {
+      document.getElementById('contactForm')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 200);
+  })();
 
   const INTEREST_LABELS = {
     'dairy-cattle':'Dairy Cows','sahiwaal':'Sahiwaal Cattle','beef-cattle':'Beef Cattle',
