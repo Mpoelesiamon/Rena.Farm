@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [develop]
   pull_request:
-    branches: [main, develop]
+    branches: [main]
 
 jobs:
   validate:
@@ -15,50 +15,72 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Check JS syntax
+        run: |
+          echo "Checking JS syntax..."
+          for f in js/*.js; do
+            node --check "$f" && echo "  OK: $f" || { echo "SYNTAX ERROR: $f"; exit 1; }
+          done
+
+      - name: Validate vercel.json
+        run: |
+          echo "Validating vercel.json..."
+          python3 -m json.tool vercel.json > /dev/null && echo "  OK: vercel.json"
+
       - name: Check all local image references exist
         run: |
           echo "Checking local image src references..."
-          MISSING=0
+          MISSING=()
           for html in *.html; do
-            # Extract local img src values (not http/https)
-            grep -oP 'src="(?!https?://)[^""]+"' "$html" 2>/dev/null | \
-            grep -oP '(?<=src=")[^""]+' | \
-            while read -r path; do
+            while IFS= read -r path; do
+              [ -z "$path" ] && continue
               if [ ! -f "$path" ]; then
-                echo "MISSING: $html references $path"
-                MISSING=1
+                MISSING+=("$html → $path")
               fi
-            done
+            done < <(grep -oP 'src="\K(?!https?://)[^"]+' "$html" 2>/dev/null || true)
           done
-          if [ "$MISSING" -eq 1 ]; then exit 1; fi
-          echo "All local image references OK."
+          if [ ${#MISSING[@]} -gt 0 ]; then
+            echo "Missing local image files:"
+            printf '  %s\n' "${MISSING[@]}"
+            exit 1
+          fi
+          echo "  OK: all local image references exist"
 
       - name: Check all internal HTML links resolve
         run: |
           echo "Checking internal href links..."
-          MISSING=0
+          MISSING=()
           for html in *.html; do
-            grep -oP 'href="(?!https?://|mailto:|tel:|#)[^""]+"' "$html" 2>/dev/null | \
-            grep -oP '(?<=href=")[^""#?]+' | \
-            while read -r path; do
-              # Strip any anchor
+            while IFS= read -r path; do
               file="${path%%#*}"
+              file="${file%%\?*}"
               [ -z "$file" ] && continue
               if [ ! -f "$file" ]; then
-                echo "MISSING: $html links to $file"
-                MISSING=1
+                MISSING+=("$html → $file")
               fi
-            done
+            done < <(grep -oP 'href="\K(?!https?://|mailto:|tel:|#)[^"]+' "$html" 2>/dev/null || true)
           done
-          if [ "$MISSING" -eq 1 ]; then exit 1; fi
-          echo "All internal links OK."
-
-      - name: Check no hardcoded secrets patterns
-        run: |
-          echo "Scanning for accidentally committed secrets..."
-          # Fail if any .env file was committed (shouldn't happen but guard it)
-          if git ls-files | grep -qE '^\.env$'; then
-            echo "ERROR: .env file is tracked by git"
+          if [ ${#MISSING[@]} -gt 0 ]; then
+            echo "Broken internal links:"
+            printf '  %s\n' "${MISSING[@]}"
             exit 1
           fi
-          echo "No committed .env files found."
+          echo "  OK: all internal links resolve"
+
+      - name: Check no .env file committed
+        run: |
+          if git ls-files | grep -qE '^\.env$'; then
+            echo "ERROR: .env file is tracked by git — remove it immediately"
+            exit 1
+          fi
+          echo "  OK: no .env in git"
+
+      - name: Check no service_role key in source
+        run: |
+          # service_role JWTs are much longer and contain "role":"service_role"
+          # Anon keys are intentionally public — only block service_role leaks
+          if grep -r "service_role" --include="*.js" --include="*.html" --include="*.json" . 2>/dev/null | grep -v "node_modules" | grep -v ".git"; then
+            echo "ERROR: possible service_role key found in source files"
+            exit 1
+          fi
+          echo "  OK: no service_role key in source"
