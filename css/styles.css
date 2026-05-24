@@ -219,15 +219,11 @@ nav.container {
   left: 50%;
   transform: translateX(-50%);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.55rem;
+  gap: 1px;
   text-decoration: none;
   line-height: 1;
-}
-.nav-brand-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
 }
 .brand-name {
   font-family: 'Playfair Display', Georgia, serif;
@@ -248,7 +244,7 @@ nav.container {
   margin-top: 3px;
 }
 .nav-logo-img {
-  height: 42px;
+  height: 52px;
   display: block;
 }
 
@@ -566,9 +562,9 @@ nav.container {
     position: static;
     transform: none;
     left: auto;
-    justify-content: flex-end;
+    align-items: flex-end;
   }
-  .nav-logo-img { height: 34px; }
+  .nav-logo-img { height: 40px; }
 }
 
 /* Mobile: hide mobile WhatsApp & old hamburger — handled by pill nav */
@@ -1188,7 +1184,7 @@ footer {
   letter-spacing: 0.04em;
 }
 .footer-logo-img {
-  height: 48px;
+  height: 80px;
   display: block;
   margin-bottom: 0.4rem;
 }
