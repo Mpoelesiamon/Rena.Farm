@@ -18,15 +18,16 @@ jobs:
 
       - name: Dump database
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          PGHOST: aws-0-eu-west-1.pooler.supabase.com
+          PGPORT: 5432
+          PGDATABASE: postgres
+          PGUSER: postgres.mykyvloynpiqzmqvwekv
+          PGPASSWORD: ${{ secrets.DB_PASSWORD }}
           PGSSLMODE: require
         run: |
           TIMESTAMP=$(date -u +%Y%m%dT%H%M%SZ)
           FILENAME="rena-farm-db-${TIMESTAMP}.sql.gz"
-          # Append sslmode=require if not already in the URL
-          CONN="${DATABASE_URL}"
-          [[ "$CONN" != *"sslmode="* ]] && CONN="${CONN}?sslmode=require"
-          pg_dump "$CONN" --no-owner --no-acl | gzip > "$FILENAME"
+          pg_dump --no-owner --no-acl | gzip > "$FILENAME"
           SIZE=$(du -sh "$FILENAME" | cut -f1)
           echo "BACKUP_FILE=$FILENAME" >> $GITHUB_ENV
           echo "Backup: $FILENAME  ($SIZE)"
