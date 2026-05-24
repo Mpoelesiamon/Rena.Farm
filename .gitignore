@@ -6,3 +6,10 @@ Media/
 .env.local
 .env.*.local
 node_modules/
+
+# Database/backend code lives in RENAFarm.Analysis.site-BackEnd repo
+supabase/
+gallery_fix.sql
+
+# DB backup workflow moved to BackEnd repo
+.github/workflows/db-backup.yml
