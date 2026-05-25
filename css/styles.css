@@ -1187,7 +1187,8 @@ footer {
   letter-spacing: 0.04em;
 }
 .footer-logo-img {
-  height: 150px;
+  width: 160px;
+  height: auto;
   display: block;
   margin-bottom: 0.5rem;
 }
@@ -1294,7 +1295,7 @@ header.scrolled {
 }
 
 /* ── FOOTER BRAND COL ── */
-.footer-brand-col { display: flex; flex-direction: column; }
+.footer-brand-col { display: flex; flex-direction: column; align-items: flex-start; }
 
 /* ── RESPONSIVE ── */
 
@@ -1383,7 +1384,7 @@ header.scrolled {
   /* Footer */
   .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
   .footer-brand-col { grid-column: 1 / -1; }
-  .footer-logo-img { height: 130px; }
+  .footer-logo-img { width: 140px; height: auto; }
   .footer-brand-name { font-size: 1.5rem; }
 
   /* Grids */
@@ -1417,8 +1418,8 @@ header.scrolled {
     text-align: center;
     align-items: center;
   }
-  .footer-logo-img { height: 120px; }
-  .footer-brand-name { font-size: 1.45rem; }
+  .footer-logo-img { width: 120px; height: auto; }
+  .footer-brand-name { font-size: 1.45rem; font-family: 'Inter', sans-serif; font-weight: 800; letter-spacing: 0.06em; }
   .footer-brand-col .footer-desc { margin-left: auto; margin-right: auto; }
   .footer-socials { justify-content: center; }
   /* Products & Company columns — centred within their cells */
