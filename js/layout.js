@@ -144,7 +144,7 @@
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand-col">
-        <img src="img/logo-transparent.png" class="footer-logo-img" alt="Rena Farm"/>
+        <img src="img/logo-head.png" class="footer-logo-img" alt="Rena Farm"/>
         <div class="footer-brand-name">RENA Farm</div>
         <div class="footer-brand-sub">Rena Global Merchants Ltd</div>
         <p class="footer-desc">Cultivating Sustainability, Enriching Lives through Farming &mdash; Kajiado Central, Kenya. Est. 2018.</p>

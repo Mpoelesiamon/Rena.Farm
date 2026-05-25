@@ -1179,12 +1179,13 @@ footer {
 }
 
 .footer-brand-name {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 1.6rem;
-  font-weight: 700;
+  font-weight: 800;
+  text-transform: uppercase;
   color: var(--white);
   margin-bottom: 0.15rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
 }
 .footer-logo-img {
   width: 160px;
@@ -1419,7 +1420,7 @@ header.scrolled {
     align-items: center;
   }
   .footer-logo-img { width: 120px; height: auto; }
-  .footer-brand-name { font-size: 1.45rem; font-family: 'Inter', sans-serif; font-weight: 800; letter-spacing: 0.06em; }
+  .footer-brand-name { font-size: 1.45rem; }
   .footer-brand-col .footer-desc { margin-left: auto; margin-right: auto; }
   .footer-socials { justify-content: center; }
   /* Products & Company columns — centred within their cells */
