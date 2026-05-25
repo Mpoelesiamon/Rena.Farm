@@ -1180,16 +1180,16 @@ footer {
 
 .footer-brand-name {
   font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: var(--white);
   margin-bottom: 0.15rem;
   letter-spacing: 0.04em;
 }
 .footer-logo-img {
-  height: 80px;
+  height: 150px;
   display: block;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
 }
 
 .footer-brand-sub {
@@ -1383,6 +1383,8 @@ header.scrolled {
   /* Footer */
   .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
   .footer-brand-col { grid-column: 1 / -1; }
+  .footer-logo-img { height: 130px; }
+  .footer-brand-name { font-size: 1.5rem; }
 
   /* Grids */
   .form-row { grid-template-columns: 1fr; }
@@ -1415,6 +1417,8 @@ header.scrolled {
     text-align: center;
     align-items: center;
   }
+  .footer-logo-img { height: 120px; }
+  .footer-brand-name { font-size: 1.45rem; }
   .footer-brand-col .footer-desc { margin-left: auto; margin-right: auto; }
   .footer-socials { justify-content: center; }
   /* Products & Company columns — centred within their cells */
