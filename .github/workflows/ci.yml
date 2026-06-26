@@ -1,10 +1,14 @@
-name: CI
+name: CI — Validate Changes
 
 on:
   push:
-    branches: [develop]
+    branches:
+      - 'feature/**'
+      - 'fix/**'
+      - 'hotfix/**'
   pull_request:
-    branches: [main]
+    branches:
+      - test
 
 jobs:
   validate:
@@ -22,11 +26,6 @@ jobs:
             node --check "$f" && echo "  OK: $f" || { echo "SYNTAX ERROR: $f"; exit 1; }
           done
 
-      - name: Validate vercel.json
-        run: |
-          echo "Validating vercel.json..."
-          python3 -m json.tool vercel.json > /dev/null && echo "  OK: vercel.json"
-
       - name: Check all local image references exist
         run: |
           echo "Checking local image src references..."
@@ -40,7 +39,7 @@ jobs:
             done < <(grep -oP 'src="\K(?!https?://)[^"]+' "$html" 2>/dev/null || true)
           done
           if [ ${#MISSING[@]} -gt 0 ]; then
-            echo "Missing local image files:"
+            echo "FAIL: Missing local image files:"
             printf '  %s\n' "${MISSING[@]}"
             exit 1
           fi
@@ -61,7 +60,7 @@ jobs:
             done < <(grep -oP 'href="\K(?!https?://|mailto:|tel:|#)[^"]+' "$html" 2>/dev/null || true)
           done
           if [ ${#MISSING[@]} -gt 0 ]; then
-            echo "Broken internal links:"
+            echo "FAIL: Broken internal links:"
             printf '  %s\n' "${MISSING[@]}"
             exit 1
           fi
@@ -70,17 +69,16 @@ jobs:
       - name: Check no .env file committed
         run: |
           if git ls-files | grep -qE '^\.env$'; then
-            echo "ERROR: .env file is tracked by git — remove it immediately"
+            echo "FAIL: .env file is tracked by git — remove it immediately"
             exit 1
           fi
           echo "  OK: no .env in git"
 
       - name: Check no service_role key in source
         run: |
-          # service_role JWTs are much longer and contain "role":"service_role"
-          # Anon keys are intentionally public — only block service_role leaks
-          if grep -r "service_role" --include="*.js" --include="*.html" --include="*.json" . 2>/dev/null | grep -v "node_modules" | grep -v ".git"; then
-            echo "ERROR: possible service_role key found in source files"
+          if grep -r "service_role" --include="*.js" --include="*.html" --include="*.json" . 2>/dev/null \
+            | grep -v "node_modules" | grep -v ".git"; then
+            echo "FAIL: service_role key found in source — this grants unrestricted DB access"
             exit 1
           fi
           echo "  OK: no service_role key in source"

@@ -1,0 +1,77 @@
+name: Deploy to Production
+
+# Triggers automatically when a PR is merged into the deploy branch.
+# Uploads all site files to Vimexx via FTP.
+# Never triggered manually — always the result of an approved PR merge.
+#
+# Required GitHub secrets (Settings → Secrets → Actions):
+#   FTP_HOST      — Vimexx FTP hostname
+#   FTP_USERNAME  — Vimexx FTP username
+#   FTP_PASSWORD  — Vimexx FTP password
+
+on:
+  push:
+    branches:
+      - deploy
+
+jobs:
+  deploy:
+    name: FTP Deploy → renafarm.co.ke
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout deploy branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Run pre-deploy security check
+        run: |
+          if git ls-files | grep -qE '^\.env$'; then
+            echo "ABORT: .env file is in git — deployment cancelled"
+            exit 1
+          fi
+          if grep -r "service_role" --include="*.js" --include="*.html" --include="*.json" . 2>/dev/null | grep -v ".git"; then
+            echo "ABORT: service_role key found — deployment cancelled"
+            exit 1
+          fi
+          echo "Security check passed."
+
+      - name: Deploy via FTP to Vimexx
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /public_html/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            .DS_Store
+            **/.DS_Store
+            .env
+            .env.*
+            .vercel/**
+            vercel.json
+            .vercelignore
+            README.md
+            LICENSE
+            DEPLOYMENTS.md
+            package.json
+            package-lock.json
+            gallery_fix.sql
+            supabase/**
+            .gitignore
+            index-coming-soon.html
+            node_modules/**
+
+      - name: Deployment summary
+        run: |
+          echo "================================================"
+          echo "  Deployed to renafarm.co.ke"
+          echo "  Branch:  deploy"
+          echo "  Commit:  ${{ github.sha }}"
+          echo "  By:      ${{ github.actor }}"
+          echo "  Time:    $(date -u)"
+          echo "================================================"

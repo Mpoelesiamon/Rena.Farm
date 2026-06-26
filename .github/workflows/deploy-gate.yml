@@ -1,19 +1,18 @@
-name: Deploy Gate
+name: Production Deploy Gate
 
-# This workflow enforces that only validated code reaches main.
-# It re-runs the full CI suite on every PR targeting main, acting
-# as the required status check for branch protection rules.
+# Runs on every PR targeting the deploy branch.
+# This is the required status check for deploy branch protection.
+# The PR cannot be merged without this passing AND owner approval.
 #
-# To activate branch protection:
-# GitHub → repo Settings → Branches → Add rule → Branch name: main
-#   ✓ Require status checks to pass before merging
-#   ✓ Require branches to be up to date before merging
-#   Status checks: "Validate Site" (from ci.yml)
-#   ✓ Restrict who can push to matching branches (add yourself)
+# GitHub setup (one-time):
+#   Settings → Branches → deploy rule
+#   ✓ Require status checks → "Production Deploy Gate"
+#   ✓ Require approvals (1) — owner must approve
 
 on:
   pull_request:
-    branches: [main]
+    branches:
+      - deploy
 
 jobs:
   gate:
@@ -26,24 +25,70 @@ jobs:
 
       - name: JS syntax check
         run: |
+          echo "Checking JS syntax..."
           for f in js/*.js; do
-            node --check "$f" || { echo "SYNTAX ERROR in $f — merge blocked"; exit 1; }
+            node --check "$f" || { echo "SYNTAX ERROR in $f — deploy blocked"; exit 1; }
           done
+          echo "  OK: JS syntax clean"
 
-      - name: vercel.json validation
-        run: python3 -m json.tool vercel.json > /dev/null
+      - name: Check all local image references exist
+        run: |
+          MISSING=()
+          for html in *.html; do
+            while IFS= read -r path; do
+              [ -z "$path" ] && continue
+              [ -f "$path" ] || MISSING+=("$html → $path")
+            done < <(grep -oP 'src="\K(?!https?://)[^"]+' "$html" 2>/dev/null || true)
+          done
+          if [ ${#MISSING[@]} -gt 0 ]; then
+            printf 'FAIL: Missing images:\n'; printf '  %s\n' "${MISSING[@]}"; exit 1
+          fi
+          echo "  OK: all images present"
+
+      - name: Check all internal HTML links resolve
+        run: |
+          MISSING=()
+          for html in *.html; do
+            while IFS= read -r path; do
+              file="${path%%#*}"; file="${file%%\?*}"
+              [ -z "$file" ] && continue
+              [ -f "$file" ] || MISSING+=("$html → $file")
+            done < <(grep -oP 'href="\K(?!https?://|mailto:|tel:|#)[^"]+' "$html" 2>/dev/null || true)
+          done
+          if [ ${#MISSING[@]} -gt 0 ]; then
+            printf 'FAIL: Broken links:\n'; printf '  %s\n' "${MISSING[@]}"; exit 1
+          fi
+          echo "  OK: all internal links resolve"
+
+      - name: Security scan — no .env committed
+        run: |
+          if git ls-files | grep -qE '^\.env$'; then
+            echo "FAIL: .env file tracked in git — deploy blocked"
+            exit 1
+          fi
+          echo "  OK: no .env in git"
 
       - name: Security scan — no service_role key
         run: |
-          if grep -r "service_role" --include="*.js" --include="*.html" --include="*.json" . 2>/dev/null | grep -v ".git"; then
-            echo "ERROR: service_role key found — merge blocked"
+          if grep -r "service_role" --include="*.js" --include="*.html" --include="*.json" . 2>/dev/null \
+            | grep -v ".git"; then
+            echo "FAIL: service_role key found — deploy blocked"
             exit 1
           fi
+          echo "  OK: no service_role key in source"
 
-      - name: Confirm supabase migrations directory exists
+      - name: Confirm required pages exist
         run: |
-          if [ ! -d "supabase/migrations" ]; then
-            echo "WARNING: supabase/migrations directory missing"
-          else
-            echo "OK: supabase/migrations present ($(ls supabase/migrations | wc -l) files)"
+          REQUIRED=(index.html about.html products.html contact.html gallery.html
+                     livestock.html fodder.html location.html events.html
+                     privacy-policy.html)
+          MISSING=()
+          for page in "${REQUIRED[@]}"; do
+            [ -f "$page" ] || MISSING+=("$page")
+          done
+          if [ ${#MISSING[@]} -gt 0 ]; then
+            echo "FAIL: Required pages missing from deploy:"
+            printf '  %s\n' "${MISSING[@]}"
+            exit 1
           fi
+          echo "  OK: all required pages present"
