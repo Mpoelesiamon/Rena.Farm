@@ -38,7 +38,7 @@ jobs:
             while IFS= read -r path; do
               [ -z "$path" ] && continue
               [ -f "$path" ] || MISSING+=("$html → $path")
-            done < <(grep -oP 'src="\K(?!https?://)[^"]+' "$html" 2>/dev/null || true)
+            done < <(grep -oP 'src="\K(?!https?://)(?!\$\{)[^"]+' "$html" 2>/dev/null || true)
           done
           if [ ${#MISSING[@]} -gt 0 ]; then
             printf 'FAIL: Missing images:\n'; printf '  %s\n' "${MISSING[@]}"; exit 1

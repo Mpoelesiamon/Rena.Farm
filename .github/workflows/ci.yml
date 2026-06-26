@@ -36,7 +36,7 @@ jobs:
               if [ ! -f "$path" ]; then
                 MISSING+=("$html → $path")
               fi
-            done < <(grep -oP 'src="\K(?!https?://)[^"]+' "$html" 2>/dev/null || true)
+            done < <(grep -oP 'src="\K(?!https?://)(?!\$\{)[^"]+' "$html" 2>/dev/null || true)
           done
           if [ ${#MISSING[@]} -gt 0 ]; then
             echo "FAIL: Missing local image files:"
