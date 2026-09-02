@@ -59,6 +59,7 @@ jobs:
             README.md
             LICENSE
             DEPLOYMENTS.md
+            docs/**
             package.json
             package-lock.json
             gallery_fix.sql
