@@ -1641,3 +1641,15 @@ header.scrolled {
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ── Spam-guard honeypot (js/form-guard.js) ──────────────────────────────
+   Kept out of view without display:none — some bots skip display:none
+   fields specifically because they know it signals a trap. */
+.rf-hp {
+  position: absolute !important;
+  left: -9999px !important;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

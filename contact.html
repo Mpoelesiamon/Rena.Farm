@@ -121,7 +121,7 @@
             Your message has been sent! We will be in touch soon.
           </div>
 
-          <form id="contactForm" novalidate>
+          <form id="contactForm" novalidate data-guard>
             <div class="form-row">
               <div class="form-group"><label>First Name *</label><input type="text" name="firstName" placeholder="Nathan" required /></div>
               <div class="form-group"><label>Last Name *</label><input type="text" name="lastName" placeholder="Kobaai" required /></div>
@@ -174,6 +174,7 @@
 
 <script src="js/vendor/supabase.js"></script>
 <script src="js/supabase-client.js"></script>
+<script src="js/form-guard.js"></script>
 <script src="js/layout.js"></script>
 <script>
 (function () {
@@ -311,6 +312,15 @@
     const data = Object.fromEntries(new FormData(form));
 
     if (!validate(new FormData(form))) return;
+
+    // Spam guard. On a hit we show the normal success banner but send nothing —
+    // an honest error would only tell the bot's author what to change.
+    if (window.RenaFormGuard && window.RenaFormGuard.isBot(form)) {
+      document.getElementById('successBanner').classList.add('show');
+      form.reset();
+      form.querySelectorAll('.form-group').forEach(g => g.classList.remove('field-error'));
+      return;
+    }
 
     const btn = form.querySelector('button[type="submit"]');
     btn.textContent = 'Sending…'; btn.disabled = true;

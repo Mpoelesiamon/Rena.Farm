@@ -350,7 +350,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
   check('firstName', 'errFirstName', firstName.length > 0)
   check('lastName',  'errLastName',  lastName.length > 0)
   check('phone',     'errPhone',     phone.length >= 9)
-  check('email',     'errEmail',     email.includes('@'))
+  check('email',     'errEmail',     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
   check('password',  'errPassword',  password.length >= 8)
   check('confirm',   'errConfirm',   confirm === password)
   if (!valid) return

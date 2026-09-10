@@ -119,7 +119,7 @@
           <span id="subjectLabel">General Enquiry</span>
         </div>
 
-        <form id="enquireForm" novalidate>
+        <form id="enquireForm" novalidate data-guard>
           <input type="hidden" id="hiddenAnimalId"  name="animal_id"  value="" />
           <input type="hidden" id="hiddenProductRef" name="interest"   value="" />
 
@@ -190,6 +190,7 @@
 <div id="rf-footer"></div>
 <script src="js/vendor/supabase.js"></script>
 <script src="js/supabase-client.js"></script>
+<script src="js/form-guard.js"></script>
 <script src="js/layout.js"></script>
 <script>
 const SPECIES_LBL = { dorper_sheep:'Dorper Sheep', gala_goat:'Gala Goat', dairy_cow:'Dairy Cow', beef_cattle:'Beef Cattle', sahiwal:'Sahiwal', kienyeji_chicken:'Kienyeji Chicken', other:'Other' }
@@ -280,6 +281,14 @@ document.getElementById('enquireForm').addEventListener('submit', async function
   validate('phone',     'errPhone',     document.getElementById('phone').value.trim().length >= 9)
   validate('message',   'errMessage',   document.getElementById('message').value.trim().length >= 10)
   if (!valid) return
+
+  // Spam guard. On a hit we show the normal success state but send nothing —
+  // an honest error would only tell the bot's author what to change.
+  if (window.RenaFormGuard && window.RenaFormGuard.isBot(this)) {
+    document.getElementById('enquireForm').style.display = 'none'
+    document.getElementById('successState').style.display = 'block'
+    return
+  }
 
   const btn = document.getElementById('submitBtn')
   btn.disabled = true

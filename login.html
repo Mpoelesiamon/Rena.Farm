@@ -324,7 +324,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     document.getElementById(errId).classList.toggle('show', !cond)
     if (!cond) valid = false
   }
-  check('email',    'errEmail',    email.includes('@'))
+  check('email',    'errEmail',    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
   check('password', 'errPassword', password.length >= 6)
   if (!valid) return
 

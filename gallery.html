@@ -477,7 +477,7 @@
     const cls    = `p${Math.min(imgs.length, 4)}`
     const thumbs = imgs.map(i => {
       const full = i.thumbnail_url ?? i.media_url
-      return `<img src="${esc(thumbUrl(full, 160))}" onerror="this.src='${esc(full)}';this.onerror=null" alt="" loading="lazy" />`
+      return `<img src="${esc(thumbUrl(full, 160))}" onerror="this.src='${esc(full)}';this.onerror=null" alt="${esc(i.title ?? cat.name ?? 'Rena Farm photo')}" loading="lazy" />`
     }).join('')
     const row = document.createElement('div')
     row.className = 'album-row'

@@ -336,7 +336,7 @@ const CAT_LABELS   = { livestock:'Livestock', fodder:'Fodder', feeds:'Feeds', da
 const AVAIL_LABELS = { available:'Available', limited:'Limited', out_of_stock:'Out of Stock', seasonal:'Seasonal' }
 const AVAIL_STYLES = { available:'background:#d1fae5;color:#065f46', limited:'background:#fef3c7;color:#92400e', out_of_stock:'background:#fee2e2;color:#991b1b', seasonal:'background:#dbeafe;color:#1e40af' }
 let allListings = [], shopFilter = 'all'
-let currentProdImages = [], currentProdImgIdx = 0
+let currentProdImages = [], currentProdImgIdx = 0, currentProdName = ''
 
 /* ── Shop: load product_listings ── */
 async function initShop() {
@@ -388,7 +388,7 @@ async function openProductModal(productId) {
 
   let images = []
   try { images = await loadProductImages(productId) } catch(e) {}
-  currentProdImages = images; currentProdImgIdx = 0
+  currentProdImages = images; currentProdImgIdx = 0; currentProdName = p.name ?? 'Product'
 
   const mainImg = document.getElementById('prodMainImg')
   const noImg   = document.getElementById('prodNoImg')
@@ -398,7 +398,7 @@ async function openProductModal(productId) {
 
   if (images.length > 0) {
     mainImg.style.display='block'; noImg.style.display='none'; setProdGalleryImage(0)
-    thumbs.innerHTML = images.map((img,i) => `<div class="prod-gallery-thumb${i===0?' active':''}" onclick="setProdGalleryImage(${i})"><img src="${img.image_url}" loading="lazy"/></div>`).join('')
+    thumbs.innerHTML = images.map((img,i) => `<div class="prod-gallery-thumb${i===0?' active':''}" onclick="setProdGalleryImage(${i})"><img src="${img.image_url}" alt="${escHtml(currentProdName)} — photo ${i+1} of ${images.length}" loading="lazy"/></div>`).join('')
     prev.style.display = next.style.display = images.length > 1 ? 'flex' : 'none'
   } else if (p.cover_image_url) {
     mainImg.src=p.cover_image_url; mainImg.style.display='block'; noImg.style.display='none'
@@ -453,7 +453,9 @@ async function openProductModal(productId) {
 function setProdGalleryImage(idx) {
   if (!currentProdImages.length) return
   currentProdImgIdx = idx
-  document.getElementById('prodMainImg').src = currentProdImages[idx].image_url
+  const main = document.getElementById('prodMainImg')
+  main.src = currentProdImages[idx].image_url
+  main.alt = `${currentProdName} — photo ${idx+1} of ${currentProdImages.length}`
   document.querySelectorAll('.prod-gallery-thumb').forEach((el,i) => el.classList.toggle('active', i===idx))
 }
 function shiftProdGallery(dir) { if (!currentProdImages.length) return; setProdGalleryImage((currentProdImgIdx+dir+currentProdImages.length)%currentProdImages.length) }
