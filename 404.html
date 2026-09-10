@@ -6,14 +6,14 @@
   <!-- This page is served for ANY missing URL, including deep paths like
        /foo/bar/baz. <base> makes every relative link in the header and
        footer that layout.js injects resolve from the site root. -->
-  <base href="/" />
+  <base href="index.html" />
   <title>Page Not Found — Rena Farm</title>
   <meta name="description" content="The page you were looking for is not here. Browse Rena Farm's livestock, fodder, and dairy products, or get in touch with the farm directly." />
   <meta name="robots" content="noindex, follow" />
   <!-- Root-absolute paths: this page is served for ANY missing URL, at any depth. -->
-  <link rel="icon" type="image/png" href="/img/favicon.png"/>
-  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png"/>
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="icon" type="image/png" href="img/favicon.png"/>
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png"/>
+  <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" integrity="sha384-6p9AefaqUhEVheRlj1mpAkbngHXy9mbYMrIdcIt4Jlc9lOLIablJq3bBsLOjGwZ7" crossorigin="anonymous" />
   <style>
     .nf-wrap    { min-height:70vh; display:flex; align-items:center; background:var(--f950); position:relative; overflow:hidden; }
@@ -51,19 +51,19 @@
     </p>
 
     <div class="nf-actions">
-      <a href="/enquire.html" class="btn btn-primary">Make an Enquiry</a>
-      <a href="/" class="btn btn-outline">Back to Homepage</a>
+      <a href="enquire.html" class="btn btn-primary">Make an Enquiry</a>
+      <a href="index.html" class="btn btn-outline">Back to Homepage</a>
     </div>
 
     <nav class="nf-links" aria-label="Popular pages">
       <div class="nf-links-label">Popular pages</div>
       <ul>
-        <li><a href="/products.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>All Products</a></li>
-        <li><a href="/livestock.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>Livestock</a></li>
-        <li><a href="/fodder.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>Fodder &amp; Feeds</a></li>
-        <li><a href="/how-to-buy.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>How to Buy</a></li>
-        <li><a href="/gallery.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>Gallery</a></li>
-        <li><a href="/contact.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>Contact Us</a></li>
+        <li><a href="products.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>All Products</a></li>
+        <li><a href="livestock.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>Livestock</a></li>
+        <li><a href="fodder.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>Fodder &amp; Feeds</a></li>
+        <li><a href="how-to-buy.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>How to Buy</a></li>
+        <li><a href="gallery.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>Gallery</a></li>
+        <li><a href="contact.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>Contact Us</a></li>
       </ul>
     </nav>
   </div>
@@ -71,8 +71,8 @@
 
 <div id="rf-footer"></div>
 
-<script src="/js/vendor/supabase.js"></script>
-<script src="/js/supabase-client.js"></script>
-<script src="/js/layout.js"></script>
+<script src="js/vendor/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/layout.js"></script>
 </body>
 </html>
