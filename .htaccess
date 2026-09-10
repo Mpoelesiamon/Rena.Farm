@@ -1,0 +1,113 @@
+# Rena Farm — Apache configuration for renafarm.co.ke (Vimexx / DirectAdmin)
+#
+# Every block is wrapped in <IfModule> so that a module missing on the host
+# degrades quietly instead of taking the whole site down with a 500.
+#
+# NOTE: this file intentionally disables PHP execution. The public site is
+# static HTML/CSS/JS and must never run PHP — see DEPLOYMENTS.md. The August
+# 2026 compromise arrived as a dropped .php file, so this is a hard block.
+
+# ---------------------------------------------------------------------------
+# 1. Canonical URL — force HTTPS, and strip the www. prefix
+# ---------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # http:// -> https://
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+  # www.renafarm.co.ke -> renafarm.co.ke
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# 2. Error documents
+#    The malware cleanup left the 404 handler pointing at a deleted .php file,
+#    which is why missing pages were returning 500. These restore correct codes.
+# ---------------------------------------------------------------------------
+ErrorDocument 404 /404.html
+ErrorDocument 403 /404.html
+
+# ---------------------------------------------------------------------------
+# 3. Never execute PHP on this host
+# ---------------------------------------------------------------------------
+<FilesMatch "\.(php|php[0-9]|phtml|phps|pl|py|cgi|shtml)$">
+  Require all denied
+</FilesMatch>
+<IfModule mod_php.c>
+  php_flag engine off
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# 4. Hide dotfiles, source control, and internal docs
+# ---------------------------------------------------------------------------
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+<FilesMatch "\.(md|sql|yml|yaml|json|log|bak|old|sh)$">
+  Require all denied
+</FilesMatch>
+# ...but keep the two dotfile-adjacent files crawlers and browsers need
+<Files "robots.txt">
+  Require all granted
+</Files>
+<Files "sitemap.xml">
+  Require all granted
+</Files>
+<Files "site.webmanifest">
+  Require all granted
+</Files>
+
+Options -Indexes
+
+# ---------------------------------------------------------------------------
+# 5. Security headers
+# ---------------------------------------------------------------------------
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=()"
+  # 6 months. Raise to 63072000 + preload once you are happy HTTPS is solid.
+  Header always set Strict-Transport-Security "max-age=15768000" env=HTTPS
+  Header unset X-Powered-By
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# 6. Compression
+# ---------------------------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/xml
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# 7. Browser caching
+#    HTML stays short so content edits go live promptly; assets cache hard.
+# ---------------------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault                          "access plus 1 month"
+  ExpiresByType text/html                 "access plus 0 seconds"
+  ExpiresByType text/css                  "access plus 1 year"
+  ExpiresByType application/javascript    "access plus 1 year"
+  ExpiresByType image/jpeg                "access plus 1 year"
+  ExpiresByType image/png                 "access plus 1 year"
+  ExpiresByType image/webp                "access plus 1 year"
+  ExpiresByType image/svg+xml             "access plus 1 year"
+  ExpiresByType image/x-icon              "access plus 1 year"
+  ExpiresByType text/xml                  "access plus 0 seconds"
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# 8. Correct MIME types
+# ---------------------------------------------------------------------------
+<IfModule mod_mime.c>
+  AddType image/webp       .webp
+  AddType image/svg+xml    .svg
+  AddType application/manifest+json .webmanifest
+</IfModule>

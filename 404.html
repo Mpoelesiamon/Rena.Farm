@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- This page is served for ANY missing URL, including deep paths like
+       /foo/bar/baz. <base> makes every relative link in the header and
+       footer that layout.js injects resolve from the site root. -->
+  <base href="/" />
+  <title>Page Not Found — Rena Farm</title>
+  <meta name="description" content="The page you were looking for is not here. Browse Rena Farm's livestock, fodder, and dairy products, or get in touch with the farm directly." />
+  <meta name="robots" content="noindex, follow" />
+  <!-- Root-absolute paths: this page is served for ANY missing URL, at any depth. -->
+  <link rel="icon" type="image/png" href="/img/favicon.png"/>
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png"/>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" integrity="sha384-6p9AefaqUhEVheRlj1mpAkbngHXy9mbYMrIdcIt4Jlc9lOLIablJq3bBsLOjGwZ7" crossorigin="anonymous" />
+  <style>
+    .nf-wrap    { min-height:70vh; display:flex; align-items:center; background:var(--f950); position:relative; overflow:hidden; }
+    .nf-wrap::after { content:''; position:absolute; inset:0; background:radial-gradient(circle at 75% 30%, rgba(124,181,72,0.16), transparent 60%); pointer-events:none; }
+    .nf-inner   { position:relative; z-index:2; padding:96px 0; }
+    .nf-code    { font-size:0.78rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--f300); margin-bottom:1rem; }
+    .nf-wrap h1 { color:var(--white); font-size:clamp(1.9rem,5vw,3rem); margin-bottom:1rem; max-width:16ch; }
+    .nf-lead    { color:var(--f200); font-size:1.05rem; max-width:52ch; margin-bottom:2.2rem; }
+    .nf-actions { display:flex; gap:1rem; flex-wrap:wrap; }
+    .nf-links   { margin-top:3.5rem; padding-top:2rem; border-top:1px solid rgba(255,255,255,0.14); }
+    .nf-links-label { font-size:0.72rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--f300); margin-bottom:1.1rem; }
+    .nf-links ul { list-style:none; padding:0; margin:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:0.7rem 2rem; }
+    .nf-links a { color:var(--f100); font-size:0.92rem; text-decoration:none; display:inline-flex; align-items:center; gap:0.45rem; transition:color var(--transition); }
+    .nf-links a:hover { color:var(--f300); }
+    .nf-links a svg { flex:none; opacity:0.6; }
+    @media (max-width:600px) { .nf-actions .btn { width:100%; justify-content:center; } }
+  </style>
+</head>
+<body>
+
+<div id="rf-header"></div>
+
+<main class="nf-wrap">
+  <div class="container nf-inner">
+    <div class="nf-code">Error 404</div>
+    <h1>This page has wandered off the farm.</h1>
+    <p class="nf-lead">
+      The address you followed doesn&rsquo;t exist &mdash; it may have been moved or mistyped.
+      Everything Rena Farm offers is still just a click away.
+    </p>
+
+    <div class="nf-actions">
+      <a href="/enquire.html" class="btn btn-primary">Make an Enquiry</a>
+      <a href="/" class="btn btn-outline">Back to Homepage</a>
+    </div>
+
+    <nav class="nf-links" aria-label="Popular pages">
+      <div class="nf-links-label">Popular pages</div>
+      <ul>
+        <li><a href="/products.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>All Products</a></li>
+        <li><a href="/livestock.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>Livestock</a></li>
+        <li><a href="/fodder.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>Fodder &amp; Feeds</a></li>
+        <li><a href="/how-to-buy.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>How to Buy</a></li>
+        <li><a href="/gallery.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>Gallery</a></li>
+        <li><a href="/contact.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>Contact Us</a></li>
+      </ul>
+    </nav>
+  </div>
+</main>
+
+<div id="rf-footer"></div>
+
+<script src="/js/vendor/supabase.js"></script>
+<script src="/js/supabase-client.js"></script>
+<script src="/js/layout.js"></script>
+</body>
+</html>
