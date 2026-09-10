@@ -4,6 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sign In — Rena Farm</title>
+  <meta name="description" content="Sign in to your Rena Farm account to track enquiries and orders." />
+  <link rel="canonical" href="https://renafarm.co.ke/login.html" />
+  <meta name="robots" content="noindex, follow" />
+
+  <!-- Social preview (Open Graph + Twitter) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Rena Farm" />
+  <meta property="og:locale" content="en_KE" />
+  <meta property="og:url" content="https://renafarm.co.ke/login.html" />
+  <meta property="og:title" content="Sign In — Rena Farm" />
+  <meta property="og:description" content="Sign in to your Rena Farm account to track enquiries and orders." />
+  <meta property="og:image" content="https://renafarm.co.ke/img/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Rena Farm — Dorper sheep at the farm in Kajiado Central, Kenya" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Sign In — Rena Farm" />
+  <meta name="twitter:description" content="Sign in to your Rena Farm account to track enquiries and orders." />
+  <meta name="twitter:image" content="https://renafarm.co.ke/img/og-image.jpg" />
+
   <link rel="icon" type="image/png" href="img/favicon.png"/>
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png"/>
   <link rel="stylesheet" href="css/styles.css" />
@@ -162,6 +182,11 @@
       color: var(--f900);
     }
   </style>
+  <!-- Privacy-friendly analytics: no cookies, no cross-site identifier, no
+       personal data — which is why this site needs no consent banner.
+       Inactive until the renafarm.co.ke site is created in the Plausible
+       dashboard; until then this is a single 1 KB request that does nothing. -->
+  <script defer data-domain="renafarm.co.ke" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
 <div id="rf-header"></div>
@@ -304,7 +329,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     document.getElementById(errId).classList.toggle('show', !cond)
     if (!cond) valid = false
   }
-  check('email',    'errEmail',    email.includes('@'))
+  check('email',    'errEmail',    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
   check('password', 'errPassword', password.length >= 6)
   if (!valid) return
 

@@ -5,6 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Enquire — Rena Farm</title>
   <meta name="description" content="Send an enquiry to Rena Farm about livestock, fodder, dairy, or poultry." />
+  <link rel="canonical" href="https://renafarm.co.ke/enquire.html" />
+
+  <!-- Social preview (Open Graph + Twitter) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Rena Farm" />
+  <meta property="og:locale" content="en_KE" />
+  <meta property="og:url" content="https://renafarm.co.ke/enquire.html" />
+  <meta property="og:title" content="Enquire — Rena Farm" />
+  <meta property="og:description" content="Send an enquiry to Rena Farm about livestock, fodder, dairy, or poultry." />
+  <meta property="og:image" content="https://renafarm.co.ke/img/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Rena Farm — Dorper sheep at the farm in Kajiado Central, Kenya" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Enquire — Rena Farm" />
+  <meta name="twitter:description" content="Send an enquiry to Rena Farm about livestock, fodder, dairy, or poultry." />
+  <meta name="twitter:image" content="https://renafarm.co.ke/img/og-image.jpg" />
+
   <link rel="icon" type="image/png" href="img/favicon.png"/>
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png"/>
   <link rel="stylesheet" href="css/styles.css" />
@@ -54,6 +72,11 @@
       .form-row { grid-template-columns:1fr; }
     }
   </style>
+  <!-- Privacy-friendly analytics: no cookies, no cross-site identifier, no
+       personal data — which is why this site needs no consent banner.
+       Inactive until the renafarm.co.ke site is created in the Plausible
+       dashboard; until then this is a single 1 KB request that does nothing. -->
+  <script defer data-domain="renafarm.co.ke" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
 
@@ -101,7 +124,7 @@
           <span id="subjectLabel">General Enquiry</span>
         </div>
 
-        <form id="enquireForm" novalidate>
+        <form id="enquireForm" novalidate data-guard>
           <input type="hidden" id="hiddenAnimalId"  name="animal_id"  value="" />
           <input type="hidden" id="hiddenProductRef" name="interest"   value="" />
 
@@ -172,6 +195,7 @@
 <div id="rf-footer"></div>
 <script src="js/vendor/supabase.js"></script>
 <script src="js/supabase-client.js"></script>
+<script src="js/form-guard.js"></script>
 <script src="js/layout.js"></script>
 <script>
 const SPECIES_LBL = { dorper_sheep:'Dorper Sheep', gala_goat:'Gala Goat', dairy_cow:'Dairy Cow', beef_cattle:'Beef Cattle', sahiwal:'Sahiwal', kienyeji_chicken:'Kienyeji Chicken', other:'Other' }
@@ -262,6 +286,14 @@ document.getElementById('enquireForm').addEventListener('submit', async function
   validate('phone',     'errPhone',     document.getElementById('phone').value.trim().length >= 9)
   validate('message',   'errMessage',   document.getElementById('message').value.trim().length >= 10)
   if (!valid) return
+
+  // Spam guard. On a hit we show the normal success state but send nothing —
+  // an honest error would only tell the bot's author what to change.
+  if (window.RenaFormGuard && window.RenaFormGuard.isBot(this)) {
+    document.getElementById('enquireForm').style.display = 'none'
+    document.getElementById('successState').style.display = 'block'
+    return
+  }
 
   const btn = document.getElementById('submitBtn')
   btn.disabled = true

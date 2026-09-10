@@ -29,9 +29,17 @@
   --white: #ffffff;
   --gray-900: #111827;
   --gray-700: #374151;
-  --gray-500: #6B7280;
-  --gray-400: #9CA3AF;
-  --gray-300: #D1D5DB;
+  /* --gray-600 was referenced 15 times across 6 pages (incl. every paragraph
+     on the legal pages) but never defined, so that text silently inherited
+     its colour. Defined here at the standard neutral-600. 7.56:1 on white. */
+  --gray-600: #4B5563;
+  /* --gray-500 and --gray-400 were both below WCAG AA for body text.
+     Darkened to the lightest values that pass 4.5:1 — still reads as muted.
+       gray-500  #6B7280 -> #686F7D   (4.36 -> 4.56 on the --f50 sections)
+       gray-400  #9CA3AF -> #707783   (2.54 -> 4.51 on white) */
+  --gray-500: #686F7D;
+  --gray-400: #707783;
+  --gray-300: #D1D5DB;   /* borders only — not used for text */
   --gray-100: #F3F4F6;
 
   --shadow-sm: 0 1px 4px rgba(7,30,7,0.08);
@@ -1640,4 +1648,16 @@ header.scrolled {
 @keyframes mobSubIn {
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Spam-guard honeypot (js/form-guard.js) ──────────────────────────────
+   Kept out of view without display:none — some bots skip display:none
+   fields specifically because they know it signals a trap. */
+.rf-hp {
+  position: absolute !important;
+  left: -9999px !important;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }

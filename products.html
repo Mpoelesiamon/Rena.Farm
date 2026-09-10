@@ -5,6 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Products — Rena Farm</title>
   <meta name="description" content="Rena Farm products — livestock, fodder, dairy, and poultry from Kajiado Central, Kenya." />
+  <link rel="canonical" href="https://renafarm.co.ke/products.html" />
+
+  <!-- Social preview (Open Graph + Twitter) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Rena Farm" />
+  <meta property="og:locale" content="en_KE" />
+  <meta property="og:url" content="https://renafarm.co.ke/products.html" />
+  <meta property="og:title" content="Products — Rena Farm" />
+  <meta property="og:description" content="Rena Farm products — livestock, fodder, dairy, and poultry from Kajiado Central, Kenya." />
+  <meta property="og:image" content="https://renafarm.co.ke/img/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Rena Farm — Dorper sheep at the farm in Kajiado Central, Kenya" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Products — Rena Farm" />
+  <meta name="twitter:description" content="Rena Farm products — livestock, fodder, dairy, and poultry from Kajiado Central, Kenya." />
+  <meta name="twitter:image" content="https://renafarm.co.ke/img/og-image.jpg" />
+
   <link rel="icon" type="image/png" href="img/favicon.png"/>
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png"/>
   <link rel="stylesheet" href="css/styles.css" />
@@ -106,6 +124,11 @@
       .prod-modal-gallery { flex:0 0 38%; }
     }
   </style>
+  <!-- Privacy-friendly analytics: no cookies, no cross-site identifier, no
+       personal data — which is why this site needs no consent banner.
+       Inactive until the renafarm.co.ke site is created in the Plausible
+       dashboard; until then this is a single 1 KB request that does nothing. -->
+  <script defer data-domain="renafarm.co.ke" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
 
@@ -318,7 +341,7 @@ const CAT_LABELS   = { livestock:'Livestock', fodder:'Fodder', feeds:'Feeds', da
 const AVAIL_LABELS = { available:'Available', limited:'Limited', out_of_stock:'Out of Stock', seasonal:'Seasonal' }
 const AVAIL_STYLES = { available:'background:#d1fae5;color:#065f46', limited:'background:#fef3c7;color:#92400e', out_of_stock:'background:#fee2e2;color:#991b1b', seasonal:'background:#dbeafe;color:#1e40af' }
 let allListings = [], shopFilter = 'all'
-let currentProdImages = [], currentProdImgIdx = 0
+let currentProdImages = [], currentProdImgIdx = 0, currentProdName = ''
 
 /* ── Shop: load product_listings ── */
 async function initShop() {
@@ -370,7 +393,7 @@ async function openProductModal(productId) {
 
   let images = []
   try { images = await loadProductImages(productId) } catch(e) {}
-  currentProdImages = images; currentProdImgIdx = 0
+  currentProdImages = images; currentProdImgIdx = 0; currentProdName = p.name ?? 'Product'
 
   const mainImg = document.getElementById('prodMainImg')
   const noImg   = document.getElementById('prodNoImg')
@@ -380,7 +403,7 @@ async function openProductModal(productId) {
 
   if (images.length > 0) {
     mainImg.style.display='block'; noImg.style.display='none'; setProdGalleryImage(0)
-    thumbs.innerHTML = images.map((img,i) => `<div class="prod-gallery-thumb${i===0?' active':''}" onclick="setProdGalleryImage(${i})"><img src="${img.image_url}" loading="lazy"/></div>`).join('')
+    thumbs.innerHTML = images.map((img,i) => `<div class="prod-gallery-thumb${i===0?' active':''}" onclick="setProdGalleryImage(${i})"><img src="${img.image_url}" alt="${escHtml(currentProdName)} — photo ${i+1} of ${images.length}" loading="lazy"/></div>`).join('')
     prev.style.display = next.style.display = images.length > 1 ? 'flex' : 'none'
   } else if (p.cover_image_url) {
     mainImg.src=p.cover_image_url; mainImg.style.display='block'; noImg.style.display='none'
@@ -435,7 +458,9 @@ async function openProductModal(productId) {
 function setProdGalleryImage(idx) {
   if (!currentProdImages.length) return
   currentProdImgIdx = idx
-  document.getElementById('prodMainImg').src = currentProdImages[idx].image_url
+  const main = document.getElementById('prodMainImg')
+  main.src = currentProdImages[idx].image_url
+  main.alt = `${currentProdName} — photo ${idx+1} of ${currentProdImages.length}`
   document.querySelectorAll('.prod-gallery-thumb').forEach((el,i) => el.classList.toggle('active', i===idx))
 }
 function shiftProdGallery(dir) { if (!currentProdImages.length) return; setProdGalleryImage((currentProdImgIdx+dir+currentProdImages.length)%currentProdImages.length) }

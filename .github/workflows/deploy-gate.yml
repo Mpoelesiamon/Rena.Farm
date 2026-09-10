@@ -37,7 +37,13 @@ jobs:
           for html in *.html; do
             while IFS= read -r path; do
               [ -z "$path" ] && continue
-              [ -f "$path" ] || MISSING+=("$html → $path")
+              file="$path"
+              # Root-absolute URLs ("/css/x.css", "/") are resolved by the browser
+              # against the site root, which is this repo root — not the runner's
+              # filesystem root. Normalise before testing, and skip a bare "/",
+              # which is the homepage rather than a file.
+              case "$file" in /) continue ;; /*) file=".$file" ;; esac
+              [ -f "$file" ] || MISSING+=("$html → $path")
             done < <(grep -oP 'src="\K(?!https?://)(?!\$\{)[^"]+' "$html" 2>/dev/null || true)
           done
           if [ ${#MISSING[@]} -gt 0 ]; then
@@ -52,6 +58,11 @@ jobs:
             while IFS= read -r path; do
               file="${path%%#*}"; file="${file%%\?*}"
               [ -z "$file" ] && continue
+              # Root-absolute URLs ("/css/x.css", "/") are resolved by the browser
+              # against the site root, which is this repo root — not the runner's
+              # filesystem root. Normalise before testing, and skip a bare "/",
+              # which is the homepage rather than a file.
+              case "$file" in /) continue ;; /*) file=".$file" ;; esac
               [ -f "$file" ] || MISSING+=("$html → $file")
             done < <(grep -oP 'href="\K(?!https?://|mailto:|tel:|#)[^"]+' "$html" 2>/dev/null || true)
           done

@@ -184,7 +184,7 @@
           <li><a href="tel:+254724980372">+254 724 980 372</a></li>
           <li><a href="tel:+254715438010">+254 715 438 010</a></li>
           <li><a href="mailto:therenafarm@gmail.com">therenafarm@gmail.com</a></li>
-          <li><a href="mailto:info@renafarm.com">info@renafarm.com</a></li>
+          <li><a href="mailto:info@renafarm.co.ke">info@renafarm.co.ke</a></li>
           <li><a href="location.html">Kajiado Central, Kenya</a></li>
         </ul>
       </div>
@@ -192,6 +192,8 @@
     <div class="footer-bottom">
       <span>&copy; 2026 Rena Global Merchants Ltd. All rights reserved.</span>
       <a href="privacy-policy.html" style="color:inherit;text-decoration:none;opacity:0.7;font-size:0.8rem;">Privacy Policy</a>
+      <a href="terms-and-conditions.html" style="color:inherit;text-decoration:none;opacity:0.7;font-size:0.8rem;">Terms &amp; Conditions</a>
+      <span style="opacity:0.55;font-size:0.78rem;">No tracking cookies &mdash; we use privacy-friendly analytics only.</span>
       <span>Rena Farm &mdash; Kajiado Central, Kenya</span>
     </div>
   </div>
