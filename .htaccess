@@ -83,6 +83,27 @@ Options -Indexes
   # 6 months. Raise to 63072000 + preload once you are happy HTTPS is solid.
   Header always set Strict-Transport-Security "max-age=15768000" env=HTTPS
   Header unset X-Powered-By
+
+  # Content-Security-Policy
+  #
+  # The August 2026 compromise worked by getting attacker content served from
+  # this origin. A CSP is the direct defence: the browser refuses to run or
+  # load anything from a host not named here, so an injected <script src=...>
+  # pointing at someone else's server simply does not execute.
+  #
+  # Hosts below were derived by scanning every deployed page, not guessed:
+  #   unpkg.com      Phosphor icon stylesheet + its webfonts
+  #   plausible.io   cookieless analytics script and its beacon
+  #   *.supabase.co  photography, the REST API, and realtime over wss
+  # Outbound links (wa.me, maps.app.goo.gl, instagram, tiktok) are navigation,
+  # which CSP does not restrict, so they need no entry.
+  #
+  # 'unsafe-inline' is required for now: 11 pages carry inline <script> blocks
+  # and the markup uses inline style attributes throughout. That weakens the
+  # script rule but the host allow-list still holds, which is the part that
+  # stops injected third-party script. Removing it means moving page scripts
+  # into files under js/ and adopting nonces.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com; font-src 'self' data: https://unpkg.com https://fonts.gstatic.com; img-src 'self' data: blob: https://mykyvloynpiqzmqvwekv.supabase.co; connect-src 'self' https://mykyvloynpiqzmqvwekv.supabase.co wss://mykyvloynpiqzmqvwekv.supabase.co https://plausible.io; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
 </IfModule>
 
 # ---------------------------------------------------------------------------
