@@ -5,6 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact — Rena Farm</title>
   <meta name="description" content="Contact Rena Farm — call, WhatsApp, or email us for livestock, fodder, and dairy enquiries." />
+  <link rel="canonical" href="https://renafarm.co.ke/contact.html" />
+
+  <!-- Social preview (Open Graph + Twitter) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Rena Farm" />
+  <meta property="og:locale" content="en_KE" />
+  <meta property="og:url" content="https://renafarm.co.ke/contact.html" />
+  <meta property="og:title" content="Contact — Rena Farm" />
+  <meta property="og:description" content="Contact Rena Farm — call, WhatsApp, or email us for livestock, fodder, and dairy enquiries." />
+  <meta property="og:image" content="https://renafarm.co.ke/img/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Rena Farm — Dorper sheep at the farm in Kajiado Central, Kenya" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Contact — Rena Farm" />
+  <meta name="twitter:description" content="Contact Rena Farm — call, WhatsApp, or email us for livestock, fodder, and dairy enquiries." />
+  <meta name="twitter:image" content="https://renafarm.co.ke/img/og-image.jpg" />
+
   <link rel="icon" type="image/png" href="img/favicon.png"/>
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png"/>
   <link rel="stylesheet" href="css/styles.css" />
@@ -27,6 +45,11 @@
     .field-error-msg { color:#ef4444; font-size:0.75rem; margin-top:0.3rem; display:none; }
     .field-error .field-error-msg { display:block; }
   </style>
+  <!-- Privacy-friendly analytics: no cookies, no cross-site identifier, no
+       personal data — which is why this site needs no consent banner.
+       Inactive until the renafarm.co.ke site is created in the Plausible
+       dashboard; until then this is a single 1 KB request that does nothing. -->
+  <script defer data-domain="renafarm.co.ke" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
 
@@ -64,9 +87,9 @@
           <div class="contact-method-icon"><i class="ph ph-envelope-simple"></i></div>
           <div><h4>Email</h4><p>therenafarm@gmail.com</p><small>Replies within 24 hours</small></div>
         </a>
-        <a href="mailto:info@renafarm.com" class="contact-method">
+        <a href="mailto:info@renafarm.co.ke" class="contact-method">
           <div class="contact-method-icon"><i class="ph ph-envelope-simple"></i></div>
-          <div><h4>Official Email</h4><p>info@renafarm.com</p><small>Official business correspondence</small></div>
+          <div><h4>Official Email</h4><p>info@renafarm.co.ke</p><small>Official business correspondence</small></div>
         </a>
         <div class="contact-method">
           <div class="contact-method-icon"><i class="ph ph-map-pin"></i></div>
@@ -103,7 +126,7 @@
             Your message has been sent! We will be in touch soon.
           </div>
 
-          <form id="contactForm" novalidate>
+          <form id="contactForm" novalidate data-guard>
             <div class="form-row">
               <div class="form-group"><label>First Name *</label><input type="text" name="firstName" placeholder="Nathan" required /></div>
               <div class="form-group"><label>Last Name *</label><input type="text" name="lastName" placeholder="Kobaai" required /></div>
@@ -156,6 +179,7 @@
 
 <script src="js/vendor/supabase.js"></script>
 <script src="js/supabase-client.js"></script>
+<script src="js/form-guard.js"></script>
 <script src="js/layout.js"></script>
 <script>
 (function () {
@@ -293,6 +317,15 @@
     const data = Object.fromEntries(new FormData(form));
 
     if (!validate(new FormData(form))) return;
+
+    // Spam guard. On a hit we show the normal success banner but send nothing —
+    // an honest error would only tell the bot's author what to change.
+    if (window.RenaFormGuard && window.RenaFormGuard.isBot(form)) {
+      document.getElementById('successBanner').classList.add('show');
+      form.reset();
+      form.querySelectorAll('.form-group').forEach(g => g.classList.remove('field-error'));
+      return;
+    }
 
     const btn = form.querySelector('button[type="submit"]');
     btn.textContent = 'Sending…'; btn.disabled = true;

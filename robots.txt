@@ -1,0 +1,17 @@
+# Rena Farm — renafarm.co.ke
+#
+# This file replaces a malicious robots.txt that was written directly to the
+# server during the August 2026 compromise, which advertised spam sitemap URLs
+# and a dropped PHP script. It is now version-controlled: the only way it
+# changes is through a pull request.
+
+User-agent: *
+Allow: /
+
+# Private / authenticated areas — no value in the index
+Disallow: /login.html
+Disallow: /register.html
+Disallow: /portal.html
+Disallow: /index-coming-soon.html
+
+Sitemap: https://renafarm.co.ke/sitemap.xml
