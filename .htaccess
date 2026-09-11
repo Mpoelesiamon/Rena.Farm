@@ -14,10 +14,20 @@
   RewriteEngine On
 
   # http:// -> https://
-  RewriteCond %{HTTPS} !=on
+  #
+  # Vimexx terminates TLS at a proxy in front of Apache, so %{HTTPS} reads
+  # "off" even for requests that arrived over HTTPS. A naive
+  # `RewriteCond %{HTTPS} !=on` therefore redirects HTTPS to HTTPS forever —
+  # it took the site down on 2026-09-11.
+  #
+  # Redirect only on POSITIVE evidence the request came in over plain HTTP.
+  # If no forwarding header is present we do nothing, so an unknown proxy
+  # configuration fails open rather than looping.
+  RewriteCond %{HTTP:X-Forwarded-Proto} =http [NC]
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
   # www.renafarm.co.ke -> renafarm.co.ke
+  # Cannot loop: the host is different after the rewrite.
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
   RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
 </IfModule>
