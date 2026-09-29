@@ -98,12 +98,24 @@ Options -Indexes
   # Outbound links (wa.me, maps.app.goo.gl, instagram, tiktok) are navigation,
   # which CSP does not restrict, so they need no entry.
   #
+  # frame-src: location.html embeds a Google Maps route (location.html:314).
+  # Both hosts are required — the embed URL is requested at maps.google.com and
+  # 302s to www.google.com/maps/embed, and frame-src is enforced across that
+  # redirect. Subresources loaded INSIDE the iframe (maps.googleapis.com,
+  # maps.gstatic.com) are governed by Google's own CSP, not ours, so they must
+  # NOT be added to img-src or script-src.
+  #
+  # This shipped as frame-src 'none' on 2026-09-11 and blocked the map for
+  # eighteen days. The check that produced that value used a single-line regex
+  # for <iframe ... src=, and this tag spans two lines, so it reported zero
+  # iframes. If you change frame-src, grep across newlines and load the page.
+  #
   # 'unsafe-inline' is required for now: 11 pages carry inline <script> blocks
   # and the markup uses inline style attributes throughout. That weakens the
   # script rule but the host allow-list still holds, which is the part that
   # stops injected third-party script. Removing it means moving page scripts
   # into files under js/ and adopting nonces.
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com; font-src 'self' data: https://unpkg.com https://fonts.gstatic.com; img-src 'self' data: blob: https://mykyvloynpiqzmqvwekv.supabase.co; connect-src 'self' https://mykyvloynpiqzmqvwekv.supabase.co wss://mykyvloynpiqzmqvwekv.supabase.co https://plausible.io; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com; font-src 'self' data: https://unpkg.com https://fonts.gstatic.com; img-src 'self' data: blob: https://mykyvloynpiqzmqvwekv.supabase.co; connect-src 'self' https://mykyvloynpiqzmqvwekv.supabase.co wss://mykyvloynpiqzmqvwekv.supabase.co https://plausible.io; frame-src https://maps.google.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
 </IfModule>
 
 # ---------------------------------------------------------------------------
