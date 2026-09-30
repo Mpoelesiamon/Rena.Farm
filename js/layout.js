@@ -118,15 +118,15 @@
     <!-- Right: scrollable image cards -->
     <div class="rf-overlay-cards">
       <a href="livestock.html" class="rf-ol-card">
-        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/beef-cattle/beef-cattle-01.jpg" alt="Cattle at Rena Farm" loading="lazy"/>
+        <img src="img/nav/cattle.webp" alt="Cattle at Rena Farm" loading="lazy"/>
         <div class="rf-ol-card-label">Cattle</div>
       </a>
       <a href="livestock.html#sheep" class="rf-ol-card">
-        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-rams/dorper-ram-57.jpg" alt="Dorper rams at Rena Farm" loading="lazy"/>
+        <img src="img/nav/dorpers.webp" alt="Dorper rams at Rena Farm" loading="lazy"/>
         <div class="rf-ol-card-label">Dorpers</div>
       </a>
       <a href="livestock.html#goats" class="rf-ol-card">
-        <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/gala-boars/gala-buck-03.jpg" alt="Gala goats at Rena Farm" loading="lazy" style="object-position: center top;"/>
+        <img src="img/nav/goats.webp" alt="Gala goats at Rena Farm" loading="lazy" style="object-position: center top;"/>
         <div class="rf-ol-card-label">Goats</div>
       </a>
       <a href="fodder.html" class="rf-ol-card">
