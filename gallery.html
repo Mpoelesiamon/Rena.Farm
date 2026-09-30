@@ -464,10 +464,10 @@
   const [categories, items, imageManifest, previewManifest] = await Promise.all([
     loadGalleryCategories(),
     loadGalleryItems(),
-    fetch('img/gallery/thumbs/manifest.json')
+    fetch('img/gallery/thumbs/manifest.webmanifest')
       .then(response => response.ok ? response.json() : {})
       .catch(() => ({})),
-    fetch('img/gallery/previews/manifest.json')
+    fetch('img/gallery/previews/manifest.webmanifest')
       .then(response => response.ok ? response.json() : {})
       .catch(() => ({}))
   ])
