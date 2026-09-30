@@ -28,14 +28,14 @@
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" integrity="sha384-6p9AefaqUhEVheRlj1mpAkbngHXy9mbYMrIdcIt4Jlc9lOLIablJq3bBsLOjGwZ7" crossorigin="anonymous" />
   <style>
-    :root { --nav-h: 70px; }
+    :root { --nav-h: 100px; }
 
     /* gallery-hero is now .page-hero from styles.css */
 
     /* ── Two-panel split ── */
     .gallery-body {
       display: grid;
-      grid-template-columns: 260px 1fr;
+      grid-template-columns: 210px minmax(0, 1fr);
       border-top: 1px solid var(--f100);
     }
 
@@ -122,6 +122,7 @@
     /* ── Right: photos panel ── */
     .gallery-photos-panel {
       min-height: calc(100vh - var(--nav-h));
+      scroll-margin-top: 110px;
     }
 
     /* Sticky header inside photos panel — shows album name */
@@ -145,11 +146,10 @@
     /* Photo grid — dense mosaic: 8 columns, fixed row height, mixed cell spans */
     .photos-grid {
       display: grid;
-      grid-template-columns: repeat(8, 1fr);
-      grid-auto-rows: 105px;
-      grid-auto-flow: dense; /* fills gaps left by large cells */
-      gap: 2px;
-      padding: 2px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-auto-rows: 260px;
+      gap: 18px;
+      padding: 24px;
     }
     .photo-cell {
       overflow: hidden;
@@ -157,18 +157,21 @@
       position: relative;
       background: var(--f50);
       border: 1px solid rgba(0,0,0,0.07);
+      padding: 0;
+      border-radius: 12px;
+      min-width: 0;
     }
+    .photo-cell:focus-visible { outline: 3px solid var(--f700); outline-offset: 4px; }
+    .album-row:focus-visible, .all-photos-row:focus-visible { outline: 3px solid var(--f700); outline-offset: 2px; }
     .photo-cell img {
       width: 100%; height: 100%;
       object-fit: cover;
       display: block;
     }
     /* Large feature: 2×2 — every 7th */
-    .photo-cell:nth-child(7n+1) { grid-column: span 2; grid-row: span 2; }
+    .photo-cell:first-child { grid-column: span 2; grid-row: span 2; }
     /* Wide: 3×1 — every 11th offset */
-    .photo-cell:nth-child(11n+5) { grid-column: span 3; }
     /* Tall: 1×2 — every 13th offset */
-    .photo-cell:nth-child(13n+3) { grid-row: span 2; }
     .photo-cell .vid-badge {
       position: absolute; bottom: 0.5rem; left: 0.5rem;
       background: rgba(0,0,0,0.52);
@@ -177,15 +180,28 @@
       color: #fff; font-size: 0.7rem;
       pointer-events: none;
     }
+    .gallery-more {
+      display: block;
+      margin: 1.5rem auto 2rem;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid var(--f700);
+      border-radius: 6px;
+      background: white;
+      color: var(--f700);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .gallery-more[hidden] { display: none; }
+    .lb-original { display: inline-block; color: white; margin-top: 1rem; text-decoration: underline; }
 
     /* Skeleton grid — mirrors the mosaic layout */
     .photos-grid-skel {
       display: grid;
-      grid-template-columns: repeat(8, 1fr);
-      grid-auto-rows: 105px;
-      grid-auto-flow: dense;
-      gap: 2px;
-      padding: 2px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-auto-rows: 260px;
+      gap: 18px;
+      padding: 24px;
     }
     .photo-skel {
       background: linear-gradient(90deg, var(--f50) 25%, var(--f100) 50%, var(--f50) 75%);
@@ -194,8 +210,6 @@
       border: 1px solid rgba(0,0,0,0.05);
     }
     .photo-skel:nth-child(1) { grid-column: span 2; grid-row: span 2; }
-    .photo-skel:nth-child(5) { grid-column: span 3; }
-    .photo-skel:nth-child(3) { grid-row: span 2; }
 
     /* ── Empty state ── */
     .gallery-empty {
@@ -262,56 +276,56 @@
 
     /* ── Tablet (≤1024px) ── */
     @media (max-width: 1024px) {
-      .gallery-body { grid-template-columns: 200px 1fr; }
-      .photos-grid { grid-template-columns: repeat(6, 1fr); grid-auto-rows: 95px; }
-      .photos-grid-skel { grid-template-columns: repeat(6, 1fr); grid-auto-rows: 95px; }
+      .gallery-body { grid-template-columns: 180px minmax(0, 1fr); }
+      .photos-grid, .photos-grid-skel { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 220px; }
     }
 
     /* ── Mobile (≤768px): narrow sticky sidebar + photos grid (mirrors desktop) ── */
     @media (max-width: 768px) {
       /* Keep side-by-side, narrow the sidebar */
       .gallery-body {
-        grid-template-columns: 72px 1fr;
+        grid-template-columns: minmax(0, 1fr);
       }
 
       /* Sidebar: sticky, height accounts for floating header + bottom tab bar */
       .gallery-albums-panel {
-        position: sticky;
-        top: 92px;
-        height: calc(100vh - 92px - 90px);
-        overflow-y: auto;
-        border-right: 1px solid var(--f100);
-        border-bottom: none;
+        position: static;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--f100);
       }
       .albums-panel-inner { padding: 0.3rem 0.25rem 1rem; }
 
       /* Album list: single column of thumbnail chips */
-      #albumsList  { display: block; }
+      #albumsList  { display: flex !important; gap: 8px; overflow-x: auto; padding: 10px; }
       #albumsSkel  { display: block; }
       .panel-skel-row { padding: 0.2rem; margin-bottom: 0.15rem; }
 
       /* Album cards: thumbnail only, no text labels */
-      .album-row { padding: 0.2rem; margin-bottom: 0.15rem; border-radius: 8px; }
-      .album-row-thumb { margin-bottom: 0; }
-      .album-row-name, .album-row-count { display: none; }
+      .album-row { padding: 10px 14px; margin: 0; border-radius: 8px; flex-shrink: 0; }
+      .album-row-thumb { display: none; }
+      .album-row-name { display: block; white-space: nowrap; }
+      .album-row-count { display: none; }
       .album-row.active { background: transparent; }
       .album-row.active .album-row-thumb { box-shadow: 0 0 0 2px var(--f600); border-radius: 7px; }
 
       /* All Photos chip: icon only, centred */
       .all-photos-row {
         justify-content: center;
-        padding: 0.45rem 0.2rem;
-        margin-bottom: 0.3rem;
-        border-bottom: 1px solid var(--f100);
-        padding-bottom: 0.5rem;
+        padding: 10px 14px;
+        margin: 0;
+        border-bottom: none;
+        flex-shrink: 0;
         grid-column: unset;
       }
-      .ap-name, .ap-count { display: none; }
+      .ap-name { display: block; white-space: nowrap; }
+      .ap-count { display: none; }
       .all-photos-icon { font-size: 1.25rem; }
 
       /* Photos grid: 3 columns on phone */
-      .photos-grid { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 80px; }
-      .photos-grid-skel { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 80px; }
+      .photos-grid, .photos-grid-skel { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; padding: 16px; gap: 16px; }
+      .photo-cell, .photo-skel { aspect-ratio: 4 / 3; }
+      .photo-cell:first-child, .photo-skel:first-child { grid-column: auto; grid-row: auto; }
 
       .lb-nav { display: none; }
     }
@@ -330,7 +344,7 @@
 <!-- Hero — left-aligned, scrolls behind fixed navbar as user scrolls down -->
 <section class="page-hero">
   <div class="ph-img-panel">
-    <img src="https://mykyvloynpiqzmqvwekv.supabase.co/storage/v1/object/public/website-media/doper-ewes/dorper-ewe-10.jpg" alt="Dorper ewes at Rena Farm" style="object-position:center 25%;"/>
+    <img src="img/gallery/hero.webp" alt="Dorper ewes at Rena Farm" style="object-position:center 25%;" fetchpriority="high" />
     <div class="ph-img-fade"></div>
   </div>
   <div class="container" style="position:relative;z-index:2;">
@@ -373,6 +387,8 @@
     </div>
     <!-- Actual photo grid -->
     <div class="photos-grid" id="photosGrid" style="display:none"></div>
+    <p id="galleryProgress" style="text-align:center;color:var(--gray-500);margin:1rem" aria-live="polite"></p>
+    <button class="gallery-more" id="galleryMore" type="button" hidden>Load more photos</button>
     <!-- Empty state -->
     <div class="gallery-empty" id="galleryEmpty" style="display:none">
       <i class="ph ph-camera gallery-empty-icon"></i>
@@ -402,6 +418,7 @@
       <div class="lb-title"    id="lbTitle"></div>
       <div class="lb-caption"  id="lbCaption"></div>
       <div class="lb-counter"  id="lbCounter"></div>
+      <a class="lb-original" id="lbOriginal" href="#" target="_blank" rel="noopener">Open original photo</a>
     </div>
   </div>
 </div>
@@ -427,6 +444,7 @@
   const albumsListEl     = document.getElementById('albumsList')
   const photosGridSkelEl = document.getElementById('photosGridSkel')
   const photosGridEl     = document.getElementById('photosGrid')
+  const galleryMoreEl    = document.getElementById('galleryMore')
   const galleryEmptyEl   = document.getElementById('galleryEmpty')
   const photosPanelBarEl = document.getElementById('photosPanelBar')
   const ppbTitleEl       = document.getElementById('ppbTitle')
@@ -437,13 +455,25 @@
   let albums      = []
   let currentItems = []
   let lbIndex     = 0
+  let thumbnails  = {}
+  let previews    = {}
+  let renderedCount = 0
+  let lightboxTrigger = null
 
   /* ── Load ── */
-  const [categories, items] = await Promise.all([
+  const [categories, items, imageManifest, previewManifest] = await Promise.all([
     loadGalleryCategories(),
-    loadGalleryItems()
+    loadGalleryItems(),
+    fetch('img/gallery/thumbs/manifest.json')
+      .then(response => response.ok ? response.json() : {})
+      .catch(() => ({})),
+    fetch('img/gallery/previews/manifest.json')
+      .then(response => response.ok ? response.json() : {})
+      .catch(() => ({}))
   ])
   allItems = items
+  thumbnails = imageManifest
+  previews = previewManifest
 
   /* Build album → items map */
   const catItemMap = {}
@@ -471,6 +501,8 @@
   const allRow = document.createElement('div')
   allRow.className = 'all-photos-row active'
   allRow.dataset.id = '__all'
+  allRow.tabIndex = 0
+  allRow.setAttribute('role', 'button')
   allRow.innerHTML = `
     <i class="ph ph-images all-photos-icon"></i>
     <span class="ap-name">All Photos</span>
@@ -478,17 +510,12 @@
   albumsListEl.appendChild(allRow)
 
   albums.forEach(({ cat, items: aItems }) => {
-    const imgs   = aItems.slice(0, 4)
-    const cls    = `p${Math.min(imgs.length, 4)}`
-    const thumbs = imgs.map(i => {
-      const full = i.thumbnail_url ?? i.media_url
-      return `<img src="${esc(thumbUrl(full, 160))}" onerror="this.src='${esc(full)}';this.onerror=null" alt="${esc(i.title ?? cat.name ?? 'Rena Farm photo')}" loading="lazy" />`
-    }).join('')
     const row = document.createElement('div')
     row.className = 'album-row'
     row.dataset.id = cat.id
+    row.tabIndex = 0
+    row.setAttribute('role', 'button')
     row.innerHTML = `
-      <div class="album-row-thumb ${cls}">${thumbs}</div>
       <div class="album-row-name">${esc(cat.name)}</div>
       <div class="album-row-count">${aItems.length} photo${aItems.length !== 1 ? 's' : ''}</div>`
     albumsListEl.appendChild(row)
@@ -509,11 +536,19 @@
       if (album) showAlbum(album)
     }
   })
+  albumsListEl.addEventListener('keydown', e => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.album-row, .all-photos-row')) {
+      e.preventDefault()
+      e.target.click()
+    }
+  })
 
   /* ── Show all photos (random shuffle of everything) ── */
   function showAllPhotos() {
-    photosPanelBarEl.classList.remove('visible')
-    currentItems = [...items].sort(() => Math.random() - 0.5)
+    photosPanelBarEl.classList.add('visible')
+    ppbTitleEl.textContent = 'All photos'
+    ppbCountEl.textContent = 'Choose a photo to enlarge'
+    currentItems = [...items]
     renderGrid(currentItems)
   }
 
@@ -530,20 +565,38 @@
 
   /* ── Render photo grid — use resized thumbnails for fast loading ── */
   function renderGrid(photoItems) {
-    photosGridEl.innerHTML = photoItems.map((item, idx) => {
-      const full  = item.thumbnail_url ?? item.media_url
-      const small = thumbUrl(full, 480)
-      return `
-        <div class="photo-cell" data-idx="${idx}">
-          <img src="${esc(small)}"
-               onerror="this.src='${esc(full)}';this.onerror=null"
-               alt="${esc(item.title ?? '')}"
-               loading="lazy" decoding="async" />
-          ${item.media_type === 'video' ? '<div class="vid-badge"><i class="ph ph-play"></i></div>' : ''}
-        </div>`
-    }).join('')
+    photosGridEl.innerHTML = ''
+    renderedCount = 0
+    renderNextBatch(photoItems)
     photosGridEl.style.display = 'grid'
   }
+
+  function renderNextBatch(photoItems) {
+    const nextItems = photoItems.slice(renderedCount, renderedCount + 9)
+    photosGridEl.insertAdjacentHTML('beforeend', nextItems.map((item, offset) => {
+      const full  = item.thumbnail_url ?? item.media_url
+      const small = thumbUrl(full)
+      const photoIndex = renderedCount + offset
+      const large = previews[full]
+      const sizes = photoIndex === 0
+        ? '(max-width:768px) calc(100vw - 32px), (max-width:1024px) calc(100vw - 228px), calc((100vw - 294px) * 2 / 3)'
+        : '(max-width:768px) calc(100vw - 32px), (max-width:1024px) calc((100vw - 246px) / 2), calc((100vw - 294px) / 3)'
+      return `
+        <button type="button" class="photo-cell" data-idx="${photoIndex}" aria-label="Enlarge ${esc(item.title || 'farm photo')}">
+          <img src="${esc(small)}"
+               ${large ? `srcset="${esc(small)} 480w, ${esc(large)} 1200w" sizes="${sizes}"` : ''}
+               onerror="this.onerror=null;this.removeAttribute('srcset');this.src='${esc(small)}'"
+               alt="${esc(item.title ?? '')}"
+               loading="${photoIndex < 3 ? 'eager' : 'lazy'}" decoding="async" />
+          ${item.media_type === 'video' ? '<div class="vid-badge"><i class="ph ph-play"></i></div>' : ''}
+        </button>`
+    }).join(''))
+    renderedCount += nextItems.length
+    galleryMoreEl.hidden = renderedCount >= photoItems.length
+    document.getElementById('galleryProgress').textContent = `Showing ${renderedCount} of ${photoItems.length} photos`
+  }
+
+  galleryMoreEl.addEventListener('click', () => renderNextBatch(currentItems))
 
   photosGridEl.addEventListener('click', e => {
     const cell = e.target.closest('.photo-cell')
@@ -556,18 +609,32 @@
 
   /* ── Lightbox ── */
   function openLightbox(idx) {
+    lightboxTrigger = document.activeElement
     lbIndex = idx; updateLightbox()
     lightboxEl.classList.add('open')
     document.body.style.overflow = 'hidden'
+    document.getElementById('lbClose').focus()
   }
   function closeLightbox() {
     lightboxEl.classList.remove('open')
     document.body.style.overflow = ''
+    lightboxTrigger?.focus()
   }
   function updateLightbox() {
     const item = currentItems[lbIndex]
     if (!item) return
-    document.getElementById('lbImg').src     = item.thumbnail_url ?? item.media_url
+    const imageUrl = item.thumbnail_url ?? item.media_url
+    const lightboxImage = document.getElementById('lbImg')
+    lightboxImage.src = thumbUrl(imageUrl)
+    if (previews[imageUrl]) {
+      const previewImage = new Image()
+      previewImage.decoding = 'async'
+      previewImage.onload = () => {
+        if (currentItems[lbIndex] === item && lightboxEl.classList.contains('open')) lightboxImage.src = previewImage.src
+      }
+      previewImage.src = previews[imageUrl]
+    }
+    document.getElementById('lbOriginal').href = item.media_url ?? imageUrl
     document.getElementById('lbImg').alt     = item.title ?? ''
     document.getElementById('lbTitle').textContent   = item.title   ?? ''
     document.getElementById('lbCaption').textContent = item.caption ?? ''
@@ -590,6 +657,13 @@
   lightboxEl.addEventListener('click', e => { if (e.target === lightboxEl) closeLightbox() })
   document.addEventListener('keydown', e => {
     if (!lightboxEl.classList.contains('open')) return
+    if (e.key === 'Tab') {
+      const controls = [...lightboxEl.querySelectorAll('button:not(:disabled), a[href]')].filter(control => control.getClientRects().length)
+      const firstControl = controls[0]
+      const lastControl = controls[controls.length - 1]
+      if (e.shiftKey && document.activeElement === firstControl) { e.preventDefault(); lastControl.focus() }
+      if (!e.shiftKey && document.activeElement === lastControl) { e.preventDefault(); firstControl.focus() }
+    }
     if (e.key === 'Escape')     closeLightbox()
     if (e.key === 'ArrowLeft'  && lbIndex > 0)                       { lbIndex--; updateLightbox() }
     if (e.key === 'ArrowRight' && lbIndex < currentItems.length - 1) { lbIndex++; updateLightbox() }
@@ -607,13 +681,8 @@
     return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
   }
 
-  /* Serve a resized thumbnail via Supabase Storage image transform.
-     Falls back to the original URL via onerror if the plan doesn't support it. */
-  function thumbUrl(url, w = 500) {
-    if (!url) return url
-    const marker = '/storage/v1/object/public/'
-    if (!url.includes(marker)) return url
-    return url.replace(marker, '/storage/v1/render/image/public/') + `?width=${w}&quality=78&resize=contain`
+  function thumbUrl(url) {
+    return thumbnails[url] ?? url
   }
 
 })()
