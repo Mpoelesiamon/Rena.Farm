@@ -1,0 +1,28 @@
+# Rena Farm
+
+> Integrated livestock and fodder farm in Kajiado Central, Kenya.
+> 140 acres, established 2018. Operated by Rena Global Merchants Ltd.
+
+Rena Farm breeds and sells Dorper sheep, Friesian dairy cattle, Sahiwal beef
+cattle, Gala goats and improved kienyeji poultry. It grows and processes its own
+fodder on roughly 40 of its 140 acres: Boma Rhodes hay, Super Napier, Lucerne,
+Brachiaria and yellow maize, made into hay, silage and pellets on the farm.
+
+Location: Kenya Marble Quarry Road, Kajiado Central, Kenya (-1.918604, 36.737787)
+Distance: about 105 km from Nairobi CBD
+Delivery: Kajiado County, Nairobi and surrounding areas
+Hours: Monday to Saturday, 07:00-18:00 EAT
+Contact: info@renafarm.co.ke | +254 724 980 372 | +254 715 438 010
+
+## Pages
+
+- [Livestock](https://renafarm.co.ke/livestock.html): Dorper sheep, dairy and beef cattle, Gala goats for sale
+- [Fodder & Feeds](https://renafarm.co.ke/fodder.html): Boma Rhodes hay, silage, Napier pellets, Lucerne
+- [Products](https://renafarm.co.ke/products.html): full catalogue with current listings and prices
+- [How to Buy](https://renafarm.co.ke/how-to-buy.html): buying process, delivery terms, frequently asked questions
+- [Location](https://renafarm.co.ke/location.html): directions and route from Nairobi
+- [About](https://renafarm.co.ke/about.html): farm history and the team
+- [Gallery](https://renafarm.co.ke/gallery.html): photographs of the livestock, fodder and farm
+- [Contact](https://renafarm.co.ke/contact.html): enquiries
+- [Terms & Conditions](https://renafarm.co.ke/terms-and-conditions.html)
+- [Privacy Policy](https://renafarm.co.ke/privacy-policy.html)

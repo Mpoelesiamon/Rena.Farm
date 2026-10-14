@@ -352,6 +352,82 @@
        Inactive until the renafarm.co.ke site is created in the Plausible
        dashboard; until then this is a single 1 KB request that does nothing. -->
   <script defer data-domain="renafarm.co.ke" src="https://plausible.io/js/script.js"></script>
+  <!-- Organization / LocalBusiness structured data.
+       Static in every page head on purpose: layout.js injects the header
+       client-side, and the AI crawlers this is aimed at (GPTBot, ClaudeBot,
+       PerplexityBot) largely do not execute JavaScript. Injected JSON-LD
+       would be invisible to them. Keep this in sync across pages. -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": [
+    "LocalBusiness",
+    "Farm"
+  ],
+  "@id": "https://renafarm.co.ke/#organization",
+  "name": "Rena Farm",
+  "legalName": "Rena Global Merchants Ltd",
+  "url": "https://renafarm.co.ke/",
+  "logo": "https://renafarm.co.ke/img/logo-transparent.png",
+  "image": "https://renafarm.co.ke/img/og-image.jpg",
+  "foundingDate": "2018",
+  "description": "Rena Farm is a 140-acre integrated livestock and fodder farm in Kajiado Central, Kenya, established in 2018. It keeps Friesian dairy cattle, Sahiwal beef cattle, Dorper sheep, Gala goats and improved kienyeji poultry, and grows about 40 acres of fodder processed on-farm into Boma Rhodes hay, silage and Napier pellets.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Kenya Marble Quarry Road",
+    "addressLocality": "Kajiado Central",
+    "addressRegion": "Kajiado County",
+    "addressCountry": "KE"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -1.918604,
+    "longitude": 36.737787
+  },
+  "telephone": "+254724980372",
+  "email": "info@renafarm.co.ke",
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "opens": "07:00",
+      "closes": "18:00"
+    }
+  ],
+  "sameAs": [
+    "https://www.instagram.com/the.renafarm",
+    "https://www.tiktok.com/@the.renafarm"
+  ],
+  "areaServed": [
+    {
+      "@type": "AdministrativeArea",
+      "name": "Kajiado County"
+    },
+    {
+      "@type": "City",
+      "name": "Nairobi"
+    }
+  ],
+  "knowsAbout": [
+    "Dorper sheep",
+    "Friesian dairy cattle",
+    "Sahiwal beef cattle",
+    "Gala goats",
+    "Boma Rhodes hay",
+    "silage",
+    "Napier grass pellets",
+    "Lucerne",
+    "Brachiaria"
+  ]
+}
+  </script>
 </head>
 <body>
 <div id="rf-header"></div>
@@ -454,7 +530,7 @@
       <div class="p-tab" id="tab-enquiries">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;">
           <div>
-            <h1 class="p-tab-title">My Enquiries</h1>
+            <h2 class="p-tab-title">My Enquiries</h2>
             <p class="p-tab-sub" style="margin-bottom:0;">Track the status of your product enquiries</p>
           </div>
           <a href="enquire.html" class="btn btn-primary" style="font-size:0.85rem;padding:0.55rem 1.1rem;flex-shrink:0;">
@@ -466,7 +542,7 @@
 
       <!-- MESSAGES TAB -->
       <div class="p-tab" id="tab-messages">
-        <h1 class="p-tab-title">Messages</h1>
+        <h2 class="p-tab-title">Messages</h2>
         <p class="p-tab-sub">Direct messages with the Rena Farm team</p>
 
         <div class="chat-panel">
@@ -506,7 +582,7 @@
 
       <!-- PROFILE TAB -->
       <div class="p-tab" id="tab-profile">
-        <h1 class="p-tab-title">My Profile</h1>
+        <h2 class="p-tab-title">My Profile</h2>
         <p class="p-tab-sub">Update your contact information</p>
         <div class="profile-form">
           <div class="form-row">
