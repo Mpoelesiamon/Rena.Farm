@@ -67,14 +67,7 @@ jobs:
             .gitignore
             index-coming-soon.html
             node_modules/**
-            # TEMPORARY — remove once the server-side robots.txt is deleted.
-            # The malicious robots.txt left by the August 2026 compromise is
-            # write-protected on the server: FTP returns "550 robots.txt:
-            # Permission denied", which aborts the ENTIRE deploy part-way.
-            # Excluding it lets the rest of a release land. Our replacement
-            # cannot go live until the protected file is removed by hand in
-            # DirectAdmin, after which this line must be deleted.
-            robots.txt
+            # robots.txt is now version-controlled and writable (server cleanup 2026-09-26)
 
       - name: Deployment summary
         run: |
