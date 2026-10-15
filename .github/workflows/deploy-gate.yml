@@ -31,13 +31,17 @@ jobs:
           done
           echo "  OK: JS syntax clean"
 
+      - name: Security and enquiry regression tests
+        run: node --test tests/*.test.cjs
+
       - name: Check all local image references exist
         run: |
           MISSING=()
           for html in *.html; do
             while IFS= read -r path; do
               [ -z "$path" ] && continue
-              file="$path"
+              file="${path%%#*}"
+              file="${file%%\?*}"
               # Root-absolute URLs ("/css/x.css", "/") are resolved by the browser
               # against the site root, which is this repo root — not the runner's
               # filesystem root. Normalise before testing, and skip a bare "/",
