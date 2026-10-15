@@ -1,0 +1,25 @@
+/* Shared sign-in and sign-up presentation. Keep authentication logic in each page. */
+.auth-form-panel{padding:32px 24px;text-align:center}
+.auth-form-inner{width:100%;max-width:420px;margin-inline:auto;padding:0}
+.auth-mobile-brand{display:flex;justify-content:center;align-items:center;margin-bottom:24px}
+.auth-brand-home{display:inline-flex;border-radius:8px}
+.auth-brand-home img{display:block;width:104px;height:104px;object-fit:contain}
+.auth-brand-home:focus-visible{outline:3px solid var(--f600);outline-offset:4px}
+.auth-title{text-align:center;margin-bottom:8px}
+.auth-sub{text-align:center;margin-bottom:28px;line-height:1.6}
+.auth-form-panel .form-label,.auth-form-panel .form-input,.auth-form-panel .error-msg{text-align:center}
+.auth-form-panel .form-group{margin-bottom:20px}
+.auth-form-panel .form-input{font-size:16px;min-height:48px;border-radius:12px}
+.auth-form-panel .btn,.auth-form-panel .btn-google{display:flex;align-items:center;justify-content:center;gap:10px;min-height:48px;border-radius:12px;text-align:center}
+.auth-form-panel .return-notice{justify-content:center;text-align:center}
+.auth-photo-content{text-align:center;align-items:center}
+.auth-photo-brand{align-items:center!important;justify-content:center}
+.auth-photo-sub{margin-inline:auto}
+.auth-photo-benefits{align-items:center}
+.auth-photo-benefit{justify-content:center}
+@media(min-width:1024px){
+ .auth-photo{order:0}
+ .auth-form-panel{order:1;padding:48px 32px}
+ .auth-mobile-brand{display:flex}
+}
+@media(max-width:400px){.auth-form-panel{padding:28px 20px}.auth-form-panel .form-row{grid-template-columns:1fr}}
