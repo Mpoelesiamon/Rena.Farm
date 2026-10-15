@@ -7,7 +7,11 @@
 .auth-brand-home:focus-visible{outline:3px solid var(--f600);outline-offset:4px}
 .auth-title{text-align:center;margin-bottom:8px}
 .auth-sub{text-align:center;margin-bottom:28px;line-height:1.6}
-.auth-form-panel .form-label,.auth-form-panel .form-input,.auth-form-panel .error-msg{text-align:center}
+/* The panel is centred so the logo and headings centre by inheritance.
+   Form fields opt back out: centred label text and centred typing are
+   disorienting, and a centred caret jumps as you type. */
+.auth-form-panel .form-label,.auth-form-panel .form-input,.auth-form-panel .error-msg,
+.auth-form-panel textarea,.auth-form-panel select{text-align:left}
 .auth-form-panel .form-group{margin-bottom:20px}
 .auth-form-panel .form-input{font-size:16px;min-height:48px;border-radius:12px}
 .auth-form-panel .btn,.auth-form-panel .btn-google{display:flex;align-items:center;justify-content:center;gap:10px;min-height:48px;border-radius:12px;text-align:center}
