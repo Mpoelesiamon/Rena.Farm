@@ -67,6 +67,9 @@ jobs:
             .gitignore
             index-coming-soon.html
             node_modules/**
+            preview/**
+            astro/**
+            tests/**
             # TEMPORARY — remove once the server-side robots.txt is deleted.
             # The malicious robots.txt left by the August 2026 compromise is
             # write-protected on the server: FTP returns "550 robots.txt:

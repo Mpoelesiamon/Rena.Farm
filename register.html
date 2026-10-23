@@ -114,7 +114,6 @@
       gap: 0.75rem;
       margin-bottom: 2rem;
     }
-    @media (min-width:1024px) { .auth-mobile-brand { display:none; } }
     .auth-mobile-logo {
       width: 36px; height: 36px; border-radius: 50%;
       background: var(--f900); display: flex; align-items: center;
@@ -184,11 +183,88 @@
       color: var(--f900);
     }
   </style>
+  <link rel="stylesheet" href="css/auth.css?v=1" />
   <!-- Privacy-friendly analytics: no cookies, no cross-site identifier, no
        personal data — which is why this site needs no consent banner.
        Inactive until the renafarm.co.ke site is created in the Plausible
        dashboard; until then this is a single 1 KB request that does nothing. -->
   <script defer data-domain="renafarm.co.ke" src="https://plausible.io/js/script.js"></script>
+  <!-- Organization / LocalBusiness structured data.
+       Static in every page head on purpose: layout.js injects the header
+       client-side, and the AI crawlers this is aimed at (GPTBot, ClaudeBot,
+       PerplexityBot) largely do not execute JavaScript. Injected JSON-LD
+       would be invisible to them. Keep this in sync across pages. -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": [
+    "LocalBusiness",
+    "Farm"
+  ],
+  "@id": "https://renafarm.co.ke/#organization",
+  "name": "Rena Farm",
+  "legalName": "Rena Global Merchants Ltd",
+  "url": "https://renafarm.co.ke/",
+  "logo": "https://renafarm.co.ke/img/logo-transparent.png",
+  "image": "https://renafarm.co.ke/img/og-image.jpg",
+  "foundingDate": "2018",
+  "description": "Rena Farm is a 140-acre integrated livestock and fodder farm in Kajiado Central, Kenya, established in 2018. It keeps Friesian dairy cattle, Sahiwal beef cattle, Dorper sheep, Gala goats and improved kienyeji poultry, and grows about 40 acres of fodder processed on-farm into Boma Rhodes hay, silage and Napier pellets.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Kenya Marble Quarry Road",
+    "addressLocality": "Kajiado Central",
+    "addressRegion": "Kajiado County",
+    "addressCountry": "KE"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -1.918604,
+    "longitude": 36.737787
+  },
+  "telephone": "+254724980372",
+  "email": "info@renafarm.co.ke",
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "opens": "07:00",
+      "closes": "18:00"
+    }
+  ],
+  "sameAs": [
+    "https://www.instagram.com/the.renafarm",
+    "https://www.tiktok.com/@the.renafarm"
+  ],
+  "areaServed": [
+    {
+      "@type": "AdministrativeArea",
+      "name": "Kajiado County"
+    },
+    {
+      "@type": "City",
+      "name": "Nairobi"
+    }
+  ],
+  "knowsAbout": [
+    "Dorper sheep",
+    "Friesian dairy cattle",
+    "Sahiwal beef cattle",
+    "Gala goats",
+    "Boma Rhodes hay",
+    "silage",
+    "Napier grass pellets",
+    "Lucerne",
+    "Brachiaria"
+  ]
+}
+  </script>
 </head>
 <body>
 <div id="rf-header"></div>
@@ -201,7 +277,7 @@
 
       <!-- Mobile logo -->
       <div class="auth-mobile-brand">
-        <img src="img/logo-bw.png" alt="Rena Farm" style="height:36px;"/>
+        <a href="index.html" class="auth-brand-home" aria-label="Rena Farm home"><img src="img/logo-bw.png" alt="Rena Farm" width="104" height="104" /></a>
       </div>
 
       <h1 class="auth-title">Create your account</h1>
@@ -280,7 +356,7 @@
         <div class="auth-photo-brand-sub">Client Portal</div>
       </div>
       <div>
-        <h1 class="auth-photo-headline">Welcome to<br>Rena Farm.</h1>
+        <p class="auth-photo-headline">Welcome to<br>Rena Farm.</p>
         <p class="auth-photo-sub">Cultivating sustainability, enriching lives — Kajiado Central, Kenya.</p>
         <div class="auth-photo-benefits">
           <div class="auth-photo-benefit">

@@ -240,7 +240,9 @@
 
   /* ── INJECT FOOTER ── */
   const footerSlot = document.getElementById('rf-footer');
-  if (footerSlot) footerSlot.outerHTML = FOOTER_HTML;
+  if (footerSlot) footerSlot.outerHTML = document.body.dataset.compactFooter === 'true'
+    ? FOOTER_HTML.replace(/<footer[\s\S]*?<\/footer>/, `<footer id="site-footer" class="account-footer"><div><span>RENA FARM <small>© ${new Date().getFullYear()} Rena Global Merchants Ltd.</small></span><nav aria-label="Account footer"><a href="contact.html">Contact us</a><a href="privacy-policy.html">Privacy</a><a href="terms-and-conditions.html">Terms</a></nav></div></footer>`)
+    : FOOTER_HTML;
 
   /* ── SET ACTIVE NAV LINK ── */
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';

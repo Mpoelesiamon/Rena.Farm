@@ -170,10 +170,11 @@ function requireAuth(returnUrl) {
 }
 
 // ── Client messages ──
-async function loadClientMessages() {
+async function loadClientMessages(strict = false) {
   const session = await getClientSession()
   if (!session) return []
-  const { data } = await db.from('client_messages').select('*').eq('client_id', session.user.id).order('created_at', { ascending: false })
+  const { data, error } = await db.from('client_messages').select('*').eq('client_id', session.user.id).order('created_at', { ascending: false })
+  if (error && strict) throw error
   return data ?? []
 }
 
@@ -192,15 +193,21 @@ async function sendClientMessage(body, subject, relatedEnquiryId) {
 }
 
 async function markMessagesRead(ids) {
-  if (!ids.length) return
-  await db.from('client_messages').update({ is_read: true }).in('id', ids)
+  if (!ids.length) return []
+  const session = await getClientSession()
+  if (!session) return []
+  const { data, error } = await db.from('client_messages').update({ is_read: true })
+    .eq('client_id', session.user.id).in('id', ids).select('id')
+  if (error) throw error
+  return (data ?? []).map(row => row.id)
 }
 
 // ── Client enquiries ──
-async function loadClientEnquiries() {
+async function loadClientEnquiries(strict = false) {
   const session = await getClientSession()
   if (!session) return []
-  const { data } = await db.from('enquiries').select('*').eq('client_id', session.user.id).order('created_at', { ascending: false })
+  const { data, error } = await db.from('enquiries').select('*').eq('client_id', session.user.id).order('created_at', { ascending: false })
+  if (error && strict) throw error
   return data ?? []
 }
 
